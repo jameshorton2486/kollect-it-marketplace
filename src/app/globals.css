@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* The primary styling is now in kollect-it-styles.css */
+/* This file only provides Tailwind utility classes */
