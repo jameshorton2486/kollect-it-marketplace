@@ -4,9 +4,15 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Seeding database...');
+  // CRITICAL: Never run seeding in production
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('❌ SEEDING BLOCKED: Do not run database seeding in production!');
+  }
 
-  // Create admin user
+  console.log('🌱 Seeding database...');
+  console.log('⚠️  Running in development mode only');
+
+  // Create admin user (DEV/TEST ONLY)
   const hashedPassword = await bcrypt.hash('admin123', 10);
   const admin = await prisma.user.upsert({
     where: { email: 'admin@kollect-it.com' },

@@ -1,9 +1,14 @@
 import Stripe from 'stripe';
 import { loadStripe, Stripe as StripeClient } from '@stripe/stripe-js';
 
+// Validate Stripe keys
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing STRIPE_SECRET_KEY environment variable');
+}
+
 // Server-side Stripe instance
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-09-30.clover',
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2024-06-20',
   typescript: true,
 });
 
@@ -12,7 +17,10 @@ let stripePromise: Promise<StripeClient | null>;
 
 export const getStripe = () => {
   if (!stripePromise) {
-    stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+    if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+      throw new Error('Missing NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY environment variable');
+    }
+    stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
   }
   return stripePromise;
 };

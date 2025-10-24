@@ -1,22 +1,19 @@
 /** @type {import('next').NextConfig} */
+
+// Only relax type/lint checks in local dev, enforce in CI
+const isCI = process.env.CI === 'true';
+
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: !isCI,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: !isCI,
   },
   images: {
     unoptimized: true,
-    domains: [
-      "ik.imagekit.io",
-      "source.unsplash.com",
-      "images.unsplash.com"
-    ],
     remotePatterns: [
       { protocol: 'https', hostname: 'ik.imagekit.io', pathname: '/**' },
-      { protocol: 'https', hostname: 'source.unsplash.com', pathname: '/**' },
-      { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' }
     ]
   }
 };
