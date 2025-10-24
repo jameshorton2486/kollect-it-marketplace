@@ -427,3 +427,83 @@ If you encounter issues:
 **The checkout system is ready to process real payments!** Just add your Stripe API keys and test the flow.
 
 Happy selling! 🎨📚⚔️
+
+---
+
+## Webhook Configuration (Production)
+
+Webhooks allow Stripe to notify your application about payment events in real-time.
+
+### **1. Create Webhook Endpoint**
+
+The webhook endpoint is already created at:
+```
+/api/webhooks/stripe
+```
+
+### **2. Set Up Webhook in Stripe Dashboard**
+
+1. Go to https://dashboard.stripe.com/test/webhooks
+2. Click **"Add endpoint"**
+3. Enter your endpoint URL:
+   ```
+   https://your-site.netlify.app/api/webhooks/stripe
+   ```
+4. Select events to listen to:
+   - `payment_intent.succeeded`
+   - `payment_intent.payment_failed`
+   - `charge.succeeded`
+   - `charge.failed`
+
+5. Click **"Add endpoint"**
+
+### **3. Get Webhook Signing Secret**
+
+1. After creating the endpoint, click on it
+2. Click **"Reveal"** under **Signing secret**
+3. Copy the secret (starts with `whsec_`)
+4. Add to your environment variables:
+   ```bash
+   STRIPE_WEBHOOK_SECRET=whsec_your_secret_here
+   ```
+
+### **4. Test Webhook Locally**
+
+Use Stripe CLI to test webhooks locally:
+
+```bash
+# Install Stripe CLI
+# macOS: brew install stripe/stripe-cli/stripe
+# Windows: https://stripe.com/docs/stripe-cli
+
+# Login
+stripe login
+
+# Forward webhooks to localhost
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
+
+# Trigger test event
+stripe trigger payment_intent.succeeded
+```
+
+### **5. Verify Webhook**
+
+Check your server logs to see:
+```
+Received webhook event: payment_intent.succeeded
+PaymentIntent succeeded: pi_xxx
+Updated order xxx to paid
+```
+
+### **Production Webhook Setup**
+
+For production:
+1. Use the same steps with your **live** Stripe dashboard
+2. Use your production URL: `https://your-domain.com/api/webhooks/stripe`
+3. Update `STRIPE_WEBHOOK_SECRET` in production environment
+
+**Important**: 
+- Webhook secret is different for test and live mode
+- Always verify webhook signatures in production
+- Monitor webhook events in Stripe Dashboard
+
