@@ -35,8 +35,8 @@ export async function GET(request: Request) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: process.env.EMAIL_FROM,
-      to: process.env.ADMIN_EMAIL,
+      from: process.env.EMAIL_FROM!,
+      to: process.env.ADMIN_EMAIL!,
       subject: 'Kollect-It Email Test - Configuration Successful! ✅',
       html: `
         <!DOCTYPE html>
