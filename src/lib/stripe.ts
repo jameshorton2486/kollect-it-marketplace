@@ -7,8 +7,8 @@ if (!process.env.STRIPE_SECRET_KEY) {
 }
 
 // Server-side Stripe instance
+// Using account default API version (omit apiVersion to use latest stable)
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2024-06-20',
   typescript: true,
 });
 
