@@ -1,0 +1,15 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Navy background -->
+  <rect width="512" height="512" fill="#1E3A8A"/>
+
+  <!-- Gold "K" lettermark -->
+  <text
+    x="256"
+    y="340"
+    font-family="Playfair Display, serif"
+    font-size="320"
+    font-weight="600"
+    fill="#C9A66B"
+    text-anchor="middle"
+  >K</text>
+</svg>

@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================================
+   1STDIBS LUXURY AESTHETIC - COLOR PALETTE & DESIGN SYSTEM
+   ============================================================================= */
+
+@layer base {
+  :root {
+    /* 1stdibs Color Palette */
+    --color-white: #FFFFFF;
+    --color-off-white: #F9F9F9;
+    --color-cream: #F2F1EE;
+    --color-charcoal: #1E1E1E;
+    --color-muted-gold: #C7A85E;
+    --color-deep-navy: #1C2233;
+    --color-gray-light: #E5E5E5;
+    --color-gray-medium: #999999;
+    --color-gray-dark: #666666;
+
+    /* CSS Variables for Tailwind */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 12%;
+
+    --primary: 39 48% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 215 23% 15%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 97%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 39 48% 56%;
+    --accent-foreground: 0 0% 12%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 39 48% 56%;
+    --radius: 0.25rem;
+
+    /* Typography */
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-logo: 'Archivo Black', sans-serif;
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 6rem;
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-charcoal;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Global Enhancements - Parallax, Counters, Lightbox */
+  [data-parallax] {
+    transform: translateY(0);
+    transition: transform 0.6s ease;
+  }
+
+  [data-parallax].is-in {
+    transform: translateY(-8px);
+  }
+
+  [data-count] {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  [data-count].is-in {
+    opacity: 1;
+  }
+
+  /* Typography Hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    color: var(--color-charcoal);
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1.25rem;
+  }
+
+  h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    margin-bottom: 0.875rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: var(--color-gray-dark);
+  }
+
+  a {
+    color: var(--color-charcoal);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  a:hover {
+    color: var(--color-muted-gold);
+  }
+}
+
+@layer utilities {
+  /* Custom Utility Classes */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .container-luxury {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 5vw, 4rem);
+    padding-right: clamp(1rem, 5vw, 4rem);
+  }
+
+  .section-spacing {
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+}
