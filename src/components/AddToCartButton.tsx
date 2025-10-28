@@ -14,24 +14,38 @@ interface AddToCartButtonProps {
   };
   variant?: 'primary' | 'secondary' | 'card';
   className?: string;
+  quantity?: number; // Optional quantity to add (defaults to 1)
 }
 
-export default function AddToCartButton({ product, variant = 'primary', className = '' }: AddToCartButtonProps) {
-  const { addItem } = useCart();
+export default function AddToCartButton({ product, variant = 'primary', className = '', quantity = 1 }: AddToCartButtonProps) {
+  const { addItem, items, updateQuantity } = useCart();
   const [added, setAdded] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigation if button is inside a link
     e.stopPropagation(); // Stop event bubbling
 
-    addItem({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      image: product.image,
-      slug: product.slug,
-      categoryName: product.categoryName,
-    });
+    const qty = Number.isFinite(quantity) && quantity > 0 ? Math.floor(quantity) : 1;
+
+    const existing = items.find((i) => i.id === product.id);
+    if (existing) {
+      // Increase existing quantity by qty
+      updateQuantity(product.id, existing.quantity + qty);
+    } else {
+      // Add once, then set to desired qty if > 1
+      addItem({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        slug: product.slug,
+        categoryName: product.categoryName,
+      });
+      if (qty > 1) {
+        // After initial add (quantity 1 by default), set to qty
+        updateQuantity(product.id, qty);
+      }
+    }
 
     // Show "Added!" feedback
     setAdded(true);

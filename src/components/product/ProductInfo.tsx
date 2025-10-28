@@ -26,6 +26,7 @@ interface ProductInfoProps {
 export default function ProductInfo({ product, sku }: ProductInfoProps) {
   const { isInWishlist, toggleWishlist, loading: wishlistLoading } = useWishlist();
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
     setIsWishlisted(isInWishlist(product.id));
@@ -65,6 +66,43 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
 
   {/* Price */}
   <div className="product-info-price text-brand-gold text-2xl font-semibold">${product.price.toLocaleString()}</div>
+
+  {/* Quantity Selector */}
+  <div className="product-qty my-4 flex items-center gap-3">
+        <label htmlFor="quantity" className="text-sm text-[var(--color-charcoal)]">Quantity</label>
+        <div className="inline-flex items-center rounded border border-[var(--color-border)]">
+          <button
+            type="button"
+            className="px-3 py-2 select-none"
+            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+            aria-label="Decrease quantity"
+          >
+            −
+          </button>
+          <input
+            id="quantity"
+            type="number"
+            min={1}
+            max={99}
+            value={quantity}
+            onChange={(e) => {
+              const val = parseInt(e.target.value, 10);
+              if (Number.isNaN(val)) return;
+              setQuantity(Math.min(99, Math.max(1, val)));
+            }}
+            className="w-14 text-center py-2 outline-none"
+            aria-label="Quantity"
+          />
+          <button
+            type="button"
+            className="px-3 py-2 select-none"
+            onClick={() => setQuantity((q) => Math.min(99, q + 1))}
+            aria-label="Increase quantity"
+          >
+            +
+          </button>
+        </div>
+      </div>
 
   {/* Details Grid */}
   <div className="product-info-details leading-[1.8] text-[var(--color-charcoal)]">
@@ -119,6 +157,7 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
             image: product.images[0]?.url || '/placeholder.jpg',
             categoryName: product.category.name,
           }}
+          quantity={quantity}
         />
 
         <button
