@@ -174,7 +174,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         />
 
         {/* Main Product Section */}
-        <div className="product-main">
+        <div className="product-main section-spacing">
           <div className="container">
             <div className="product-layout">
               {/* Image Gallery */}

@@ -60,14 +60,14 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
       {/* Category Badge */}
       <div className="product-info-category">{product.category.name}</div>
 
-      {/* Title */}
-      <h1 className="product-info-title">{product.title}</h1>
+  {/* Title */}
+  <h1 className="product-info-title font-serif text-brand-navy leading-tight text-3xl md:text-4xl">{product.title}</h1>
 
-      {/* Price */}
-      <div className="product-info-price">${product.price.toLocaleString()}</div>
+  {/* Price */}
+  <div className="product-info-price text-brand-gold text-2xl font-semibold">${product.price.toLocaleString()}</div>
 
-      {/* Details Grid */}
-      <div className="product-info-details">
+  {/* Details Grid */}
+  <div className="product-info-details leading-[1.8] text-[var(--color-charcoal)]">
         {product.artist && (
           <div className="product-detail-item">
             <span className="product-detail-label">Artist/Maker:</span>

@@ -18,9 +18,9 @@ interface RelatedProductsProps {
 
 export default function RelatedProducts({ products, categoryName }: RelatedProductsProps) {
   return (
-    <div className="related-products-section">
+    <div className="related-products-section section-spacing">
       <div className="container">
-        <h2 className="related-products-title">More from {categoryName}</h2>
+        <h2 className="related-products-title font-serif text-brand-navy text-3xl md:text-4xl">More from {categoryName}</h2>
 
         <div className="related-products-grid">
           {products.map((product) => (
@@ -38,7 +38,7 @@ export default function RelatedProducts({ products, categoryName }: RelatedProdu
               </div>
               <div className="related-product-info">
                 <h3 className="related-product-title">{product.title}</h3>
-                <p className="related-product-price">${product.price.toLocaleString()}</p>
+                <p className="related-product-price text-brand-gold font-medium">${product.price.toLocaleString()}</p>
               </div>
             </Link>
           ))}

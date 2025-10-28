@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Archivo_Black } from "next/font/google";
+import { Lato, Cormorant_Garamond, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import "./kollect-it-styles.css";
 import ClientBody from "./ClientBody";
@@ -8,14 +8,14 @@ import { SessionProvider } from "@/components/SessionProvider";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 
-const inter = Inter({
-  weight: ['300', '400', '500'],
+const lato = Lato({
+  weight: ['300', '400', '700'],
   subsets: ["latin"],
   variable: "--font-sans",
   display: 'swap',
 });
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   weight: ['400', '500', '600', '700'],
   subsets: ["latin"],
   variable: "--font-serif",
@@ -44,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} ${archivoBlack.variable}`}>
+  <html lang="en" className={`${lato.variable} ${cormorant.variable} ${archivoBlack.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

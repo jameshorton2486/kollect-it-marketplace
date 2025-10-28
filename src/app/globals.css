@@ -19,6 +19,10 @@
     --color-gray-medium: #999999;
     --color-gray-dark: #666666;
 
+  /* Brand Palette (emails + product detail) */
+  --color-brand-gold: #C9A66B;
+  --color-brand-navy: #322923;
+
     /* CSS Variables for Tailwind */
     --background: 0 0% 100%;
     --foreground: 0 0% 12%;
@@ -187,6 +191,12 @@
   .bg-cream { background: var(--color-cream); }
   .bg-navy { background: var(--color-deep-navy); }
   .border-gold { border-color: var(--color-muted-gold); }
+
+  /* Brand utilities */
+  .text-brand-gold { color: var(--color-brand-gold); }
+  .text-brand-navy { color: var(--color-brand-navy); }
+  .bg-brand-navy { background: var(--color-brand-navy); }
+  .border-brand-gold { border-color: var(--color-brand-gold); }
 
   /* CTA button built from tokens */
   .btn-cta {
