@@ -16,9 +16,19 @@ interface Product {
 
 interface ProductGridProps {
   products: Product[];
+  view?: 'grid' | 'list';
 }
 
-export default function ProductGrid({ products }: ProductGridProps) {
+export default function ProductGrid({ products, view = 'grid' }: ProductGridProps) {
+  if (view === 'list') {
+    return (
+      <div className="divide-y divide-[var(--color-border)]">
+        {products.map((product) => (
+          <ProductRow key={product.id} product={product} />
+        ))}
+      </div>
+    );
+  }
   return (
     <div className="product-grid-category">
       {products.map((product) => (
@@ -71,6 +81,40 @@ function ProductCard({ product }: { product: Product }) {
           categoryName: product.category.name,
         }}
       />
+    </div>
+  );
+}
+
+function ProductRow({ product }: { product: Product }) {
+  return (
+    <div className="flex gap-4 py-4">
+      <Link href={`/product/${product.slug}`} className="block h-28 w-28 shrink-0 overflow-hidden rounded">
+        {product.images[0] ? (
+          <img src={product.images[0].url} alt={product.title} className="h-full w-full object-cover" />
+        ) : (
+          <div className="h-full w-full bg-[var(--color-gray-light)]" />
+        )}
+      </Link>
+      <div className="flex flex-1 items-center justify-between gap-4">
+        <div>
+          <Link href={`/product/${product.slug}`} className="no-underline">
+            <p className="text-xs uppercase tracking-wider text-[var(--color-charcoal)]">{product.category.name}</p>
+            <h3 className="font-medium">{product.title}</h3>
+          </Link>
+          <p className="text-brand-gold font-medium">${product.price.toLocaleString()}</p>
+        </div>
+        <AddToCartButton
+          variant="secondary"
+          product={{
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            slug: product.slug,
+            image: product.images[0]?.url || '/placeholder.jpg',
+            categoryName: product.category.name,
+          }}
+        />
+      </div>
     </div>
   );
 }

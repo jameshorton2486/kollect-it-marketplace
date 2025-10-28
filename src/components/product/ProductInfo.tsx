@@ -59,13 +59,20 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
   return (
     <div className="product-info">
       {/* Category Badge */}
-      <div className="product-info-category">{product.category.name}</div>
+      <div className="product-info-category uppercase text-[12px] tracking-wide text-brand-gold">{product.category.name}</div>
+
+  {/* Condition Badge */}
+  {product.condition && (
+    <div className="mt-2 inline-flex items-center rounded-full border border-brand-gold px-3 py-1 text-[12px] text-brand-gold" aria-label={`Condition: ${product.condition}`}>
+      {product.condition}
+    </div>
+  )}
 
   {/* Title */}
-  <h1 className="product-info-title font-serif text-brand-navy leading-tight text-3xl md:text-4xl">{product.title}</h1>
+  <h1 className="product-info-title font-serif text-brand-navy leading-tight text-4xl">{product.title}</h1>
 
   {/* Price */}
-  <div className="product-info-price text-brand-gold text-2xl font-semibold">${product.price.toLocaleString()}</div>
+  <div className="product-info-price text-brand-gold text-[32px] font-semibold">${product.price.toLocaleString()}</div>
 
   {/* Quantity Selector */}
   <div className="product-qty my-4 flex items-center gap-3">
@@ -162,7 +169,7 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
         />
 
         <button
-          className={`btn-wishlist ${isWishlisted ? 'active' : ''}`}
+          className={`btn-wishlist ${isWishlisted ? 'active' : ''} inline-flex items-center gap-2 rounded border border-brand-gold px-4 py-2 text-brand-gold transition-colors hover:bg-brand-navy hover:text-white`}
           onClick={handleWishlist}
           title={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
           aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface ProductImage {
   url: string;
@@ -14,7 +14,17 @@ interface ImageGalleryProps {
 
 export default function ImageGallery({ images, title }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isZoomed, setIsZoomed] = useState(false);
+  const [isHoverZoom, setIsHoverZoom] = useState(false);
+  const [showImage, setShowImage] = useState(true);
+  const touchStartX = useRef<number | null>(null);
+  const mainRef = useRef<HTMLDivElement | null>(null);
+
+  // Fade-in on image change
+  useEffect(() => {
+    setShowImage(false);
+    const t = setTimeout(() => setShowImage(true), 10);
+    return () => clearTimeout(t);
+  }, [selectedIndex]);
 
   // If no images, show placeholder
   if (images.length === 0) {
@@ -34,18 +44,43 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
   return (
     <div className="product-gallery">
       {/* Main Image */}
-      <div className="product-gallery-main">
-        <button
-          className={`product-gallery-main-image ${isZoomed ? 'zoomed' : ''}`}
-          onClick={() => setIsZoomed(!isZoomed)}
-          title={isZoomed ? 'Click to zoom out' : 'Click to zoom in'}
+      <div
+        className="product-gallery-main relative"
+        ref={mainRef}
+        onTouchStart={(e) => {
+          touchStartX.current = e.touches[0].clientX;
+        }}
+        onTouchEnd={(e) => {
+          const start = touchStartX.current;
+          if (start == null) return;
+          const end = e.changedTouches[0].clientX;
+          const dx = end - start;
+          const threshold = 40; // swipe threshold in px
+          if (dx > threshold) {
+            setSelectedIndex((i) => (i > 0 ? i - 1 : images.length - 1));
+          } else if (dx < -threshold) {
+            setSelectedIndex((i) => (i < images.length - 1 ? i + 1 : 0));
+          }
+          touchStartX.current = null;
+        }}
+      >
+        <div
+          className="group relative overflow-hidden rounded"
+          onMouseEnter={() => setIsHoverZoom(true)}
+          onMouseLeave={() => setIsHoverZoom(false)}
+          title={isHoverZoom ? 'Zooming' : 'Hover to zoom'}
         >
           <img
+            key={`img-${selectedIndex}`}
             src={selectedImage.url}
             alt={selectedImage.alt || title}
             loading="eager"
+            className={`h-full w-full object-contain transition-all duration-300 ${
+              showImage ? 'opacity-100' : 'opacity-0'
+            } ${isHoverZoom ? 'scale-[1.6]' : 'scale-100'}`}
           />
-        </button>
+        </div>
+
         {images.length > 1 && (
           <div className="product-gallery-counter">
             {selectedIndex + 1} / {images.length}
@@ -55,16 +90,18 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
 
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div className="product-gallery-thumbnails">
+        <div className="product-gallery-thumbnails mt-3 flex gap-2 overflow-x-auto py-1 snap-x">
           {images.map((image, index) => (
             <button
               key={index}
-              className={`product-gallery-thumbnail ${
-                index === selectedIndex ? 'active' : ''
+              className={`product-gallery-thumbnail shrink-0 snap-start rounded border ${
+                index === selectedIndex ? 'border-brand-gold' : 'border-[var(--color-border)]'
               }`}
               onClick={() => setSelectedIndex(index)}
+              title={`View ${index + 1}`}
+              aria-label={`View image ${index + 1}`}
             >
-              <img src={image.url} alt={`${title} view ${index + 1}`} />
+              <img src={image.url} alt={`${title} view ${index + 1}`} className="h-16 w-16 object-cover" />
             </button>
           ))}
         </div>

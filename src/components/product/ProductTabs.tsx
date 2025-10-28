@@ -12,7 +12,7 @@ interface ProductTabsProps {
 }
 
 export default function ProductTabs({ product }: ProductTabsProps) {
-  const [activeTab, setActiveTab] = useState<'description' | 'shipping' | 'authentication'>('description');
+  const [activeTab, setActiveTab] = useState<'details' | 'shipping' | 'authentication'>('details');
 
   return (
     <div className="product-tabs-section section-spacing">
@@ -20,28 +20,28 @@ export default function ProductTabs({ product }: ProductTabsProps) {
         {/* Tab Navigation */}
         <div className="product-tabs-nav">
           <button
-            className={`product-tab ${activeTab === 'description' ? 'active border-b-2 border-brand-gold text-brand-navy font-medium' : ''}`}
-            onClick={() => setActiveTab('description')}
+            className={`product-tab ${activeTab === 'details' ? 'active border-b-[3px] border-brand-gold text-brand-navy font-medium' : ''}`}
+            onClick={() => setActiveTab('details')}
           >
-            Description
+            Details
           </button>
           <button
-            className={`product-tab ${activeTab === 'shipping' ? 'active border-b-2 border-brand-gold text-brand-navy font-medium' : ''}`}
+            className={`product-tab ${activeTab === 'shipping' ? 'active border-b-[3px] border-brand-gold text-brand-navy font-medium' : ''}`}
             onClick={() => setActiveTab('shipping')}
           >
-            Shipping & Returns
+            Shipping
           </button>
           <button
-            className={`product-tab ${activeTab === 'authentication' ? 'active border-b-2 border-brand-gold text-brand-navy font-medium' : ''}`}
+            className={`product-tab ${activeTab === 'authentication' ? 'active border-b-[3px] border-brand-gold text-brand-navy font-medium' : ''}`}
             onClick={() => setActiveTab('authentication')}
           >
-            Authentication Guarantee
+            Authentication
           </button>
         </div>
 
         {/* Tab Content */}
         <div className="product-tabs-content leading-[1.8] text-[var(--color-gray-dark)]">
-          {activeTab === 'description' && (
+          {activeTab === 'details' && (
             <div className="tab-panel">
               <h3 className="font-serif text-brand-navy">Product Description</h3>
               <p>{product.description}</p>

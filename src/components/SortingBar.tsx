@@ -3,11 +3,13 @@
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 
 interface SortingBarProps {
-  productCount: number;
+  showing: number;
+  total: number;
   currentSort?: string;
+  currentView?: 'grid' | 'list';
 }
 
-export default function SortingBar({ productCount, currentSort }: SortingBarProps) {
+export default function SortingBar({ showing, total, currentSort, currentView = 'grid' }: SortingBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -15,85 +17,47 @@ export default function SortingBar({ productCount, currentSort }: SortingBarProp
   const sortOptions = [
     { value: 'featured', label: 'Featured' },
     { value: 'newest', label: 'Newest' },
-    { value: 'price-asc', label: 'Low to High' },
-    { value: 'price-desc', label: 'High to Low' },
+    { value: 'price-asc', label: 'Price (Low-High)' },
+    { value: 'price-desc', label: 'Price (High-Low)' },
     { value: 'title', label: 'A-Z' },
   ];
 
-  const handleSortChange = (value: string) => {
+  const updateParam = (key: string, val?: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (value === 'featured') {
-      params.delete('sort');
-    } else {
-      params.set('sort', value);
-    }
+    if (!val || val === 'featured') params.delete(key);
+    else params.set(key, val);
     router.push(`${pathname}?${params.toString()}`);
   };
 
   return (
-    <div style={{
-      padding: 'var(--space-3) 0',
-      borderBottom: 'var(--border)',
-      marginBottom: 'var(--space-4)',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'var(--space-2)'
-    }}>
-      <div>
-        <span style={{
-          fontSize: '11px',
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          color: 'var(--charcoal)',
-          fontWeight: 300
-        }}>
-          {productCount} {productCount === 1 ? 'Product' : 'Products'}
-        </span>
+    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] pb-3 mb-6">
+      <div className="text-xs tracking-wider uppercase text-[var(--color-charcoal)]">
+        Showing {showing} of {total} products
       </div>
 
-      <div style={{
-        display: 'flex',
-        gap: 'var(--space-2)',
-        alignItems: 'center'
-      }}>
-        <span style={{
-          fontSize: '11px',
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          color: 'var(--charcoal)',
-          fontWeight: 300
-        }}>
-          Sort:
-        </span>
-        {sortOptions.map((option, index) => (
-          <span key={option.value}>
-            <button
-              onClick={() => handleSortChange(option.value)}
-              style={{
-                background: 'none',
-                border: 'none',
-                fontSize: '11px',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: 'var(--charcoal)',
-                fontWeight: (currentSort || 'featured') === option.value ? 400 : 300,
-                textDecoration: (currentSort || 'featured') === option.value ? 'underline' : 'none',
-                cursor: 'pointer',
-                transition: 'opacity 0.15s ease',
-                padding: 0
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-            >
-              {option.label}
-            </button>
-            {index < sortOptions.length - 1 && (
-              <span style={{ margin: '0 0.5rem', color: 'var(--charcoal)', opacity: 0.3 }}>|</span>
-            )}
-          </span>
-        ))}
+      <div className="flex items-center gap-3">
+        <label htmlFor="sort" className="text-xs tracking-wider uppercase text-[var(--color-charcoal)]">Sort by</label>
+        <select
+          id="sort"
+          className="rounded border border-[var(--color-border)] bg-white px-2 py-1 text-sm"
+          value={currentSort || 'featured'}
+          onChange={(e) => updateParam('sort', e.target.value)}
+        >
+          {sortOptions.map((o) => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
+        </select>
+
+        <div className="ml-2 hidden md:flex items-center gap-1" role="group" aria-label="View toggle">
+          <button
+            className={`rounded border px-2 py-1 text-sm ${currentView === 'grid' ? 'border-brand-gold text-brand-navy' : 'border-[var(--color-border)]'}`}
+            onClick={() => updateParam('view', 'grid')}
+          >Grid</button>
+          <button
+            className={`rounded border px-2 py-1 text-sm ${currentView === 'list' ? 'border-brand-gold text-brand-navy' : 'border-[var(--color-border)]'}`}
+            onClick={() => updateParam('view', 'list')}
+          >List</button>
+        </div>
       </div>
     </div>
   );

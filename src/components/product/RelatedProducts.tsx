@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRef } from 'react';
 
 interface Product {
   id: string;
@@ -17,27 +18,44 @@ interface RelatedProductsProps {
 }
 
 export default function RelatedProducts({ products, categoryName }: RelatedProductsProps) {
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollByCards = (dir: 1 | -1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>('[data-card=true]');
+    const amount = card ? card.offsetWidth + 16 : 300; // include gap
+    el.scrollBy({ left: dir * amount * 1.5, behavior: 'smooth' });
+  };
+
   return (
     <div className="related-products-section section-spacing">
       <div className="container">
-        <h2 className="related-products-title font-serif text-brand-navy text-3xl md:text-4xl">More from {categoryName}</h2>
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="related-products-title font-serif text-brand-navy text-3xl md:text-4xl">You May Also Like</h2>
+          <div className="hidden md:flex gap-2">
+            <button className="rounded border border-[var(--color-border)] px-3 py-2" aria-label="Scroll left" onClick={() => scrollByCards(-1)}>◀</button>
+            <button className="rounded border border-[var(--color-border)] px-3 py-2" aria-label="Scroll right" onClick={() => scrollByCards(1)}>▶</button>
+          </div>
+        </div>
 
-        <div className="related-products-grid">
+        <div ref={scrollerRef} className="mt-4 flex gap-4 overflow-x-auto scroll-smooth snap-x pb-2">
           {products.map((product) => (
             <Link
               key={product.id}
               href={`/product/${product.slug}`}
-              className="related-product-card"
+              className="related-product-card snap-start shrink-0 w-[240px]"
+              data-card="true"
             >
-              <div className="related-product-image">
+              <div className="related-product-image h-[180px] w-full overflow-hidden rounded">
                 {product.images[0] ? (
-                  <img src={product.images[0].url} alt={product.title} loading="lazy" />
+                  <img src={product.images[0].url} alt={product.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
                 ) : (
-                  <div className="related-product-placeholder">No Image</div>
+                  <div className="related-product-placeholder h-full w-full bg-[var(--color-gray-light)]" />
                 )}
               </div>
-              <div className="related-product-info">
-                <h3 className="related-product-title">{product.title}</h3>
+              <div className="related-product-info mt-2">
+                <h3 className="related-product-title line-clamp-2 min-h-[3rem]">{product.title}</h3>
                 <p className="related-product-price text-brand-gold font-medium">${product.price.toLocaleString()}</p>
               </div>
             </Link>
