@@ -69,7 +69,7 @@ export default async function ShopPage() {
           </button>
 
           <div className="logo">
-            <Link href="/" style={{ textDecoration: 'none' }}>
+            <Link href="/" className="no-underline">
               <span className="header-logo">
                 KOLLECT — IT
               </span>
@@ -101,10 +101,10 @@ export default async function ShopPage() {
       <section className="shop-page">
         <div className="container">
           {/* Animated Headline */}
-          <div className="shop-intro" style={{ textAlign: 'center', marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
+          <div className="shop-intro text-center mb-[clamp(3rem,6vw,5rem)]">
             <p className="section-subtitle" data-reveal>EXPERTLY CURATED COLLECTIONS</p>
             <h1 className="section-title-main" data-reveal data-reveal-delay="100">Shop by Category</h1>
-            <p style={{ maxWidth: '700px', margin: '0 auto', fontSize: '16px', lineHeight: '1.7', color: 'var(--color-gray-dark)' }} data-reveal data-reveal-delay="200">
+            <p className="max-w-[700px] mx-auto text-base leading-[1.7] text-[var(--color-gray-dark)]" data-reveal data-reveal-delay="200">
               Discover authenticated art pieces, rare books, collectibles, and historical artifacts
               curated for discerning collectors who insist on quality and character.
             </p>
