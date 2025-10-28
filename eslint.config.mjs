@@ -21,7 +21,13 @@ const eslintConfig = [
       "@typescript-eslint/no-unused-vars": "off",
       "react/no-unescaped-entities": "off",
       "@next/next/no-img-element": "off",
-      "jsx-a11y/alt-text": "off",
+      // Accessibility: tighten rules
+      "jsx-a11y/alt-text": "error",
+      "jsx-a11y/label-has-associated-control": [
+        "error",
+        { assert: "either" }
+      ],
+      "jsx-a11y/no-redundant-roles": "warn",
     },
   },
 ];

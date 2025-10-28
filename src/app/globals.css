@@ -151,7 +151,15 @@
 @layer utilities {
   /* Custom Utility Classes */
   .text-balance {
-    text-wrap: balance;
+    /* Fallback for browsers without text-wrap support */
+    overflow-wrap: anywhere;
+  }
+
+  /* Prefer balance when supported */
+  @supports (text-wrap: balance) {
+    .text-balance {
+      text-wrap: balance;
+    }
   }
 
   .container-luxury {
@@ -165,5 +173,39 @@
   .section-spacing {
     padding-top: clamp(3rem, 8vw, 6rem);
     padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+
+  /* Font family helpers matching tokenized typography */
+  .font-serif { font-family: var(--font-serif); }
+  .font-logo { font-family: var(--font-logo); }
+}
+
+/* Component-level tokens and helpers that reference global variables */
+@layer components {
+  .text-navy { color: var(--color-deep-navy); }
+  .text-gold { color: var(--color-muted-gold); }
+  .bg-cream { background: var(--color-cream); }
+  .bg-navy { background: var(--color-deep-navy); }
+  .border-gold { border-color: var(--color-muted-gold); }
+
+  /* CTA button built from tokens */
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9rem 2rem;
+    border-width: 2px;
+  border-color: var(--color-muted-gold);
+    color: var(--color-muted-gold);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 0.75rem;
+    transition: all var(--transition-base);
+  }
+  .btn-cta:hover {
+    background: var(--color-muted-gold);
+    color: var(--color-deep-navy);
+    transform: translateY(-2px);
   }
 }

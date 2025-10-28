@@ -351,9 +351,10 @@ function ProductForm({
       <h3 className="text-lg font-semibold mb-4">Add New Product</h3>
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
         <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">Title</label>
           <input
             type="text"
+            id="title"
             required
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -362,8 +363,9 @@ function ProductForm({
         </div>
 
         <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">Description</label>
           <textarea
+            id="description"
             required
             rows={3}
             value={formData.description}
@@ -373,9 +375,10 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Price</label>
+          <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">Price</label>
           <input
             type="number"
+            id="price"
             required
             value={formData.price}
             onChange={(e) => setFormData({ ...formData, price: e.target.value })}
@@ -384,8 +387,9 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+          <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">Category</label>
           <select
+            id="category"
             required
             value={formData.categoryId}
             onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
@@ -400,8 +404,9 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Condition</label>
+          <label htmlFor="condition" className="block text-sm font-medium text-gray-700 mb-2">Condition</label>
           <select
+            id="condition"
             value={formData.condition}
             onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
@@ -414,9 +419,10 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Year</label>
+          <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">Year</label>
           <input
             type="text"
+            id="year"
             value={formData.year}
             onChange={(e) => setFormData({ ...formData, year: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
@@ -425,9 +431,10 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Artist/Maker</label>
+          <label htmlFor="artist" className="block text-sm font-medium text-gray-700 mb-2">Artist/Maker</label>
           <input
             type="text"
+            id="artist"
             value={formData.artist}
             onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
@@ -436,9 +443,10 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Medium/Material</label>
+          <label htmlFor="medium" className="block text-sm font-medium text-gray-700 mb-2">Medium/Material</label>
           <input
             type="text"
+            id="medium"
             value={formData.medium}
             onChange={(e) => setFormData({ ...formData, medium: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
@@ -447,9 +455,10 @@ function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Period/Era</label>
+          <label htmlFor="period" className="block text-sm font-medium text-gray-700 mb-2">Period/Era</label>
           <input
             type="text"
+            id="period"
             value={formData.period}
             onChange={(e) => setFormData({ ...formData, period: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
@@ -457,10 +466,10 @@ function ProductForm({
           />
         </div>
 
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="col-span-2" role="group" aria-labelledby="product-images-label">
+          <div id="product-images-label" className="block text-sm font-medium text-gray-700 mb-2">
             Product Images
-          </label>
+          </div>
           <ImageUpload images={images} onChange={setImages} maxImages={8} />
         </div>
 

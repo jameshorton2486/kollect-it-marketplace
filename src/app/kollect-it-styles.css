@@ -569,6 +569,7 @@
   margin-bottom: 0.5rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1851,6 +1852,7 @@ input[type="search"].search-input {
   justify-content: space-between;
   align-items: center;
   transition: background var(--transition-fast);
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -2253,6 +2255,7 @@ input[type="search"].search-input {
   justify-content: space-between;
   align-items: center;
   transition: color var(--transition-fast);
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -2961,21 +2964,7 @@ input[type="search"].search-input {
 }
 
 /* Utility Classes for Reveal System */
-.section-heading {
-  /* Alias for section titles that should reveal */
-}
-
-.trust-pill {
-  /* Individual trust badge pill (already styled via .trust-pills span) */
-}
-
-.cta-block {
-  /* Call-to-action blocks */
-}
-
-.footer-column {
-  /* Alias for footer-col */
-}
+/* Removed empty alias rulesets that caused lint errors */
 
 /* Responsive utilities */
 @media (max-width: 968px) {

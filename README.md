@@ -293,6 +293,40 @@ kollect-it-dynamic/
 
 ## 🎨 Customization
 
+### Design tokens and utilities
+
+This project centralizes styling in `src/app/globals.css` and exposes a set of token-driven utilities and components to keep typography, color, spacing, and CTAs consistent across pages.
+
+- Typography (global)
+   - Headings: font-family uses `--font-serif` via base styles
+   - Body text: font-family uses `--font-sans` via base styles
+
+- Color tokens (defined on :root)
+   - `--color-deep-navy`, `--color-muted-gold`, `--color-cream`, `--color-charcoal`, plus gray scales
+
+- Utility classes (in @layer components of globals.css)
+   - Text: `.text-navy`, `.text-gold`
+   - Background: `.bg-cream`, `.bg-navy`
+   - Border: `.border-gold`
+   - Spacing: `.section-spacing` (vertical spacing for sections)
+   - CTA: `.btn-cta` (uppercased, gold border/text; hover: gold bg + navy text)
+
+Usage example:
+
+```tsx
+<section className="section-spacing bg-cream">
+   <h2 className="text-4xl text-navy font-semibold mb-6">Section Title</h2>
+   <p className="text-gray-700">Body copy inherits the global font and sizes.</p>
+   <a className="btn-cta" href="/shop">Browse</a>
+</section>
+```
+
+Guidelines:
+- Do not import `globals.css` in pages/components; it is imported once by `src/app/layout.tsx`.
+- Prefer token utilities over hard-coded hex values (e.g., `.text-navy` instead of `text-[#0B3D91]`).
+- Keep CTAs consistent by using `.btn-cta` or equivalent Tailwind classes that reference the global tokens.
+- If you need additional token utilities (e.g., `.border-navy`), add them in `globals.css` under `@layer components`.
+
 ### **Changing Colors:**
 
 Edit `src/app/kollect-it-styles.css`:

@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { use, useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -71,13 +71,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
     }
   }, [status, session, router]);
 
-  useEffect(() => {
-    if (status === 'authenticated' && session?.user?.role === 'admin') {
-      fetchOrder();
-    }
-  }, [status, session, id]);
-
-  const fetchOrder = async () => {
+  const fetchOrder = useCallback(async () => {
     try {
       const response = await fetch(`/api/admin/orders/${id}`);
       if (response.ok) {
@@ -98,7 +92,13 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.role === 'admin') {
+      fetchOrder();
+    }
+  }, [status, session, fetchOrder]);
 
   const handleUpdateOrder = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,20 +160,37 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
 
   if (!order) return null;
 
-  const getStatusColor = (status: string) => {
+  const getStatusClass = (status: string) => {
     switch (status) {
       case 'pending':
-        return '#92400e';
+        return 'bg-amber-800';
       case 'processing':
-        return '#1e40af';
+        return 'bg-blue-800';
       case 'shipped':
-        return '#4338ca';
+        return 'bg-indigo-700';
       case 'delivered':
-        return '#065f46';
+        return 'bg-emerald-700';
       case 'cancelled':
-        return '#991b1b';
+        return 'bg-red-800';
       default:
-        return '#6b7280';
+        return 'bg-gray-500';
+    }
+  };
+
+  const getStatusTextClass = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'text-amber-800';
+      case 'processing':
+        return 'text-blue-800';
+      case 'shipped':
+        return 'text-indigo-700';
+      case 'delivered':
+        return 'text-emerald-700';
+      case 'cancelled':
+        return 'text-red-800';
+      default:
+        return 'text-gray-500';
     }
   };
 
@@ -184,11 +201,10 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
         <div className="container">
           <div className="admin-header-content">
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+              <div className="flex items-center gap-2 mb-2">
                 <h1 className="admin-title">Order #{order.orderNumber}</h1>
                 <span
-                  className="status-badge"
-                  style={{ backgroundColor: getStatusColor(order.status), color: 'white', padding: '4px 12px' }}
+                  className={`status-badge ${getStatusClass(order.status)} text-white px-3 py-1`}
                 >
                   {order.status}
                 </span>
@@ -282,7 +298,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
 
               {/* Status & Tracking */}
               <div className="admin-order-section">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <div className="flex justify-between items-center mb-5">
                   <h2 className="admin-section-title">Status & Tracking</h2>
                   {!editMode && (
                     <button onClick={() => setEditMode(true)} className="btn-edit">
@@ -298,8 +314,9 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
                 {editMode ? (
                   <form onSubmit={handleUpdateOrder} className="order-edit-form">
                     <div className="form-group">
-                      <label className="form-label">Order Status *</label>
+                      <label className="form-label" htmlFor="order-status">Order Status *</label>
                       <select
+                        id="order-status"
                         value={formData.status}
                         onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                         className="form-input"
@@ -314,8 +331,9 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">Carrier</label>
+                      <label className="form-label" htmlFor="carrier">Carrier</label>
                       <select
+                        id="carrier"
                         value={formData.carrier}
                         onChange={(e) => setFormData({ ...formData, carrier: e.target.value })}
                         className="form-input"
@@ -330,8 +348,9 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">Tracking Number</label>
+                      <label className="form-label" htmlFor="tracking-number">Tracking Number</label>
                       <input
+                        id="tracking-number"
                         type="text"
                         value={formData.trackingNumber}
                         onChange={(e) => setFormData({ ...formData, trackingNumber: e.target.value })}
@@ -341,8 +360,9 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">Shipping Label URL</label>
+                      <label className="form-label" htmlFor="shipping-label-url">Shipping Label URL</label>
                       <input
+                        id="shipping-label-url"
                         type="url"
                         value={formData.shippingLabelUrl}
                         onChange={(e) => setFormData({ ...formData, shippingLabelUrl: e.target.value })}
@@ -376,10 +396,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
                   <div className="order-tracking-info">
                     <div className="tracking-info-row">
                       <span className="tracking-label">Status:</span>
-                      <span
-                        className="tracking-value"
-                        style={{ color: getStatusColor(order.status), fontWeight: 600 }}
-                      >
+                      <span className={`tracking-value font-semibold ${getStatusTextClass(order.status)}`}>
                         {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                       </span>
                     </div>

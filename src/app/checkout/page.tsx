@@ -161,14 +161,8 @@ export default function CheckoutPage() {
       <header className="checkout-header">
         <div className="container">
           <Link href="/" className="checkout-logo">
-            <span style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: '28px',
-              fontWeight: 600,
-              letterSpacing: '2.5px',
-              color: '#1E3A8A',
-            }}>
-              KOLLECT<span style={{ color: '#C9A66B', padding: '0 3px' }}>•</span>IT
+            <span className="text-navy font-serif text-[28px] font-semibold tracking-widest">
+              KOLLECT<span className="text-gold px-1">•</span>IT
             </span>
           </Link>
           <div className="checkout-steps">
@@ -209,8 +203,9 @@ export default function CheckoutPage() {
                   <div className="checkout-form">
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label">Full Name *</label>
+                        <label className="form-label" htmlFor="shipping-fullName">Full Name *</label>
                         <input
+                          id="shipping-fullName"
                           type="text"
                           required
                           value={shippingInfo.fullName}
@@ -223,8 +218,9 @@ export default function CheckoutPage() {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label">Email Address *</label>
+                        <label className="form-label" htmlFor="shipping-email">Email Address *</label>
                         <input
+                          id="shipping-email"
                           type="email"
                           required
                           value={shippingInfo.email}
@@ -234,8 +230,9 @@ export default function CheckoutPage() {
                         />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">Phone Number *</label>
+                        <label className="form-label" htmlFor="shipping-phone">Phone Number *</label>
                         <input
+                          id="shipping-phone"
                           type="tel"
                           required
                           value={shippingInfo.phone}
@@ -248,8 +245,9 @@ export default function CheckoutPage() {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label">Street Address *</label>
+                        <label className="form-label" htmlFor="shipping-address">Street Address *</label>
                         <input
+                          id="shipping-address"
                           type="text"
                           required
                           value={shippingInfo.address}
@@ -262,8 +260,9 @@ export default function CheckoutPage() {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label">City *</label>
+                        <label className="form-label" htmlFor="shipping-city">City *</label>
                         <input
+                          id="shipping-city"
                           type="text"
                           required
                           value={shippingInfo.city}
@@ -273,8 +272,9 @@ export default function CheckoutPage() {
                         />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">State *</label>
+                        <label className="form-label" htmlFor="shipping-state">State *</label>
                         <input
+                          id="shipping-state"
                           type="text"
                           required
                           value={shippingInfo.state}
@@ -287,8 +287,9 @@ export default function CheckoutPage() {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label">ZIP Code *</label>
+                        <label className="form-label" htmlFor="shipping-zip">ZIP Code *</label>
                         <input
+                          id="shipping-zip"
                           type="text"
                           required
                           value={shippingInfo.zipCode}
@@ -298,8 +299,9 @@ export default function CheckoutPage() {
                         />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">Country *</label>
+                        <label className="form-label" htmlFor="shipping-country">Country *</label>
                         <input
+                          id="shipping-country"
                           type="text"
                           value={shippingInfo.country}
                           onChange={(e) => setShippingInfo({ ...shippingInfo, country: e.target.value })}

@@ -179,8 +179,8 @@ export default function AdminOrdersPage() {
         <div className="container">
           <div className="admin-stats-grid">
             <div className="admin-stat-card">
-              <div className="stat-icon" style={{ backgroundColor: '#dbeafe' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2">
+              <div className="stat-icon bg-blue-100">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-blue-800" stroke="currentColor" strokeWidth="2">
                   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
                   <line x1="3" y1="6" x2="21" y2="6" />
                 </svg>
@@ -192,8 +192,8 @@ export default function AdminOrdersPage() {
             </div>
 
             <div className="admin-stat-card">
-              <div className="stat-icon" style={{ backgroundColor: '#fef3c7' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#92400e" strokeWidth="2">
+              <div className="stat-icon bg-amber-100">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-amber-900" stroke="currentColor" strokeWidth="2">
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
@@ -205,8 +205,8 @@ export default function AdminOrdersPage() {
             </div>
 
             <div className="admin-stat-card">
-              <div className="stat-icon" style={{ backgroundColor: '#e0e7ff' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4338ca" strokeWidth="2">
+              <div className="stat-icon bg-indigo-100">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-indigo-700" stroke="currentColor" strokeWidth="2">
                   <rect x="1" y="3" width="15" height="13" />
                   <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
                   <circle cx="5.5" cy="18.5" r="2.5" />
@@ -220,8 +220,8 @@ export default function AdminOrdersPage() {
             </div>
 
             <div className="admin-stat-card">
-              <div className="stat-icon" style={{ backgroundColor: '#d1fae5' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#065f46" strokeWidth="2">
+              <div className="stat-icon bg-emerald-100">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-emerald-700" stroke="currentColor" strokeWidth="2">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   <path d="M9 12l2 2 4-4" />
                 </svg>
@@ -242,6 +242,7 @@ export default function AdminOrdersPage() {
               </svg>
               <input
                 type="text"
+                aria-label="Search orders"
                 placeholder="Search by order number, customer name, or email..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -250,8 +251,8 @@ export default function AdminOrdersPage() {
             </div>
 
             <div className="admin-filter-group">
-              <label>Status:</label>
-              <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="admin-select">
+              <label htmlFor="status-filter">Status:</label>
+              <select id="status-filter" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="admin-select">
                 <option value="all">All Statuses</option>
                 <option value="pending">Pending</option>
                 <option value="processing">Processing</option>
@@ -262,8 +263,8 @@ export default function AdminOrdersPage() {
             </div>
 
             <div className="admin-filter-group">
-              <label>Date:</label>
-              <select value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="admin-select">
+              <label htmlFor="date-filter">Date:</label>
+              <select id="date-filter" value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="admin-select">
                 <option value="all">All Time</option>
                 <option value="today">Today</option>
                 <option value="week">Last 7 Days</option>
