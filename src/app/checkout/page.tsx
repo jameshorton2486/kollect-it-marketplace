@@ -39,6 +39,7 @@ export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [validatedTotal, setValidatedTotal] = useState<number | null>(null);
 
   const [shippingInfo, setShippingInfo] = useState<ShippingInfo>({
     fullName: session?.user?.name || '',
@@ -141,6 +142,9 @@ export default function CheckoutPage() {
       }
 
       setClientSecret(data.clientSecret);
+      if (typeof data.validatedTotal === 'number') {
+        setValidatedTotal(data.validatedTotal);
+      }
       setStep('payment');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
@@ -157,27 +161,20 @@ export default function CheckoutPage() {
 
   return (
     <div className="checkout-page">
-      {/* Header */}
-      <header className="checkout-header">
-        <div className="container">
-          <Link href="/" className="checkout-logo">
-            <span className="text-navy font-serif text-[28px] font-semibold tracking-widest">
-              KOLLECT<span className="text-gold px-1">•</span>IT
-            </span>
-          </Link>
-          <div className="checkout-steps">
-            <div className={`checkout-step ${step === 'shipping' ? 'active' : 'completed'}`}>
-              <span className="step-number">1</span>
-              <span className="step-label">Shipping</span>
-            </div>
-            <div className="checkout-step-divider"></div>
-            <div className={`checkout-step ${step === 'payment' ? 'active' : ''}`}>
-              <span className="step-number">2</span>
-              <span className="step-label">Payment</span>
-            </div>
+      {/* Progress Indicator */}
+      <div className="checkout-progress">
+        <div className={`checkout-steps ${step === 'shipping' ? 'step-1' : 'step-2'}`}>
+          <div className="checkout-step-fill" />
+          <div className={`checkout-step ${step === 'shipping' ? 'active' : 'completed'}`}>
+            <div className="checkout-step-circle">1</div>
+            <div className="checkout-step-label">Shipping</div>
+          </div>
+          <div className={`checkout-step ${step === 'payment' ? 'active' : ''}`}>
+            <div className="checkout-step-circle">2</div>
+            <div className="checkout-step-label">Payment</div>
           </div>
         </div>
-      </header>
+      </div>
 
       <div className="checkout-content">
         <div className="container">
@@ -300,16 +297,29 @@ export default function CheckoutPage() {
                       </div>
                       <div className="form-group">
                         <label className="form-label" htmlFor="shipping-country">Country *</label>
-                        <input
-                          id="shipping-country"
-                          type="text"
-                          value={shippingInfo.country}
-                          onChange={(e) => setShippingInfo({ ...shippingInfo, country: e.target.value })}
-                          className="form-input"
-                          readOnly
-                        />
+                          <select
+                            id="shipping-country"
+                            value={shippingInfo.country}
+                            onChange={(e) => setShippingInfo({ ...shippingInfo, country: e.target.value })}
+                            className="form-input"
+                          >
+                            <option>United States</option>
+                            <option>Canada</option>
+                            <option>United Kingdom</option>
+                            <option>Australia</option>
+                            <option>Other</option>
+                          </select>
                       </div>
                     </div>
+
+                      {session?.user && (
+                        <div className="form-row">
+                          <label className="form-checkbox">
+                            <input type="checkbox" />
+                            <span>Save this address to my account</span>
+                          </label>
+                        </div>
+                      )}
 
                     <button
                       onClick={handleContinueToPayment}
@@ -328,23 +338,130 @@ export default function CheckoutPage() {
               {/* Payment Form */}
               {step === 'payment' && clientSecret && (
                 <div className="checkout-section">
-                  <button
-                    onClick={() => setStep('shipping')}
-                    className="btn-back"
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="15 18 9 12 15 6" />
-                    </svg>
-                    Back to Shipping
-                  </button>
-
                   <h2 className="checkout-section-title">Payment Information</h2>
+
+                  {/* Shipping Summary with Edit */}
+                  <div className="shipping-review">
+                    <div className="shipping-review-header">
+                      <h3>Shipping To</h3>
+                      <button onClick={() => setStep('shipping')} className="btn-link">Edit</button>
+                    </div>
+                    <div className="shipping-review-body">
+                      <p className="font-medium">{shippingInfo.fullName}</p>
+                      <p>{shippingInfo.address}</p>
+                      <p>{shippingInfo.city}, {shippingInfo.state} {shippingInfo.zipCode}</p>
+                    </div>
+                  </div>
+
+                  {/* Billing Address Toggle */}
+                  <div className="billing-toggle">
+                    <label className="form-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={billingInfo.sameAsShipping}
+                        onChange={(e) => setBillingInfo({ ...billingInfo, sameAsShipping: e.target.checked })}
+                      />
+                      <span>Billing address is same as shipping</span>
+                    </label>
+                  </div>
+
+                  {!billingInfo.sameAsShipping && (
+                    <div className="checkout-form mt-3">
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label className="form-label" htmlFor="billing-fullName">Full Name *</label>
+                          <input
+                            id="billing-fullName"
+                            type="text"
+                            required
+                            value={billingInfo.fullName}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, fullName: e.target.value })}
+                            className="form-input"
+                            placeholder="John Doe"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label className="form-label" htmlFor="billing-address">Street Address *</label>
+                          <input
+                            id="billing-address"
+                            type="text"
+                            required
+                            value={billingInfo.address}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, address: e.target.value })}
+                            className="form-input"
+                            placeholder="123 Main Street"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label className="form-label" htmlFor="billing-city">City *</label>
+                          <input
+                            id="billing-city"
+                            type="text"
+                            required
+                            value={billingInfo.city}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, city: e.target.value })}
+                            className="form-input"
+                            placeholder="New York"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label" htmlFor="billing-state">State *</label>
+                          <input
+                            id="billing-state"
+                            type="text"
+                            required
+                            value={billingInfo.state}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, state: e.target.value })}
+                            className="form-input"
+                            placeholder="NY"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label className="form-label" htmlFor="billing-zip">ZIP Code *</label>
+                          <input
+                            id="billing-zip"
+                            type="text"
+                            required
+                            value={billingInfo.zipCode}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, zipCode: e.target.value })}
+                            className="form-input"
+                            placeholder="10001"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label" htmlFor="billing-country">Country *</label>
+                          <select
+                            id="billing-country"
+                            value={billingInfo.country}
+                            onChange={(e) => setBillingInfo({ ...billingInfo, country: e.target.value })}
+                            className="form-input"
+                          >
+                            <option>United States</option>
+                            <option>Canada</option>
+                            <option>United Kingdom</option>
+                            <option>Australia</option>
+                            <option>Other</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <Elements stripe={stripePromise} options={{ clientSecret }}>
                     <CheckoutForm
                       clientSecret={clientSecret}
                       shippingInfo={shippingInfo}
                       billingInfo={billingInfo.sameAsShipping ? shippingInfo : billingInfo}
+                      totalAmount={validatedTotal ?? total}
                       onSuccess={() => clearCart()}
                     />
                   </Elements>

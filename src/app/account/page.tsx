@@ -1,10 +1,12 @@
-'use client';
+ 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { User, Receipt, Heart, Settings as SettingsIcon, LogOut } from 'lucide-react';
+import AddToCartButton from '@/components/AddToCartButton';
 
 interface WishlistItem {
   id: string;
@@ -34,13 +36,17 @@ interface Order {
   }[];
 }
 
+type Tab = 'profile' | 'orders' | 'wishlist' | 'settings';
+
 export default function AccountPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'profile' | 'orders' | 'wishlist'>('profile');
+  const [activeTab, setActiveTab] = useState<Tab>('profile');
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [emailNotifications, setEmailNotifications] = useState(true);
+  const [newsletterSubscribed, setNewsletterSubscribed] = useState(true);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -104,19 +110,19 @@ export default function AccountPage() {
   return (
     <div className="account-page">
       {/* Header */}
-      <div className="account-header">
-        <div className="container">
-          <div className="account-header-content">
+      <div className="border-b border-[var(--color-gray-light)] bg-white">
+        <div className="container py-6">
+          <div className="flex items-start justify-between gap-4">
             <div>
-              <h1 className="account-title">My Account</h1>
-              <p className="account-subtitle">Welcome back, {session.user?.name}!</p>
+              <h1 className="font-serif text-[42px] leading-tight text-brand-navy">My Account</h1>
+              <p className="text-[14px] text-[var(--color-gray-dark)]">Welcome back, {session.user?.name}!</p>
             </div>
-            <button onClick={() => signOut({ callbackUrl: '/' })} className="btn-secondary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                <polyline points="16 17 21 12 16 7" />
-                <line x1="21" y1="12" x2="9" y2="12" />
-              </svg>
+            <button
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className="inline-flex items-center gap-2 rounded border border-[var(--color-gray-light)] px-3 py-2 text-[14px] text-[var(--color-gray-dark)] hover:bg-cream"
+              aria-label="Sign out"
+            >
+              <LogOut size={18} />
               Sign Out
             </button>
           </div>
@@ -124,120 +130,122 @@ export default function AccountPage() {
       </div>
 
       {/* Tabs */}
-      <div className="account-tabs-container">
+      <div className="border-b border-[var(--color-gray-light)] bg-white">
         <div className="container">
-          <div className="account-tabs">
-            <button
-              className={`account-tab ${activeTab === 'profile' ? 'active' : ''}`}
-              onClick={() => setActiveTab('profile')}
+          {/* Mobile select */}
+          <div className="py-3 md:hidden">
+            <label htmlFor="account-tab" className="sr-only">Choose section</label>
+            <select
+              id="account-tab"
+              className="form-input w-full"
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value as Tab)}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-              Profile
-            </button>
-            <button
-              className={`account-tab ${activeTab === 'orders' ? 'active' : ''}`}
-              onClick={() => setActiveTab('orders')}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <path d="M16 10a4 4 0 0 1-8 0" />
-              </svg>
-              Orders ({orders.length})
-            </button>
-            <button
-              className={`account-tab ${activeTab === 'wishlist' ? 'active' : ''}`}
-              onClick={() => setActiveTab('wishlist')}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-              Wishlist ({wishlist.length})
-            </button>
+              <option value="profile">Profile</option>
+              <option value="orders">Orders</option>
+              <option value="wishlist">Wishlist</option>
+              <option value="settings">Settings</option>
+            </select>
+          </div>
+          {/* Desktop tabs */}
+          <div className="hidden items-stretch gap-8 md:flex">
+            {([
+              { key: 'profile', label: 'Profile', icon: User },
+              { key: 'orders', label: `Orders (${orders.length})`, icon: Receipt },
+              { key: 'wishlist', label: `Wishlist (${wishlist.length})`, icon: Heart },
+              { key: 'settings', label: 'Settings', icon: SettingsIcon },
+            ] as Array<{ key: Tab; label: string; icon: React.ComponentType<{ size?: number }> }>).map(({ key, label, icon: Icon }) => (
+              <button
+                key={key}
+                className={`relative -mb-px inline-flex items-center gap-2 border-b-4 px-1 py-4 text-[14px] ${
+                  activeTab === key
+                    ? 'border-[var(--color-muted-gold)] text-[var(--color-charcoal)]'
+                    : 'border-transparent text-[var(--color-gray-dark)] hover:text-[var(--color-charcoal)]'
+                }`}
+                onClick={() => setActiveTab(key)}
+              >
+                <Icon size={18} />
+                {label}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Tab Content */}
-      <div className="account-content">
+      <div className="section-spacing">
         <div className="container">
           {/* Profile Tab */}
           {activeTab === 'profile' && (
-            <div className="account-panel">
-              <h2 className="panel-title">Profile Information</h2>
-              <div className="profile-info">
-                <div className="profile-item">
-                  <span className="profile-label">Name:</span>
-                  <span className="profile-value">{session.user?.name || 'Not set'}</span>
+            <div className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6">
+              <h2 className="mb-4 font-serif text-2xl">Profile Information</h2>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Name</span>
+                  <span className="font-medium">{session.user?.name || 'Not set'}</span>
                 </div>
-                <div className="profile-item">
-                  <span className="profile-label">Email:</span>
-                  <span className="profile-value">{session.user?.email}</span>
+                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Email</span>
+                  <span className="font-medium">{session.user?.email}</span>
                 </div>
-                <div className="profile-item">
-                  <span className="profile-label">Account Type:</span>
-                  <span className="profile-value">
-                    {session.user?.role === 'admin' ? 'Administrator' : 'Customer'}
-                  </span>
+                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Phone</span>
+                  <span className="font-medium">Not set</span>
+                </div>
+                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Account Type</span>
+                  <span className="font-medium">{((session.user as { role?: string } | undefined)?.role === 'admin') ? 'Administrator' : 'Customer'}</span>
+                </div>
+                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Default Shipping</span>
+                  <span className="font-medium">Not set</span>
                 </div>
               </div>
 
-              <div className="profile-actions">
-                <button className="btn-primary">Edit Profile</button>
-                <button className="btn-secondary">Change Password</button>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <button className="btn-cta">Edit Profile</button>
+                <button className="inline-flex items-center justify-center rounded border border-[var(--color-gray-light)] px-4 py-2 text-[14px] text-[var(--color-charcoal)] hover:bg-cream">Change Password</button>
               </div>
             </div>
           )}
 
           {/* Orders Tab */}
           {activeTab === 'orders' && (
-            <div className="account-panel">
-              <h2 className="panel-title">Order History</h2>
+            <div className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6">
+              <h2 className="mb-4 font-serif text-2xl">Order History</h2>
               {orders.length === 0 ? (
-                <div className="empty-state">
-                  <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <path d="M16 10a4 4 0 0 1-8 0" />
-                  </svg>
-                  <h3>No Orders Yet</h3>
-                  <p>You haven't placed any orders yet.</p>
-                  <Link href="/" className="btn-primary">
-                    Start Shopping
-                  </Link>
+                <div className="flex flex-col items-center justify-center gap-2 rounded border border-[var(--color-gray-light)] bg-cream p-8 text-center">
+                  <Receipt className="text-[var(--color-gray-dark)]" size={48} />
+                  <h3 className="font-serif text-xl">No Orders Yet</h3>
+                  <p className="text-[var(--color-gray-dark)]">You haven't placed any orders yet.</p>
+                  <Link href="/" className="btn-cta">Start Shopping</Link>
                 </div>
               ) : (
-                <div className="orders-list">
-                  {orders.map((order) => (
-                    <div key={order.id} className="order-card">
-                      <div className="order-header">
-                        <div>
-                          <span className="order-number">Order #{order.orderNumber}</span>
-                          <span className="order-date">
-                            {new Date(order.createdAt).toLocaleDateString()}
-                          </span>
+                <div className="divide-y divide-[var(--color-gray-light)]">
+                  {orders.map((order) => {
+                    const statusClass =
+                      order.status === 'delivered'
+                        ? 'bg-green-100 text-green-800'
+                        : order.status === 'cancelled'
+                        ? 'bg-red-100 text-red-800'
+                        : order.status === 'processing' || order.status === 'paid'
+                        ? 'bg-[rgba(199,168,94,0.15)] text-[var(--color-charcoal)]'
+                        : 'bg-gray-100 text-gray-800';
+                    return (
+                      <div key={order.id} className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-col">
+                          <Link href={`/account/orders/${order.id}`} className="font-medium underline">Order #{order.orderNumber}</Link>
+                          <span className="text-[12px] text-[var(--color-gray-dark)]">{new Date(order.createdAt).toLocaleDateString()}</span>
                         </div>
-                        <span className={`order-status status-${order.status}`}>
-                          {order.status}
-                        </span>
+                        <div className="flex flex-1 flex-col gap-2 md:flex-row md:items-center md:justify-end">
+                          <span className="text-[14px] text-[var(--color-gray-dark)]">Items: {order.items?.length ?? 0}</span>
+                          <span className={`inline-flex w-fit items-center rounded-full px-3 py-1 text-[12px] ${statusClass}`}>{order.status}</span>
+                          <span className="font-semibold">Total: ${order.total.toLocaleString()}</span>
+                          <Link href={`/account/orders/${order.id}`} className="underline">View Details</Link>
+                        </div>
                       </div>
-                      <div className="order-items">
-                        {order.items.map((item) => (
-                          <div key={item.id} className="order-item">
-                            <span>{item.title}</span>
-                            <span>Qty: {item.quantity}</span>
-                            <span>${item.price.toLocaleString()}</span>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="order-total">
-                        Total: ${order.total.toLocaleString()}
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -245,59 +253,114 @@ export default function AccountPage() {
 
           {/* Wishlist Tab */}
           {activeTab === 'wishlist' && (
-            <div className="account-panel">
-              <h2 className="panel-title">My Wishlist</h2>
+            <div className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6">
+              <h2 className="mb-4 font-serif text-2xl">My Wishlist</h2>
               {wishlist.length === 0 ? (
-                <div className="empty-state">
-                  <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                  </svg>
-                  <h3>No Wishlist Items</h3>
-                  <p>Save items you love to your wishlist.</p>
-                  <Link href="/" className="btn-primary">
-                    Browse Products
-                  </Link>
+                <div className="flex flex-col items-center justify-center gap-2 rounded border border-[var(--color-gray-light)] bg-cream p-8 text-center">
+                  <Heart className="text-[var(--color-gray-dark)]" size={48} />
+                  <h3 className="font-serif text-xl">No Wishlist Items</h3>
+                  <p className="text-[var(--color-gray-dark)]">Save items you love to your wishlist.</p>
+                  <Link href="/" className="btn-cta">Browse Products</Link>
                 </div>
               ) : (
-                <div className="wishlist-grid">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {wishlist.map((item) => (
-                    <div key={item.id} className="wishlist-card">
-                      <Link href={`/product/${item.product.slug}`} className="wishlist-image">
+                    <div key={item.id} className="group rounded-lg border border-[var(--color-gray-light)] bg-white p-3">
+                      <Link href={`/product/${item.product.slug}`} className="block overflow-hidden rounded">
                         {item.product.images[0] ? (
                           <Image
                             src={item.product.images[0].url}
                             alt={item.product.title}
-                            width={250}
-                            height={250}
+                            width={400}
+                            height={400}
+                            className="h-auto w-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
                           />
                         ) : (
-                          <div className="wishlist-placeholder">No Image</div>
-                        )}
-                        {item.product.status !== 'active' && (
-                          <span className="wishlist-unavailable">Sold</span>
+                          <div className="flex h-[200px] items-center justify-center bg-cream text-[var(--color-gray-dark)]">No Image</div>
                         )}
                       </Link>
-                      <div className="wishlist-info">
-                        <span className="wishlist-category">{item.product.category.name}</span>
-                        <Link href={`/product/${item.product.slug}`} className="wishlist-title">
+                      <div className="mt-3 flex flex-col gap-1">
+                        <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">{item.product.category.name}</span>
+                        <Link href={`/product/${item.product.slug}`} className="font-medium hover:text-[var(--color-muted-gold)]">
                           {item.product.title}
                         </Link>
-                        <span className="wishlist-price">${item.product.price.toLocaleString()}</span>
+                        <span className="text-brand-gold font-semibold">${item.product.price.toLocaleString()}</span>
                       </div>
-                      <button
-                        onClick={() => removeFromWishlist(item.productId)}
-                        className="wishlist-remove"
-                      >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <polyline points="3 6 5 6 21 6" />
-                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                        </svg>
-                        Remove
-                      </button>
+                      <div className="mt-3 flex items-center justify-between gap-3">
+                        <button
+                          onClick={() => removeFromWishlist(item.productId)}
+                          className="inline-flex items-center gap-2 rounded border border-[var(--color-gray-light)] px-3 py-2 text-[14px] hover:bg-cream"
+                          aria-label="Remove from wishlist"
+                        >
+                          <Heart size={16} />
+                          Remove
+                        </button>
+                        <AddToCartButton
+                          product={{
+                            id: item.product.id,
+                            title: item.product.title,
+                            price: item.product.price,
+                            slug: item.product.slug,
+                            image: item.product.images[0]?.url || '/placeholder.jpg',
+                            categoryName: item.product.category.name,
+                          }}
+                          quantity={1}
+                          className="btn-cta"
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Settings Tab */}
+          {activeTab === 'settings' && (
+            <div className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6">
+              <h2 className="mb-4 font-serif text-2xl">Settings</h2>
+              <div className="space-y-4">
+                <label className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
+                  <div>
+                    <span className="block font-medium">Email Notifications</span>
+                    <span className="text-[13px] text-[var(--color-gray-dark)]">Order updates and account alerts</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={emailNotifications}
+                    onChange={(e) => setEmailNotifications(e.target.checked)}
+                    aria-label="Toggle email notifications"
+                    className="h-5 w-5"
+                  />
+                </label>
+
+                <label className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
+                  <div>
+                    <span className="block font-medium">Newsletter Subscription</span>
+                    <span className="text-[13px] text-[var(--color-gray-dark)]">Occasional stories and arrivals</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={newsletterSubscribed}
+                    onChange={(e) => setNewsletterSubscribed(e.target.checked)}
+                    aria-label="Toggle newsletter subscription"
+                    className="h-5 w-5"
+                  />
+                </label>
+
+                <div className="pt-4">
+                  <button
+                    onClick={() => {
+                      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                        alert('Account deletion request submitted.');
+                      }
+                    }}
+                    className="text-[14px] text-red-600 underline"
+                  >
+                    Delete Account
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -23,6 +23,7 @@ interface CheckoutFormProps {
   clientSecret: string;
   shippingInfo: AddressInfo;
   billingInfo: AddressInfo;
+  totalAmount?: number;
   onSuccess: () => void;
 }
 
@@ -30,6 +31,7 @@ export default function CheckoutForm({
   clientSecret,
   shippingInfo,
   billingInfo,
+  totalAmount,
   onSuccess,
 }: CheckoutFormProps) {
   const router = useRouter();
@@ -134,7 +136,7 @@ export default function CheckoutForm({
               <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
               <line x1="1" y1="10" x2="23" y2="10" />
             </svg>
-            Pay Now
+            {typeof totalAmount === 'number' ? `Place Order - $${totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'Pay Now'}
           </>
         )}
       </button>
