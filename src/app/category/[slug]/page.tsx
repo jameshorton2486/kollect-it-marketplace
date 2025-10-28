@@ -26,7 +26,7 @@ async function getCategoryWithProducts(slug: string, sortBy?: string) {
     | { price: 'asc' | 'desc' }
     | { createdAt: 'asc' | 'desc' }
     | { title: 'asc' }
-    | { featured: 'desc'; createdAt: 'desc' } = { createdAt: 'desc' }; // default
+    | Array<{ featured: 'desc' } | { createdAt: 'desc' }> = { createdAt: 'desc' }; // default
 
   switch (sortBy) {
     case 'price-asc':
@@ -45,7 +45,7 @@ async function getCategoryWithProducts(slug: string, sortBy?: string) {
       orderBy = { title: 'asc' };
       break;
     default:
-      orderBy = { featured: 'desc', createdAt: 'desc' };
+      orderBy = [{ featured: 'desc' }, { createdAt: 'desc' }];
   }
 
   const products = await prisma.product.findMany({
