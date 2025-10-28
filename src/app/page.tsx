@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import Header from '@/components/Header';
 import AddToCartButton from '@/components/AddToCartButton';
+import AnnouncementBar from '@/components/AnnouncementBar';
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
@@ -119,12 +120,8 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
-      {/* Announcement Bar */}
-      <div className="announcement-bar">
-        <div className="announcement-content">
-          <span>ARE YOU A MEMBER OF THE TRADE? REGISTER YOUR ACCOUNT HERE</span>
-        </div>
-      </div>
+      {/* Refined Announcement Bar with Dismiss */}
+      <AnnouncementBar />
 
       {/* Header with Search */}
       <Header categories={categories} />
@@ -150,18 +147,20 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Animated Counter Bar */}
-      <section style={{ background: 'var(--color-cream)', padding: '3rem 0' }}>
+      {/* Animated Counter Bar - Refined */}
+      <section className="counter-section-wrapper">
         <div className="container">
           <div className="counter-section">
             <div className="counter-item">
               <span className="counter-number" data-count="25">0</span>
               <span className="counter-label">Years of Collecting</span>
             </div>
+            <div className="counter-divider"></div>
             <div className="counter-item">
               <span className="counter-number" data-count="5000">0</span>
               <span className="counter-label">Curated Items</span>
             </div>
+            <div className="counter-divider"></div>
             <div className="counter-item">
               <span className="counter-number" data-count="1200">0</span>
               <span className="counter-label">Verified Sellers</span>
@@ -173,6 +172,8 @@ export default async function HomePage() {
       {/* Latest Arrivals Section - DYNAMICALLY UPDATED */}
       <section id="latest" className="new-arrivals">
         <div className="container">
+          <p className="section-subtitle" data-reveal>NEWEST ADDITIONS</p>
+          <h2 className="section-title-main" data-reveal data-reveal-delay="100">Latest Arrivals</h2>
           <div className="product-grid product-grid-featured">
             {latestProducts.map((product) => (
               <div key={product.id} className="product-card-category">
@@ -252,7 +253,7 @@ export default async function HomePage() {
           <div className="trust-icons">
             <div className="trust-icon-item">
               <div className="trust-icon-wrapper">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
               </div>
@@ -260,7 +261,7 @@ export default async function HomePage() {
             </div>
             <div className="trust-icon-item">
               <div className="trust-icon-wrapper">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" />
                   <path d="m21 21-4.35-4.35" />
                 </svg>
@@ -269,7 +270,7 @@ export default async function HomePage() {
             </div>
             <div className="trust-icon-item">
               <div className="trust-icon-wrapper">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
                   <polyline points="14 2 14 8 20 8" />
                   <line x1="9" y1="15" x2="15" y2="15" />
@@ -313,74 +314,74 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - Refined */}
       <footer className="footer">
         <div className="container">
           <div className="footer-grid">
             <div className="footer-col">
-              <div style={{ marginBottom: 'var(--space-2)' }}>
+              <div className="footer-brand">
                 <Link href="/" style={{ textDecoration: 'none' }}>
-                  <span className="footer-logo">
+                  <span className="footer-logo-refined">
                     KOLLECT — IT
                   </span>
                 </Link>
               </div>
-              <h3>About</h3>
-              <p>
+              <h3 className="footer-heading">About</h3>
+              <p className="footer-text">
                 Kollect-It offers inspiring antiques and collectibles for modern collectors who
                 insist on quality and character.
               </p>
-              <p>
+              <p className="footer-text footer-em">
                 <em>Curated and authenticated by the Kollect-It team.</em>
               </p>
             </div>
 
             <div className="footer-col">
-              <h3>Shop Categories</h3>
-              <ul>
+              <h3 className="footer-heading">Shop Categories</h3>
+              <ul className="footer-links">
                 {categories.map((cat) => (
                   <li key={cat.id}>
-                    <Link href={`/category/${cat.slug}`}>{cat.name}</Link>
+                    <Link href={`/category/${cat.slug}`} className="footer-link">{cat.name}</Link>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div className="footer-col">
-              <h3>Connect</h3>
-              <ul>
+              <h3 className="footer-heading">Connect</h3>
+              <ul className="footer-links">
                 <li>
-                  <a href="#">Instagram</a>
+                  <a href="#" className="footer-link">Instagram</a>
                 </li>
                 <li>
-                  <a href="#">YouTube</a>
+                  <a href="#" className="footer-link">YouTube</a>
                 </li>
                 <li>
-                  <a href="#">Facebook</a>
+                  <a href="#" className="footer-link">Facebook</a>
                 </li>
                 <li>
-                  <a href="#">Contact</a>
+                  <a href="#" className="footer-link">Contact</a>
                 </li>
               </ul>
             </div>
 
             <div className="footer-col">
-              <h3>Support</h3>
-              <ul>
+              <h3 className="footer-heading">Support</h3>
+              <ul className="footer-links">
                 <li>
-                  <Link href="/admin/login">Admin Login</Link>
+                  <Link href="/admin/login" className="footer-link">Admin Login</Link>
                 </li>
                 <li>
-                  <a href="#">FAQs</a>
+                  <a href="#" className="footer-link">FAQs</a>
                 </li>
                 <li>
-                  <a href="#">About</a>
+                  <Link href="/about" className="footer-link">About</Link>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="footer-bottom">
+          <div className="footer-bottom-refined">
             <p>&copy; Kollect-It {new Date().getFullYear()}</p>
           </div>
         </div>
