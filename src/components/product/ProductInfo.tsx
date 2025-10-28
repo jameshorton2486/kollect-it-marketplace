@@ -44,7 +44,9 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
           url: window.location.href,
         });
       } catch (err) {
-        console.log('Share cancelled');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Share cancelled');
+        }
       }
     } else {
       // Fallback: copy to clipboard

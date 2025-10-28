@@ -16,7 +16,9 @@ async function getCategories() {
       orderBy: { name: 'asc' },
     });
   } catch (error) {
-    console.log('Database not available, using fallback categories');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Database not available, using fallback categories');
+    }
     return [
       {
         id: '1',
