@@ -3,6 +3,9 @@ import { headers } from 'next/headers';
 import Stripe from 'stripe';
 import { stripe } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
+import { logger } from '@/lib/logger';
+import { getRequestId } from '@/lib/request-context';
+import { respondError } from '@/lib/api-error';
 
 /**
  * Stripe Webhook Handler
@@ -15,13 +18,16 @@ import { prisma } from '@/lib/prisma';
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 export async function POST(request: Request) {
+  const requestId = getRequestId(request);
   const body = await request.text();
   const headersList = await headers();
   const signature = headersList.get('stripe-signature');
 
   if (!signature) {
-    console.error('Missing stripe-signature header');
-    return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
+    logger.warn('Stripe webhook missing signature', { requestId });
+    const res = NextResponse.json({ error: 'Missing signature', requestId }, { status: 400 });
+    res.headers.set('X-Request-ID', requestId);
+    return res;
   }
 
   // Verify webhook signature
@@ -29,25 +35,30 @@ export async function POST(request: Request) {
 
   try {
     if (!webhookSecret) {
-      console.warn('STRIPE_WEBHOOK_SECRET not set - webhook verification disabled');
-      // In development, you can parse without verification (NOT for production!)
+      if (process.env.NODE_ENV !== 'development') {
+        logger.error('Stripe webhook secret missing in production', { requestId });
+  return respondError(request, new Error('Webhook secret not configured'), { status: 503, code: 'webhook_secret_missing' });
+      }
+      logger.warn('STRIPE_WEBHOOK_SECRET not set - verification disabled (dev only)', { requestId });
       event = JSON.parse(body) as Stripe.Event;
     } else {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     }
   } catch (err) {
-    console.error('Webhook signature verification failed:', err instanceof Error ? err.message : 'Unknown error');
-    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
+    logger.error('Stripe webhook signature verification failed', { requestId }, err);
+    const res = NextResponse.json({ error: 'Invalid signature', requestId }, { status: 400 });
+    res.headers.set('X-Request-ID', requestId);
+    return res;
   }
 
-  console.log(`Received webhook event: ${event.type}`);
+  logger.info('Stripe webhook received', { requestId, type: event.type });
 
   // Handle the event
   try {
     switch (event.type) {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        console.log(`PaymentIntent succeeded: ${paymentIntent.id}`);
+  logger.info('PaymentIntent succeeded', { requestId, paymentIntentId: paymentIntent.id });
 
         // Update order status in database
         // Note: You may need to add stripePaymentIntentId field to Order model
@@ -59,13 +70,13 @@ export async function POST(request: Request) {
               status: 'processing',
             },
           });
-          console.log(`Updated order ${paymentIntent.metadata.orderId} to paid`);
+          logger.info('Order updated to paid', { requestId, orderId: paymentIntent.metadata.orderId });
         }
         break;
 
       case 'payment_intent.payment_failed':
         const failedPayment = event.data.object as Stripe.PaymentIntent;
-        console.error(`PaymentIntent failed: ${failedPayment.id}`);
+  logger.warn('PaymentIntent failed', { requestId, paymentIntentId: failedPayment.id });
 
         // Update order to failed status
         if (failedPayment.metadata?.orderId) {
@@ -75,30 +86,28 @@ export async function POST(request: Request) {
               paymentStatus: 'failed',
             },
           });
-          console.log(`Marked order ${failedPayment.metadata.orderId} as failed`);
+          logger.info('Order marked as failed', { requestId, orderId: failedPayment.metadata.orderId });
         }
         break;
 
       case 'charge.succeeded':
         const charge = event.data.object as Stripe.Charge;
-        console.log(`Charge succeeded: ${charge.id}`);
+  logger.info('Charge succeeded', { requestId, chargeId: charge.id });
         break;
 
       case 'charge.failed':
         const failedCharge = event.data.object as Stripe.Charge;
-        console.error(`Charge failed: ${failedCharge.id}`);
+  logger.warn('Charge failed', { requestId, chargeId: failedCharge.id });
         break;
 
       default:
-        console.log(`Unhandled event type: ${event.type}`);
+        logger.info('Unhandled Stripe event type', { requestId, type: event.type });
     }
-
-    return NextResponse.json({ received: true });
+    const res = NextResponse.json({ received: true, requestId });
+    res.headers.set('X-Request-ID', requestId);
+    return res;
   } catch (error) {
-    console.error('Error processing webhook:', error);
-    return NextResponse.json(
-      { error: 'Webhook processing failed' },
-      { status: 500 }
-    );
+    logger.error('Error processing Stripe webhook', { requestId }, error);
+  return respondError(request, error, { status: 500, code: 'webhook_processing_failed' });
   }
 }

@@ -125,7 +125,7 @@ export default function Search() {
   return (
     <div className="relative" ref={boxRef}>
       <form onSubmit={handleSubmit} role="search" aria-label="Site search" className="flex items-center">
-        <div className={`flex w-full items-center gap-2 rounded border px-3 py-2 bg-white focus-within:border-[#C9A66B] focus-within:ring-1 focus-within:ring-[#C9A66B]`}>
+  <div className={`flex w-full items-center gap-2 rounded border px-3 py-2 bg-white focus-within:border-[#B1874C] focus-within:ring-1 focus-within:ring-[#B1874C]`}>
           {/* Magnifying glass */}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--color-gray-dark)]">
             <circle cx="11" cy="11" r="8" />

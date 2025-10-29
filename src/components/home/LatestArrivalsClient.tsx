@@ -79,8 +79,7 @@ export default function LatestArrivals() {
           transition={{ duration: 0.8 }}
         >
           Each piece tells a story of craftsmanship and heritage. Our specialists
-          continually source new treasures to elevate your interior and
-          collection.
+          continually source new treasures to elevate your personal collection.
         </motion.p>
       </div>
     </section>

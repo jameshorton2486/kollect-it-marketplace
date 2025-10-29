@@ -7,9 +7,9 @@ export default function FeaturedCollection() {
       <div className="container grid items-center gap-8 md:grid-cols-2">
         <div>
           <p className="mb-3 text-[12px] uppercase tracking-[0.12em] text-brand-gold">Featured Collection</p>
-          <h2 className="mb-4 font-serif text-[clamp(28px,4vw,36px)] leading-[1.3] text-brand-navy">Rare First Editions, 19th–20th Century</h2>
+          <h2 className="mb-4 font-serif text-[clamp(28px,4vw,36px)] leading-[1.3] text-brand-navy">Treasures of the Archive: Rare Books & First Editions</h2>
           <p className="mb-6 text-[16px] leading-7 text-[var(--color-gray-dark)]">
-            A handpicked selection of literary artifacts with exceptional bindings and provenance.
+            A handpicked selection of literary artifacts with exceptional history and provenance.
           </p>
           <Link
             href="/category/antique-books"

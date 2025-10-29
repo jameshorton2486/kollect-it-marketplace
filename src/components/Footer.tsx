@@ -16,7 +16,7 @@ export default function Footer({ categories }: FooterProps) {
   const cats = categories && categories.length > 0 ? categories : defaultCategories;
 
   return (
-    <footer className="bg-[#322923] text-white mt-16">
+    <footer className="bg-[#2C2C2C] text-white mt-16">
       <div className="container py-12">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           {/* Logo / About intro */}
@@ -32,10 +32,10 @@ export default function Footer({ categories }: FooterProps) {
             <h3 className="mb-3 font-semibold">About</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link className="hover:text-[#C9A66B]" href="/about">Our Story</Link>
+                <Link className="hover:text-[#B1874C]" href="/about">Our Story</Link>
               </li>
               <li>
-                <Link className="hover:text-[#C9A66B]" href="/contact">Contact</Link>
+                <Link className="hover:text-[#B1874C]" href="/contact">Contact</Link>
               </li>
             </ul>
           </div>
@@ -46,7 +46,7 @@ export default function Footer({ categories }: FooterProps) {
             <ul className="space-y-2 text-sm">
               {cats.map((c) => (
                 <li key={c.slug}>
-                  <Link className="hover:text-[#C9A66B]" href={`/category/${c.slug}`}>{c.name}</Link>
+                  <Link className="hover:text-[#B1874C]" href={`/category/${c.slug}`}>{c.name}</Link>
                 </li>
               ))}
             </ul>
@@ -56,22 +56,22 @@ export default function Footer({ categories }: FooterProps) {
           <div>
             <h3 className="mb-3 font-semibold">Connect</h3>
             <div className="mb-4 flex items-center gap-3">
-              <Link aria-label="Instagram" href="#" className="inline-flex items-center justify-center rounded border border-white/20 p-2 hover:text-[#C9A66B]">
+              <Link aria-label="Instagram" href="#" className="inline-flex items-center justify-center rounded border border-white/20 p-2 hover:text-[#B1874C]">
                 <Instagram size={18} />
               </Link>
-              <Link aria-label="YouTube" href="#" className="inline-flex items-center justify-center rounded border border-white/20 p-2 hover:text-[#C9A66B]">
+              <Link aria-label="YouTube" href="#" className="inline-flex items-center justify-center rounded border border-white/20 p-2 hover:text-[#B1874C]">
                 <Youtube size={18} />
               </Link>
-              <Link aria-label="Facebook" href="#" className="inline-flex items-center justify-center rounded border border-white/20 p-2 hover:text-[#C9A66B]">
+              <Link aria-label="Facebook" href="#" className="inline-flex items-center justify-center rounded border border-white/20 p-2 hover:text-[#B1874C]">
                 <Facebook size={18} />
               </Link>
             </div>
 
             <h3 className="mb-3 font-semibold">Support</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link className="hover:text-[#C9A66B]" href="/faq">FAQ</Link></li>
-              <li><Link className="hover:text-[#C9A66B]" href="/shipping-returns">Shipping & Returns</Link></li>
-              <li><Link className="hover:text-[#C9A66B]" href="/contact">Contact Support</Link></li>
+              <li><Link className="hover:text-[#B1874C]" href="/faq">FAQ</Link></li>
+              <li><Link className="hover:text-[#B1874C]" href="/shipping-returns">Shipping & Returns</Link></li>
+              <li><Link className="hover:text-[#B1874C]" href="/contact">Contact Support</Link></li>
             </ul>
           </div>
         </div>

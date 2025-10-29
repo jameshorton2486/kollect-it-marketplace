@@ -333,8 +333,8 @@ Edit `src/app/kollect-it-styles.css`:
 
 ```css
 :root {
-  --color-gold: #C9A66B;      /* Your gold accent */
-  --color-primary: #322923;   /* Your navy/brown */
+   --color-gold: #B1874C;      /* Richer gold accent */
+   --color-primary: #2C2C2C;   /* Neutral dark for text/background */
   /* ... other colors ... */
 }
 ```

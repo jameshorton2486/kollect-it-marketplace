@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { checkAdminAuth } from '@/lib/auth-helpers';
 import { Prisma } from '@prisma/client';
+import { logger } from '@/lib/logger';
+import { getRequestId } from '@/lib/request-context';
+import { respondError } from '@/lib/api-error';
 
 // GET /api/products - Get all products
 // Lightweight in-memory rate limiter (per-instance). For multi-instance, use Redis.
@@ -75,17 +78,15 @@ export async function GET(request: NextRequest) {
     });
 
     const res = NextResponse.json(products);
+    res.headers.set('X-Request-ID', getRequestId(request));
     // Cache for 60s at the edge/CDN and allow stale while revalidate
     res.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
     res.headers.set('X-RateLimit-Limit', String(RATE_LIMIT_MAX));
     res.headers.set('X-RateLimit-Remaining', String(rl.remaining));
     return res;
   } catch (error) {
-    console.error('Error fetching products:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch products' },
-      { status: 500 }
-    );
+    logger.error('Error fetching products', { requestId: getRequestId(request) }, error);
+    return respondError(request, error, { status: 500, code: 'products_fetch_failed' });
   }
 }
 
@@ -150,12 +151,11 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(product, { status: 201 });
+    const res = NextResponse.json(product, { status: 201 });
+    res.headers.set('X-Request-ID', getRequestId(request));
+    return res;
   } catch (error) {
-    console.error('Error creating product:', error);
-    return NextResponse.json(
-      { error: 'Failed to create product' },
-      { status: 500 }
-    );
+    logger.error('Error creating product', { requestId: getRequestId(request) }, error);
+    return respondError(request, error, { status: 500, code: 'products_create_failed' });
   }
 }

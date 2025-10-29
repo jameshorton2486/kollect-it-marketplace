@@ -13,7 +13,7 @@ export default {
         // 1stdibs Luxury Palette
         white: '#FFFFFF',
         'off-white': '#F9F9F9',
-        cream: '#F2F1EE',
+  cream: '#F5F3F0',
         charcoal: '#1E1E1E',
         'muted-gold': '#C7A85E',
         'deep-navy': '#1C2233',
@@ -62,6 +62,12 @@ export default {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))'
         }
+      },
+      boxShadow: {
+        'elevation-sm': 'var(--shadow-sm)',
+        'elevation-md': 'var(--shadow-md)',
+        'elevation-lg': 'var(--shadow-lg)',
+        'focus': 'var(--shadow-focus)'
       },
       fontFamily: {
         serif: ['var(--font-serif)', 'Playfair Display', 'Georgia', 'serif'],

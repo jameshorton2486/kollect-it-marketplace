@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
               <!-- Header -->
               <div style="background-color: #2B2B2B; color: #FFFFFF; padding: 40px 30px; text-align: center;">
                 <h1 style="margin: 0; font-size: 28px; font-weight: 400; letter-spacing: 2px;">
-                  KOLLECT<span style="color: #C9A66B; padding: 0 4px;">•</span>IT
+                  KOLLECT<span style="color: #B1874C; padding: 0 4px;">•</span>IT
                 </h1>
               </div>
 
@@ -59,8 +59,8 @@ export async function POST(request: NextRequest) {
 
                 <!-- CTA Button -->
                 <div style="text-align: center; margin: 40px 0;">
-                  <a href="${process.env.NEXTAUTH_URL || 'https://kollect-it.com'}/downloads/collectors-guide-antique-books.pdf"
-                     style="display: inline-block; background-color: #C9A66B; color: #1F2A2E; padding: 16px 32px; text-decoration: none; font-weight: 600; border-radius: 12px; font-size: 16px; letter-spacing: 0.5px;">
+            <a href="${process.env.NEXTAUTH_URL || 'https://kollect-it.com'}/downloads/collectors-guide-antique-books.pdf"
+              style="display: inline-block; background-color: #B1874C; color: #1F2A2E; padding: 16px 32px; text-decoration: none; font-weight: 600; border-radius: 12px; font-size: 16px; letter-spacing: 0.5px;">
                     Download Your Guide
                   </a>
                 </div>

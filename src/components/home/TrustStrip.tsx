@@ -7,12 +7,12 @@ export default function TrustStrip() {
         <div>
           <Shield className="mx-auto mb-2 text-brand-gold" />
           <div className="font-semibold text-brand-navy">Authentication Guaranteed</div>
-          <p className="text-[14px] text-[var(--color-gray-dark)]">Expert-vetted items with documented provenance.</p>
+          <p className="text-[14px] text-[var(--color-gray-dark)]">Expert-vetted items with detailed and accurate descriptions.</p>
         </div>
         <div>
           <Package className="mx-auto mb-2 text-brand-gold" />
           <div className="font-semibold text-brand-navy">Secure Shipping</div>
-          <p className="text-[14px] text-[var(--color-gray-dark)]">Archival-grade packing and insured delivery.</p>
+          <p className="text-[14px] text-[var(--color-gray-dark)]">Expert packing and insured delivery.</p>
         </div>
         <div>
           <Award className="mx-auto mb-2 text-brand-gold" />

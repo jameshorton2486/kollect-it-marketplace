@@ -216,7 +216,7 @@ const container = {
 };
 
 const header = {
-  backgroundColor: '#322923',
+  backgroundColor: '#2C2C2C',
   padding: '30px 40px',
   textAlign: 'center' as const,
 };
@@ -235,7 +235,7 @@ const content = {
 };
 
 const h1 = {
-  color: '#322923',
+  color: '#2C2C2C',
   fontSize: '32px',
   fontWeight: '400',
   margin: '0 0 20px 0',
@@ -243,7 +243,7 @@ const h1 = {
 };
 
 const h2 = {
-  color: '#322923',
+  color: '#2C2C2C',
   fontSize: '22px',
   fontWeight: '500',
   margin: '20px 0 15px 0',
@@ -268,7 +268,7 @@ const orderBox = {
 const orderNumberStyle = {
   fontSize: '20px',
   fontWeight: '600',
-  color: '#322923',
+  color: '#2C2C2C',
   margin: '0',
   fontFamily: "'Courier New', monospace",
 };
@@ -286,7 +286,7 @@ const itemRow = {
 const itemTitle = {
   fontSize: '16px',
   fontWeight: '500',
-  color: '#322923',
+  color: '#2C2C2C',
   margin: '0 0 5px 0',
 };
 
@@ -299,7 +299,7 @@ const itemDetails = {
 const itemTotal = {
   fontSize: '16px',
   fontWeight: '600',
-  color: '#322923',
+  color: '#2C2C2C',
   margin: '5px 0 0 0',
   textAlign: 'right' as const,
 };
@@ -327,21 +327,21 @@ const totalLabel = {
 
 const totalValue = {
   fontSize: '15px',
-  color: '#322923',
+  color: '#2C2C2C',
   margin: '0',
 };
 
 const totalLabelFinal = {
   fontSize: '18px',
   fontWeight: '600',
-  color: '#322923',
+  color: '#2C2C2C',
   margin: '0',
 };
 
 const totalValueFinal = {
   fontSize: '18px',
   fontWeight: '600',
-  color: '#322923',
+  color: '#2C2C2C',
   margin: '0',
 };
 
@@ -358,7 +358,7 @@ const buttonContainer = {
 };
 
 const button = {
-  backgroundColor: '#C9A66B',
+  backgroundColor: '#B1874C',
   borderRadius: '4px',
   color: '#ffffff',
   fontSize: '16px',
@@ -383,6 +383,6 @@ const footerText = {
 };
 
 const footerLink = {
-  color: '#C9A66B',
+  color: '#B1874C',
   textDecoration: 'underline',
 };

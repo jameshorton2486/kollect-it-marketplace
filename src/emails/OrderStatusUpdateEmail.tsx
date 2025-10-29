@@ -203,7 +203,7 @@ const container = {
 };
 
 const header = {
-  backgroundColor: '#322923',
+  backgroundColor: '#2C2C2C',
   padding: '30px 40px',
   textAlign: 'center' as const,
 };
@@ -228,7 +228,7 @@ const emoji = {
 };
 
 const h1 = {
-  color: '#322923',
+  color: '#2C2C2C',
   fontSize: '32px',
   fontWeight: '400',
   margin: '0 0 20px 0',
@@ -236,7 +236,7 @@ const h1 = {
 };
 
 const h2 = {
-  color: '#322923',
+  color: '#2C2C2C',
   fontSize: '22px',
   fontWeight: '500',
   margin: '20px 0 15px 0',
@@ -262,7 +262,7 @@ const orderBox = {
 const orderNumberStyle = {
   fontSize: '20px',
   fontWeight: '600',
-  color: '#322923',
+  color: '#2C2C2C',
   margin: '0 0 10px 0',
   fontFamily: "'Courier New', monospace",
 };
@@ -291,7 +291,7 @@ const buttonContainer = {
 };
 
 const button = {
-  backgroundColor: '#C9A66B',
+  backgroundColor: '#B1874C',
   borderRadius: '4px',
   color: '#ffffff',
   fontSize: '16px',
@@ -316,6 +316,6 @@ const footerText = {
 };
 
 const footerLink = {
-  color: '#C9A66B',
+  color: '#B1874C',
   textDecoration: 'underline',
 };
