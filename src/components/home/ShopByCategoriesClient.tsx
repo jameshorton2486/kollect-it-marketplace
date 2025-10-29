@@ -38,7 +38,7 @@ export default function ShopByCategories() {
         <h2 className="text-4xl text-navy font-semibold mb-6">
           Shop by Category
         </h2>
-        <p className="text-ink-secondary mb-12">
+  <p className="text-ink-secondary mb-12">
           Explore diverse categories curated for collectors, designers, and
           historians alike.
         </p>

@@ -11,31 +11,38 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Semantic mappings to CSS variables (token system) - avoid clashing with existing primary/secondary
+        // Semantic mappings using HSL ramps defined in globals.css (collision-proof)
         ink: {
-          primary: 'var(--color-text-primary)',
-          secondary: 'var(--color-text-secondary)',
-          tertiary: 'var(--color-text-tertiary)'
+          DEFAULT: 'hsl(var(--ink-900))',
+          secondary: 'hsl(var(--ink-700))',
+          muted: 'hsl(var(--ink-500))',
+          inverted: 'hsl(var(--ink-inverted))',
         },
         gold: {
-          DEFAULT: 'var(--color-accent)',
-          light: 'var(--color-accent-light)',
-          dark: 'var(--color-accent-dark)'
+          DEFAULT: 'hsl(var(--gold-500))',
+          hover: 'hsl(var(--gold-600))',
+          subtle: 'hsl(var(--gold-200))',
         },
         surface: {
-          DEFAULT: 'var(--color-bg)',
-          alt: 'var(--color-bg-alt)',
-          elevated: 'var(--color-bg-elevated)'
+          DEFAULT: 'hsl(var(--surface-0))',
+          1: 'hsl(var(--surface-1))',
+          2: 'hsl(var(--surface-2))',
+          3: 'hsl(var(--surface-3))',
         },
         cta: {
-          DEFAULT: 'var(--color-cta)',
-          hover: 'var(--color-cta-hover)'
+          DEFAULT: 'hsl(var(--cta-500))',
+          hover: 'hsl(var(--cta-600))',
+          ring: 'hsl(var(--cta-400))',
         },
         link: {
-          DEFAULT: 'var(--color-link)',
-          hover: 'var(--color-link-hover)'
+          DEFAULT: 'hsl(var(--link-600))',
+          hover: 'hsl(var(--link-700))',
+          visited: 'hsl(var(--link-700))',
         },
-        'border-neutral': 'var(--color-border-token)',
+        'border-neutral': {
+          DEFAULT: 'hsl(var(--border-300))',
+          strong: 'hsl(var(--border-400))',
+        },
         // 1stdibs Luxury Palette
         white: '#FFFFFF',
         'off-white': '#F9F9F9',
