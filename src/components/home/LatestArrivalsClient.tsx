@@ -33,7 +33,7 @@ export default function LatestArrivals() {
         <h2 className="text-4xl text-navy font-semibold mb-6">
           Latest Arrivals
         </h2>
-        <p className="text-gray-600 mb-12">
+        <p className="text-ink-secondary mb-12">
           Newly added antiques and collectibles — authenticated, documented, and
           ready for your collection.
         </p>
@@ -46,7 +46,7 @@ export default function LatestArrivals() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group relative border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+              className="group relative border border-border-neutral rounded-2xl overflow-hidden shadow-elevation-sm hover:shadow-elevation-lg transition-all duration-300"
             >
               <Image
                 src={item.img}
@@ -65,14 +65,14 @@ export default function LatestArrivals() {
                 <h3 className="text-2xl text-navy mb-2">
                   {item.title}
                 </h3>
-                <p className="text-gray-600">{item.desc}</p>
+                <p className="text-ink-secondary">{item.desc}</p>
               </div>
             </motion.div>
           ))}
         </div>
 
         <motion.p
-          className="mt-12 text-gray-700 text-lg max-w-2xl mx-auto"
+          className="mt-12 text-ink-secondary text-lg max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

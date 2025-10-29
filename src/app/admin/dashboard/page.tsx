@@ -149,19 +149,19 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-surface-2">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-serif font-bold text-gray-900">
+              <h1 className="text-2xl font-serif font-bold text-ink">
                 Kollect-It Admin Dashboard
               </h1>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-ink-secondary mt-1">
                 Welcome back, {session.user.name || session.user.email}
               </p>
-              <p className="text-xs text-gray-500">{new Date().toLocaleString()}</p>
+              <p className="text-xs text-ink-muted">{new Date().toLocaleString()}</p>
             </div>
             <div className="flex gap-4">
               <button
@@ -172,7 +172,7 @@ export default function AdminDashboard() {
               </button>
               <button
                 onClick={() => window.open('/', '_blank')}
-                className="px-4 py-2 text-gray-700 hover:text-gray-900 transition"
+                className="px-4 py-2 text-ink-secondary hover:text-ink transition"
               >
                 View Site
               </button>
@@ -190,7 +190,7 @@ export default function AdminDashboard() {
       {/* Stats */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <StatCard icon={<Package className="text-gray-800" size={20} />} label="Total Products" value={products.length.toString()} />
+          <StatCard icon={<Package className="text-ink" size={20} />} label="Total Products" value={products.length.toString()} />
           <StatCard icon={<CheckCircle2 className="text-green-700" size={20} />} label="Active Products" value={products.filter((p) => p.status === 'active').length.toString()} highlight="green" />
           <StatCard icon={<ShoppingBag className="text-indigo-700" size={20} />} label="Total Orders" value={orders.length.toString()} />
           <StatCard icon={<DollarSign className="text-emerald-700" size={20} />} label="Revenue (This Month)" value={`$${monthlyRevenueStr}`} />
@@ -206,19 +206,19 @@ export default function AdminDashboard() {
           </button>
           <button
             onClick={() => router.push('/admin/orders')}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-border-neutral rounded-lg hover:bg-surface-2"
           >
             <ShoppingBag size={18} /> Manage Orders
           </button>
           <button
             onClick={() => router.push('/admin/customers')}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-border-neutral rounded-lg hover:bg-surface-2"
           >
             <Users size={18} /> View Customers
           </button>
           <button
             onClick={() => router.push('/admin/settings')}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-border-neutral rounded-lg hover:bg-surface-2"
           >
             <Settings size={18} /> Settings
           </button>
@@ -246,13 +246,13 @@ export default function AdminDashboard() {
                 value={searchQuery}
                 onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
                 placeholder="Search products..."
-                className="w-64 max-w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-64 max-w-full px-3 py-2 border border-border-neutral rounded-md focus:outline-none focus:ring-2 focus:ring-cta-ring focus:border-cta"
                 aria-label="Search products"
               />
               <select
                 value={statusFilter}
                 onChange={(e) => { setStatusFilter(e.target.value as typeof statusFilter); setPage(1); }}
-                className="px-3 py-2 border border-gray-300 rounded-md"
+                className="px-3 py-2 border border-border-neutral rounded-md"
                 aria-label="Filter by status"
               >
                 <option value="all">All Statuses</option>
@@ -264,31 +264,31 @@ export default function AdminDashboard() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-surface-2">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">
                     Product
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">
                     Category
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">
                     Price
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">
                     Date Added
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium text-ink-muted uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-               <tbody className="bg-white divide-y divide-gray-200">
+               <tbody className="bg-white divide-y divide-border-neutral">
                 {pagedProducts.map((product: Product) => (
-                  <tr key={product.id} className="hover:bg-gray-50">
+                  <tr key={product.id} className="hover:bg-surface-2">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         {product.images[0] && (
@@ -298,16 +298,16 @@ export default function AdminDashboard() {
                             className="w-12 h-12 rounded object-cover mr-3"
                           />
                         )}
-                        <div className="text-sm font-medium text-gray-900 max-w-md truncate">
+                        <div className="text-sm font-medium text-ink max-w-md truncate">
                           {product.title}
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm text-gray-900">{product.category.name}</span>
+                      <span className="text-sm text-ink">{product.category.name}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm font-semibold text-ink">
                         ${product.price.toLocaleString()}
                       </span>
                     </td>
@@ -324,7 +324,7 @@ export default function AdminDashboard() {
                         {product.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-ink-muted">
                       {new Date(product.createdAt).toLocaleDateString()}
                     </td>
                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -377,16 +377,16 @@ export default function AdminDashboard() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-surface-2">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order #</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Order #</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Customer</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Total</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border-neutral">
                 {orders.slice(0, 10).map((order: Order) => {
                   const statusClass =
                     order.status === 'delivered'
@@ -395,12 +395,12 @@ export default function AdminDashboard() {
                       ? 'bg-red-100 text-red-800'
                       : order.status === 'processing' || order.status === 'paid'
                       ? 'bg-amber-100 text-amber-900'
-                      : 'bg-gray-100 text-gray-800';
+                      : 'bg-surface-1 text-ink';
                   return (
-                    <tr key={order.id} className="hover:bg-gray-50">
+                    <tr key={order.id} className="hover:bg-surface-2">
                       <td className="px-6 py-4 whitespace-nowrap font-medium">{order.orderNumber}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{order.customerName || 'Guest'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(order.createdAt).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-ink-secondary">{order.customerName || 'Guest'}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-ink-muted">{new Date(order.createdAt).toLocaleDateString()}</td>
                       <td className="px-6 py-4 whitespace-nowrap font-semibold">${(order.total || 0).toLocaleString()}</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}`}>{order.status}</span>
@@ -418,10 +418,10 @@ export default function AdminDashboard() {
 }
 
 function StatCard({ icon, label, value, highlight }: { icon: React.ReactNode; label: string; value: string; highlight?: 'green' | 'blue' | 'amber' | 'purple' | 'emerald' }) {
-  const color = highlight === 'green' ? 'text-green-600' : highlight === 'blue' ? 'text-blue-600' : highlight === 'amber' ? 'text-amber-700' : highlight === 'emerald' ? 'text-emerald-700' : 'text-gray-900';
+  const color = highlight === 'green' ? 'text-green-600' : highlight === 'blue' ? 'text-blue-600' : highlight === 'amber' ? 'text-amber-700' : highlight === 'emerald' ? 'text-emerald-700' : 'text-ink';
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <div className="flex items-center gap-3 text-sm font-medium text-gray-600">{icon}<span>{label}</span></div>
+      <div className="flex items-center gap-3 text-sm font-medium text-ink-secondary">{icon}<span>{label}</span></div>
       <p className={`text-3xl font-bold mt-2 ${color}`}>{value}</p>
     </div>
   );
@@ -513,49 +513,49 @@ function ProductForm({
       <h3 className="text-lg font-semibold mb-4">Add New Product</h3>
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
         <div className="col-span-2">
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+          <label htmlFor="title" className="block text-sm font-medium text-ink-secondary mb-2">Title</label>
           <input
             type="text"
             id="title"
             required
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="w-full px-4 py-2 border border-border-neutral rounded-lg focus:ring-2 focus:ring-cta-ring focus:border-cta"
           />
         </div>
 
         <div className="col-span-2">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+          <label htmlFor="description" className="block text-sm font-medium text-ink-secondary mb-2">Description</label>
           <textarea
             id="description"
             required
             rows={3}
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="w-full px-4 py-2 border border-border-neutral rounded-lg focus:ring-2 focus:ring-cta-ring focus:border-cta"
           />
         </div>
 
         <div>
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">Price</label>
+          <label htmlFor="price" className="block text-sm font-medium text-ink-secondary mb-2">Price</label>
           <input
             type="number"
             id="price"
             required
             value={formData.price}
             onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="w-full px-4 py-2 border border-border-neutral rounded-lg focus:ring-2 focus:ring-cta-ring focus:border-cta"
           />
         </div>
 
         <div>
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+          <label htmlFor="category" className="block text-sm font-medium text-ink-secondary mb-2">Category</label>
           <select
             id="category"
             required
             value={formData.categoryId}
             onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="w-full px-4 py-2 border border-border-neutral rounded-lg focus:ring-2 focus:ring-cta-ring focus:border-cta"
           >
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
@@ -566,12 +566,12 @@ function ProductForm({
         </div>
 
         <div>
-          <label htmlFor="condition" className="block text-sm font-medium text-gray-700 mb-2">Condition</label>
+          <label htmlFor="condition" className="block text-sm font-medium text-ink-secondary mb-2">Condition</label>
           <select
             id="condition"
             value={formData.condition}
             onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="w-full px-4 py-2 border border-border-neutral rounded-lg focus:ring-2 focus:ring-cta-ring focus:border-cta"
           >
             <option>Fine</option>
             <option>Very Good</option>
@@ -581,55 +581,55 @@ function ProductForm({
         </div>
 
         <div>
-          <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">Year</label>
+          <label htmlFor="year" className="block text-sm font-medium text-ink-secondary mb-2">Year</label>
           <input
             type="text"
             id="year"
             value={formData.year}
             onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="w-full px-4 py-2 border border-border-neutral rounded-lg focus:ring-2 focus:ring-cta-ring focus:border-cta"
             placeholder="e.g., 1920, c. 1850, 19th Century"
           />
         </div>
 
         <div>
-          <label htmlFor="artist" className="block text-sm font-medium text-gray-700 mb-2">Artist/Maker</label>
+          <label htmlFor="artist" className="block text-sm font-medium text-ink-secondary mb-2">Artist/Maker</label>
           <input
             type="text"
             id="artist"
             value={formData.artist}
             onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="w-full px-4 py-2 border border-border-neutral rounded-lg focus:ring-2 focus:ring-cta-ring focus:border-cta"
             placeholder="e.g., John Smith, Unknown"
           />
         </div>
 
         <div>
-          <label htmlFor="medium" className="block text-sm font-medium text-gray-700 mb-2">Medium/Material</label>
+          <label htmlFor="medium" className="block text-sm font-medium text-ink-secondary mb-2">Medium/Material</label>
           <input
             type="text"
             id="medium"
             value={formData.medium}
             onChange={(e) => setFormData({ ...formData, medium: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="w-full px-4 py-2 border border-border-neutral rounded-lg focus:ring-2 focus:ring-cta-ring focus:border-cta"
             placeholder="e.g., Oil on Canvas, Sterling Silver"
           />
         </div>
 
         <div>
-          <label htmlFor="period" className="block text-sm font-medium text-gray-700 mb-2">Period/Era</label>
+          <label htmlFor="period" className="block text-sm font-medium text-ink-secondary mb-2">Period/Era</label>
           <input
             type="text"
             id="period"
             value={formData.period}
             onChange={(e) => setFormData({ ...formData, period: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="w-full px-4 py-2 border border-border-neutral rounded-lg focus:ring-2 focus:ring-cta-ring focus:border-cta"
             placeholder="e.g., Victorian, Art Deco, WWII"
           />
         </div>
 
         <div className="col-span-2" role="group" aria-labelledby="product-images-label">
-          <div id="product-images-label" className="block text-sm font-medium text-gray-700 mb-2">
+          <div id="product-images-label" className="block text-sm font-medium text-ink-secondary mb-2">
             Product Images
           </div>
           <ImageUpload images={images} onChange={setImages} maxImages={8} />
@@ -641,9 +641,9 @@ function ProductForm({
             id="featured"
             checked={formData.featured}
             onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-            className="w-4 h-4 text-amber-600 border-gray-300 rounded focus:ring-amber-500"
+            className="w-4 h-4 text-amber-600 border-border-neutral rounded focus:ring-cta-ring"
           />
-          <label htmlFor="featured" className="ml-2 text-sm text-gray-700">
+          <label htmlFor="featured" className="ml-2 text-sm text-ink-secondary">
             Feature this product on homepage
           </label>
         </div>
@@ -659,7 +659,7 @@ function ProductForm({
           <button
             type="button"
             onClick={onCancel}
-            className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+            className="px-6 py-2 bg-surface-2 text-ink-secondary rounded-lg hover:bg-surface-3 transition"
           >
             Cancel
           </button>

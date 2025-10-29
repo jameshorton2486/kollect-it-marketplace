@@ -8,7 +8,7 @@ export default function Hero() {
         <h1 className="text-5xl md:text-6xl font-semibold text-navy mb-6">
           Crafted. Curated. Collected.
         </h1>
-        <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto mb-10">
+        <p className="text-lg md:text-xl text-ink-secondary leading-relaxed max-w-3xl mx-auto mb-10">
           Kollect-It offers inspiring antiques and collectibles for modern collectors who insist on quality, authenticity and character.
         </p>
         <Link

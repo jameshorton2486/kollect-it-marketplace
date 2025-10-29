@@ -21,11 +21,11 @@ export default function AdminCustomersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-surface-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-2xl font-serif font-bold text-gray-900 mb-2">Customers</h1>
-        <p className="text-sm text-gray-600 mb-6">This section will allow viewing and managing customers. Coming soon.</p>
-        <div className="rounded-lg border border-gray-200 bg-white p-6 text-gray-600">
+        <h1 className="text-2xl font-serif font-bold text-ink mb-2">Customers</h1>
+        <p className="text-sm text-ink-secondary mb-6">This section will allow viewing and managing customers. Coming soon.</p>
+        <div className="rounded-lg border border-border-neutral bg-white p-6 text-ink-secondary">
           Placeholder: customer list, search, and details will appear here.
         </div>
       </div>
