@@ -30,6 +30,19 @@ const eslintConfig = [
       "jsx-a11y/no-redundant-roles": "warn",
     },
   },
+  // Prevent regressions: tailwind config should use ESM imports (no require())
+  {
+    files: ["tailwind.config.ts", "tailwind.config.js"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "CallExpression[callee.name='require']",
+          message: "Use ESM import in Tailwind config (e.g., import animate from 'tailwindcss-animate')",
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

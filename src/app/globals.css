@@ -8,6 +8,36 @@
 
 @layer base {
   :root {
+    /* HSL token ramp for Tailwind semantic mapping */
+    /* Ink (text) */
+    --ink-900: 0 0% 17%;   /* #2C2C2C */
+    --ink-700: 0 0% 35%;   /* #5A5A5A */
+    --ink-500: 0 0% 55%;   /* #8C8C8C */
+    --ink-inverted: 0 0% 100%; /* #FFFFFF */
+
+    /* Gold (brand accent) */
+    --gold-500: 36 41% 50%; /* ~#B1874C */
+    --gold-600: 36 41% 39%; /* ~#8B6937 */
+    --gold-200: 36 35% 80%; /* lighter subtle */
+
+    /* Surface (backgrounds) */
+    --surface-0: 0 0% 100%;    /* #FFFFFF */
+    --surface-1: 30 20% 96%;   /* ~#F5F3F0 */
+    --surface-2: 60 5% 98%;    /* ~#FAFAF9 */
+    --surface-3: 30 15% 94%;   /* subtle tinted */
+
+    /* CTA (deep navy) */
+    --cta-500: 212 52% 25%; /* ~#1E3A5F */
+    --cta-600: 212 52% 21%; /* darker hover */
+    --cta-400: 212 52% 35%; /* ring */
+
+    /* Link */
+    --link-600: 212 28% 49%; /* ~#5C7BA0 */
+    --link-700: 212 28% 43%; /* ~#4B688E */
+
+    /* Borders */
+    --border-300: 36 9% 86%;  /* ~#E0DDD9 */
+    --border-400: 36 12% 80%; /* stronger */
     /* Design Tokens: Neutrals & Text */
     --color-text-primary: #2C2C2C; /* Readable charcoal */
     --color-text-secondary: #5A5A5A; /* De-emphasized */
@@ -263,5 +293,11 @@
     border-color: var(--color-cta-hover);
     color: #FFFFFF;
     transform: translateY(-2px);
+  }
+
+  /* Focus ring utility matching CTA color */
+  .focus-ring-cta:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
   }
 }

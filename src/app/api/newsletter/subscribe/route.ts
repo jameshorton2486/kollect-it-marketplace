@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resendClient: Resend | null = null;
+function getResend() {
+  if (!resendClient && process.env.RESEND_API_KEY) {
+    resendClient = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resendClient;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,6 +18,13 @@ export async function POST(request: NextRequest) {
         { error: 'Email is required' },
         { status: 400 }
       );
+    }
+
+    const resend = getResend();
+    if (!resend) {
+      // In dev or when key missing, skip send but report success to avoid user-facing failure
+      console.warn('[newsletter] RESEND_API_KEY not set; skipping email send');
+      return NextResponse.json({ success: true, skipped: true });
     }
 
     // Send welcome email with PDF link
