@@ -31,8 +31,38 @@ const archivoBlack = Archivo_Black({
 });
 
 export const metadata: Metadata = {
-  title: "Kollect-It - Curated Antiques & Collectibles",
-  description: "Authenticated art pieces, rare books, collectibles, and historical artifacts for discerning collectors.",
+  title: {
+    default: "Kollect-It – Curated Antiques & Collectibles",
+    template: "%s – Kollect-It",
+  },
+  description:
+    "Authenticated art, antique books, collectibles, and militaria—curated with provenance for discerning collectors.",
+  metadataBase: new URL('https://kollect-it.com'),
+  openGraph: {
+    type: 'website',
+    siteName: 'Kollect-It',
+    title: 'Kollect-It – Curated Antiques & Collectibles',
+    description:
+      'Explore authenticated fine art, rare books, collectibles, and militaria with trusted provenance.',
+    url: 'https://kollect-it.com',
+    images: [
+      {
+        url: '/og-default.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Kollect-It marketplace',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@kollect_it',
+    creator: '@kollect_it',
+    title: 'Kollect-It – Curated Antiques & Collectibles',
+    description:
+      'Explore authenticated fine art, rare books, collectibles, and militaria with trusted provenance.',
+    images: ['/og-default.jpg'],
+  },
   icons: {
     icon: '/favicon.svg',
   },

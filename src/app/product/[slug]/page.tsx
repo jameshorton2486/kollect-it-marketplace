@@ -2,11 +2,12 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import ImageGallery from '@/components/product/ImageGallery';
-import ProductInfo from '@/components/product/ProductInfo';
-import ProductTabs from '@/components/product/ProductTabs';
-import RelatedProducts from '@/components/product/RelatedProducts';
-import StickyCartBar from '@/components/product/StickyCartBar';
+import dynamic from 'next/dynamic';
+const ImageGallery = dynamic(() => import('@/components/product/ImageGallery'));
+const ProductInfo = dynamic(() => import('@/components/product/ProductInfo'));
+const ProductTabs = dynamic(() => import('@/components/product/ProductTabs'));
+const RelatedProducts = dynamic(() => import('@/components/product/RelatedProducts'));
+const StickyCartBar = dynamic(() => import('@/components/product/StickyCartBar'), { ssr: false });
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -41,7 +42,7 @@ async function getProductBySlug(slug: string) {
       },
       category: true,
     },
-    take: 4,
+  take: 6,
     orderBy: {
       createdAt: 'desc',
     },

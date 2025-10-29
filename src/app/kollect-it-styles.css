@@ -403,6 +403,14 @@
   margin-bottom: 1rem;
 }
 
+/* About page hero background helper */
+.bg-about-hero {
+  background-image: url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&q=80');
+  filter: grayscale(100%) brightness(0.5);
+  background-size: cover;
+  background-position: center;
+}
+
 .newsletter-title {
   font-family: var(--font-serif);
   font-size: clamp(2rem, 4vw, 3rem);

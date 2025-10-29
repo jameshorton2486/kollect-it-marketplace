@@ -66,6 +66,8 @@ model Product {
   @@index([categoryId])
   @@index([createdAt])
   @@index([featured])
+  @@index([title])
+  @@index([status, createdAt])
 }
 
 model Image {

@@ -80,7 +80,7 @@ export default async function AboutPage() {
           </button>
 
           <div className="logo">
-            <Link href="/" style={{ textDecoration: 'none' }}>
+            <Link href="/" className="no-underline">
               <span className="header-logo">
                 KOLLECT — IT
               </span>
@@ -112,80 +112,30 @@ export default async function AboutPage() {
 
       {/* Hero Section - Gallery Quality */}
       <section
-        className="parallax-hero"
-        style={{
-          minHeight: '65vh',
-          display: 'flex',
-          alignItems: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6))'
-        }}
+        className="parallax-hero min-h-[65vh] flex items-center relative overflow-hidden bg-gradient-to-b from-black/40 to-black/60"
       >
         <div
-          className="parallax-bg"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&q=80)',
-            filter: 'grayscale(100%) brightness(0.5)',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 0
-          }}
+          className="parallax-bg bg-about-hero absolute inset-0 z-0"
           data-parallax
         />
         <div
-          className="container"
-          style={{
-            position: 'relative',
-            zIndex: 10,
-            textAlign: 'center',
-            color: 'var(--color-white)',
-            maxWidth: '900px',
-            padding: '120px 2rem'
-          }}
+          className="container relative z-10 text-center text-white max-w-[900px] py-[120px] px-8"
         >
           <p
             className="section-subtitle"
-            style={{
-              color: 'var(--color-gold)',
-              fontSize: '12px',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              marginBottom: '1rem',
-              fontWeight: 400,
-              fontFamily: 'var(--font-sans)'
-            }}
             data-reveal
           >
             ABOUT KOLLECT-IT
           </p>
           <h1
-            style={{
-              color: 'var(--color-white)',
-              marginBottom: '2rem',
-              fontSize: 'clamp(42px, 5vw, 56px)',
-              fontWeight: 400,
-              lineHeight: 1.2,
-              fontFamily: 'var(--font-serif)'
-            }}
+            className="text-white mb-8 text-[clamp(42px,5vw,56px)] font-normal leading-[1.2] font-serif"
             data-reveal
             data-reveal-delay="100"
           >
             Curated Antiques & Collectibles
           </h1>
           <p
-            style={{
-              fontSize: '18px',
-              lineHeight: '1.8',
-              color: 'rgba(255,255,255,0.95)',
-              maxWidth: '800px',
-              margin: '0 auto',
-              fontWeight: 300,
-              fontFamily: 'var(--font-sans)'
-            }}
+            className="text-[18px] leading-[1.8] text-white/95 max-w-[800px] mx-auto font-light"
             data-reveal
             data-reveal-delay="200"
           >
@@ -195,37 +145,28 @@ export default async function AboutPage() {
       </section>
 
       {/* Philosophy Section */}
-      <section style={{ padding: '100px 2rem', background: 'var(--color-white)' }}>
-        <div className="container" style={{ maxWidth: '900px', margin: '0 auto' }}>
+      <section className="py-[100px] px-8 bg-white">
+        <div className="container max-w-[900px] mx-auto">
           <h2
-            style={{
-              textAlign: 'center',
-              marginBottom: '2rem',
-              fontSize: '12px',
-              letterSpacing: '0.2em',
-              color: 'var(--color-gold)',
-              textTransform: 'uppercase',
-              fontWeight: 400,
-              fontFamily: 'var(--font-sans)'
-            }}
+            className="text-center mb-8 text-[12px] tracking-[0.2em] text-[var(--color-gold)] uppercase font-normal"
           >
             OUR PHILOSOPHY
           </h2>
 
-          <div style={{ marginBottom: '1.5rem' }}>
-            <p style={{ fontSize: '18px', lineHeight: '1.8', color: 'var(--color-navy)', textAlign: 'center', fontFamily: 'var(--font-sans)' }}>
+          <div className="mb-6">
+            <p className="text-[18px] leading-[1.8] text-[var(--color-navy)] text-center">
               We believe that collecting should be an informed pursuit—one that values provenance, condition, and authenticity above all else. Our mission is to connect discerning collectors with pieces that tell stories and stand the test of time.
             </p>
           </div>
 
-          <div style={{ marginBottom: '1.5rem' }}>
-            <p style={{ fontSize: '18px', lineHeight: '1.8', color: 'var(--color-navy)', textAlign: 'center', fontFamily: 'var(--font-sans)' }}>
+          <div className="mb-6">
+            <p className="text-[18px] leading-[1.8] text-[var(--color-navy)] text-center">
               Each item is carefully researched, expertly photographed, and transparently described to give you complete confidence in your acquisition. We maintain relationships with specialists, historians, and appraisers to ensure every piece meets our rigorous standards.
             </p>
           </div>
 
           <div>
-            <p style={{ fontSize: '18px', lineHeight: '1.8', color: 'var(--color-navy)', textAlign: 'center', fontFamily: 'var(--font-sans)' }}>
+            <p className="text-[18px] leading-[1.8] text-[var(--color-navy)] text-center">
               From rare books and fine art to collectibles and militaria, our collection represents decades of expertise in identifying and curating items of exceptional quality and historical significance.
             </p>
           </div>
@@ -233,57 +174,31 @@ export default async function AboutPage() {
       </section>
 
       {/* Gallery Image 1 */}
-      <section style={{ padding: '0', marginBottom: '100px' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <section className="p-0 mb-[100px]">
+        <div className="max-w-[1400px] mx-auto">
           <img
             src="https://c8.alamy.com/comp/TRNXR3/collectibles-and-antiques-on-display-in-the-historic-gaskill-brothers-stone-store-and-museum-in-campo-california-TRNXR3.jpg"
             alt="Curated Collectibles Display"
-            style={{
-              width: '100%',
-              height: 'auto',
-              aspectRatio: '16/9',
-              objectFit: 'cover'
-            }}
+            className="w-full h-auto object-cover aspect-[16/9]"
           />
         </div>
       </section>
 
       {/* Expertise Section */}
-      <section style={{ padding: '100px 2rem', background: '#FAFAF8' }}>
-        <div className="container" style={{ maxWidth: '700px', textAlign: 'center', margin: '0 auto' }}>
+      <section className="py-[100px] px-8 bg-[#FAFAF8]">
+        <div className="container max-w-[700px] text-center mx-auto">
           <p
-            style={{
-              fontSize: '12px',
-              letterSpacing: '0.2em',
-              color: 'var(--color-gold)',
-              textTransform: 'uppercase',
-              marginBottom: '1.5rem',
-              fontWeight: 400,
-              fontFamily: 'var(--font-sans)'
-            }}
+            className="text-[12px] tracking-[0.2em] text-[var(--color-gold)] uppercase mb-6 font-normal"
           >
             EXPERTISE
           </p>
           <h2
-            style={{
-              marginBottom: '1.5rem',
-              fontSize: 'clamp(32px, 4vw, 36px)',
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 400,
-              lineHeight: 1.3,
-              color: 'var(--color-navy)'
-            }}
+            className="mb-6 text-[clamp(32px,4vw,36px)] font-serif font-normal leading-[1.3] text-[var(--color-navy)]"
           >
             Authenticated by Specialists
           </h2>
           <p
-            style={{
-              fontSize: '16px',
-              lineHeight: '1.8',
-              color: 'var(--color-navy)',
-              marginBottom: '3rem',
-              fontFamily: 'var(--font-sans)'
-            }}
+            className="text-[16px] leading-[1.8] text-[var(--color-navy)] mb-12"
           >
             Our team includes historians, appraisers, and category specialists who verify authenticity and document provenance for every item we offer.
           </p>
@@ -291,88 +206,45 @@ export default async function AboutPage() {
           <svg className="signature-svg" viewBox="0 0 200 60">
             <path d="M 10 40 Q 30 10, 50 30 T 90 30 Q 110 10, 130 40 T 170 30 L 190 35" />
           </svg>
-          <p style={{ fontSize: '16px', color: 'var(--color-gold)', marginTop: '1rem', fontStyle: 'italic', fontFamily: 'var(--font-sans)' }}>
+          <p className="text-[16px] text-[var(--color-gold)] mt-4 italic">
             — The Kollect-It Team
           </p>
         </div>
       </section>
 
       {/* Gallery Image 2 */}
-      <section style={{ padding: '0', marginBottom: '100px' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <section className="p-0 mb-[100px]">
+        <div className="max-w-[1400px] mx-auto">
           <img
             src="https://images.squarespace-cdn.com/content/v1/5fa1332a8b3f520c382b9816/080eb5c5-a933-4d73-be16-52c8efc0fc57/IMG_7691.jpg"
             alt="Museum Display Furniture"
-            style={{
-              width: '100%',
-              height: 'auto',
-              aspectRatio: '16/9',
-              objectFit: 'cover'
-            }}
+            className="w-full h-auto object-cover aspect-[16/9]"
           />
         </div>
       </section>
 
       {/* Categories Section */}
-      <section style={{ padding: '100px 2rem', backgroundColor: '#FAFAF8', textAlign: 'center' }}>
-        <div className="container" style={{ maxWidth: '900px', margin: '0 auto' }}>
+      <section className="py-[100px] px-8 bg-[#FAFAF8] text-center">
+        <div className="container max-w-[900px] mx-auto">
           <p
-            style={{
-              fontSize: '12px',
-              letterSpacing: '0.2em',
-              color: 'var(--color-gold)',
-              textTransform: 'uppercase',
-              marginBottom: '1rem',
-              fontWeight: 400,
-              fontFamily: 'var(--font-sans)'
-            }}
+            className="text-[12px] tracking-[0.2em] text-[var(--color-gold)] uppercase mb-4 font-normal"
           >
             CATEGORIES
           </p>
-          <h2 style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(36px, 4vw, 48px)',
-            fontWeight: 400,
-            marginBottom: '4rem',
-            lineHeight: '1.3',
-            color: 'var(--color-navy)'
-          }}>
+          <h2 className="font-serif text-[clamp(36px,4vw,48px)] font-normal mb-16 leading-[1.3] text-[var(--color-navy)]">
             What We Collect
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '3rem',
-            textAlign: 'left'
-          }}>
+          <div className="grid [grid-template-columns:repeat(auto-fit,minmax(300px,1fr))] gap-12 text-left">
             {categories.map((category) => (
               <div key={category.id}>
                 <Link
                   href={`/category/${category.slug}`}
-                  style={{
-                    fontSize: '18px',
-                    fontWeight: 500,
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    color: 'var(--color-navy)',
-                    display: 'block',
-                    marginBottom: '0.75rem',
-                    transition: 'color 0.3s ease',
-                    fontFamily: 'var(--font-serif)',
-                    textDecoration: 'none'
-                  }}
-                  className="category-link"
+                  className="category-link no-underline text-[18px] font-medium tracking-[0.05em] uppercase text-[var(--color-navy)] block mb-3 font-serif hover:text-[var(--color-muted-gold)] transition-colors"
                 >
                   {category.name}
                 </Link>
-                <p style={{
-                  fontSize: '16px',
-                  lineHeight: '1.8',
-                  color: 'rgba(50, 41, 35, 0.9)',
-                  fontWeight: 300,
-                  fontFamily: 'var(--font-sans)'
-                }}>
+                <p className="text-[16px] leading-[1.8] text-[rgba(50,41,35,0.9)] font-light">
                   {category.description}
                 </p>
               </div>
@@ -382,52 +254,17 @@ export default async function AboutPage() {
       </section>
 
       {/* Call to Action */}
-      <section style={{
-        padding: '100px 2rem',
-        backgroundColor: 'var(--color-navy)',
-        color: 'var(--color-white)',
-        textAlign: 'center'
-      }}>
-        <div className="container" style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(36px, 4vw, 42px)',
-            fontWeight: 400,
-            marginBottom: '1rem',
-            lineHeight: '1.3',
-            color: 'var(--color-white)'
-          }}>
+      <section className="py-[100px] px-8 bg-[var(--color-navy)] text-white text-center">
+        <div className="container max-w-[700px] mx-auto">
+          <h2 className="font-serif text-[clamp(36px,4vw,42px)] font-normal mb-4 leading-[1.3] text-white">
             Begin Your Collection
           </h2>
-          <p style={{
-            fontSize: '18px',
-            lineHeight: '1.8',
-            color: 'rgba(255,255,255,0.9)',
-            fontWeight: 300,
-            marginBottom: '2rem',
-            fontFamily: 'var(--font-sans)'
-          }}>
+          <p className="text-[18px] leading-[1.8] text-white/90 font-light mb-8">
             Explore our curated selection of authenticated antiques and collectibles.
           </p>
           <Link
             href="/"
-            className="about-cta-button"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '16px 40px',
-              border: '2px solid var(--color-gold)',
-              background: 'transparent',
-              color: 'var(--color-gold)',
-              fontSize: '14px',
-              fontWeight: 500,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              transition: 'all 0.3s ease',
-              borderRadius: '2px',
-              textDecoration: 'none'
-            }}
+            className="about-cta-button inline-flex items-center justify-center px-10 py-4 border-2 border-[var(--color-gold)] text-[var(--color-gold)] text-[14px] font-medium tracking-[0.1em] uppercase rounded-[2px] no-underline transition-colors hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
           >
             BROWSE COLLECTION
           </Link>
@@ -440,7 +277,7 @@ export default async function AboutPage() {
           <div className="footer-grid">
             <div className="footer-col">
               <div className="footer-brand">
-                <Link href="/" style={{ textDecoration: 'none' }}>
+                <Link href="/" className="no-underline">
                   <span className="footer-logo-refined">
                     KOLLECT — IT
                   </span>

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0 --turbopack",
     "build": "bunx prisma generate && next build",
+    "analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "bunx tsc --noEmit && next lint",
     "format": "bunx biome format --write",
@@ -48,6 +49,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^15.0.0",
     "@biomejs/biome": "1.9.4",
     "@eslint/eslintrc": "^3.3.1",
     "@playwright/test": "^1.56.1",

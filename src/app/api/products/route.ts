@@ -4,13 +4,49 @@ import { checkAdminAuth } from '@/lib/auth-helpers';
 import { Prisma } from '@prisma/client';
 
 // GET /api/products - Get all products
+// Lightweight in-memory rate limiter (per-instance). For multi-instance, use Redis.
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
+const RATE_LIMIT_MAX = 60; // 60 req/min per ip
+const ipHits = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string) {
+  const now = Date.now();
+  const rec = ipHits.get(ip);
+  if (!rec || rec.resetAt < now) {
+    ipHits.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return { limited: false, remaining: RATE_LIMIT_MAX - 1, reset: RATE_LIMIT_WINDOW_MS };
+  }
+  if (rec.count >= RATE_LIMIT_MAX) {
+    return { limited: true, remaining: 0, reset: rec.resetAt - now };
+  }
+  rec.count += 1;
+  return { limited: false, remaining: RATE_LIMIT_MAX - rec.count, reset: rec.resetAt - now };
+}
+
 export async function GET(request: NextRequest) {
   try {
+    // Rate limit by IP (best-effort). Use proxy headers in route handlers.
+    const xfwd = request.headers.get('x-forwarded-for') || '';
+    const realIp = request.headers.get('x-real-ip') || '';
+    const ip = (xfwd.split(',')[0]?.trim() || realIp || 'anonymous');
+    const rl = isRateLimited(ip);
+    if (rl.limited) {
+      return new NextResponse(JSON.stringify({ error: 'Too many requests' }), {
+        status: 429,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-RateLimit-Limit': String(RATE_LIMIT_MAX),
+          'X-RateLimit-Remaining': String(rl.remaining),
+          'Retry-After': Math.ceil(rl.reset / 1000).toString(),
+        },
+      });
+    }
+
     const searchParams = request.nextUrl.searchParams;
-  const category = searchParams.get('category');
-    const limit = searchParams.get('limit');
+    const category = searchParams.get('category') ?? undefined;
+    const limitStr = searchParams.get('limit');
     const featured = searchParams.get('featured');
-  const q = searchParams.get('q');
+    const q = searchParams.get('q') ?? undefined;
 
     const where: Prisma.ProductWhereInput = {
       status: 'active',
@@ -19,30 +55,31 @@ export async function GET(request: NextRequest) {
     if (category) {
       where.category = { slug: category };
     }
-
     if (featured === 'true') {
       where.featured = true;
     }
-
     if (q) {
       where.title = { contains: q, mode: 'insensitive' };
     }
 
+    const take = limitStr ? parseInt(limitStr, 10) : undefined;
+
     const products = await prisma.product.findMany({
       where,
       include: {
-        images: {
-          orderBy: { order: 'asc' },
-        },
+        images: { orderBy: { order: 'asc' } },
         category: true,
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      take: limit ? parseInt(limit) : undefined,
+      orderBy: { createdAt: 'desc' },
+      take,
     });
 
-    return NextResponse.json(products);
+    const res = NextResponse.json(products);
+    // Cache for 60s at the edge/CDN and allow stale while revalidate
+    res.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    res.headers.set('X-RateLimit-Limit', String(RATE_LIMIT_MAX));
+    res.headers.set('X-RateLimit-Remaining', String(rl.remaining));
+    return res;
   } catch (error) {
     console.error('Error fetching products:', error);
     return NextResponse.json(
