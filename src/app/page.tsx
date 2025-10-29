@@ -1,6 +1,12 @@
 import Hero from "@/components/home/hero";
 import LatestArrivals from "@/components/home/LatestArrivalsClient";
 import ShopByCategories from "@/components/home/ShopByCategoriesClient";
+import Header from "@/components/Header";
+import TrustStrip from "@/components/home/TrustStrip";
+import FeaturedCollection from "@/components/home/FeaturedCollection";
+import Testimonials from "@/components/home/Testimonials";
+import ProcessOverview from "@/components/home/ProcessOverview";
+import FooterExtended from "@/components/FooterExtended";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -49,9 +55,15 @@ export default function HomePage() {
           ],
         }) }}
       />
+      <Header />
       <Hero />
+      <TrustStrip />
       <LatestArrivals />
+      <FeaturedCollection />
       <ShopByCategories />
+      <Testimonials />
+      <ProcessOverview />
+      <FooterExtended />
     </main>
   );
 }

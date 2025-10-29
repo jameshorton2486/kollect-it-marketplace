@@ -3,11 +3,11 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import dynamic from 'next/dynamic';
+import ClientProductLayout from '@/components/product/ClientProductLayout';
 const ImageGallery = dynamic(() => import('@/components/product/ImageGallery'));
 const ProductInfo = dynamic(() => import('@/components/product/ProductInfo'));
 const ProductTabs = dynamic(() => import('@/components/product/ProductTabs'));
 const RelatedProducts = dynamic(() => import('@/components/product/RelatedProducts'));
-const StickyCartBar = dynamic(() => import('@/components/product/StickyCartBar'), { ssr: false });
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -201,8 +201,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <RelatedProducts products={relatedProducts} categoryName={product.category.name} />
         )}
 
-        {/* Sticky Cart Bar - Mobile Only */}
-        <StickyCartBar product={product} />
+        {/* Client-only sticky cart bar via wrapper */}
+        <ClientProductLayout product={{ title: product.title, price: product.price }}>
+          {/* no additional client-only content here; StickyCartBar is injected within the wrapper */}
+        </ClientProductLayout>
       </div>
     </>
   );

@@ -183,7 +183,9 @@ export default function Header({ categories = [] }: HeaderProps) {
             ) : (
               <Link href="/shop" className="hover:text-[var(--color-muted-gold)]">Shop</Link>
             )}
-            <Link href="/about" className="hover:text-[var(--color-muted-gold)]">About</Link>
+            <Link href="/shop?sort=new" className="hover:text-[var(--color-muted-gold)]">Latest Arrivals</Link>
+            <Link href="/authentication" className="hover:text-[var(--color-muted-gold)]">Authentication Services</Link>
+            <Link href="/about" className="hover:text-[var(--color-muted-gold)]">About Us</Link>
             <Link href="/contact" className="hover:text-[var(--color-muted-gold)]">Contact</Link>
           </nav>
 
@@ -301,7 +303,9 @@ export default function Header({ categories = [] }: HeaderProps) {
                 </div>
               </div>
               <div className="pt-2">
-                <Link href="/about" className="block px-2 py-2 rounded hover:bg-cream" onClick={() => setMobileOpen(false)}>About</Link>
+                <Link href="/shop?sort=new" className="block px-2 py-2 rounded hover:bg-cream" onClick={() => setMobileOpen(false)}>Latest Arrivals</Link>
+                <Link href="/authentication" className="block px-2 py-2 rounded hover:bg-cream" onClick={() => setMobileOpen(false)}>Authentication Services</Link>
+                <Link href="/about" className="block px-2 py-2 rounded hover:bg-cream" onClick={() => setMobileOpen(false)}>About Us</Link>
                 <Link href="/contact" className="block px-2 py-2 rounded hover:bg-cream" onClick={() => setMobileOpen(false)}>Contact</Link>
               </div>
               <div className="pt-2 border-t border-[var(--color-gray-light)] mt-2">
