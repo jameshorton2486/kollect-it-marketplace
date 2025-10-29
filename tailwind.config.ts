@@ -140,6 +140,21 @@ export default {
       transitionTimingFunction: {
         'luxury': 'cubic-bezier(0.4, 0, 0.2, 1)',
       },
+      fontSize: {
+        xs: ['0.75rem', { lineHeight: '1.5' }],
+        sm: ['0.875rem', { lineHeight: '1.5' }],
+        base: ['1rem', { lineHeight: '1.75' }],
+        lg: ['1.125rem', { lineHeight: '1.75' }],
+        xl: ['1.25rem', { lineHeight: '1.5' }],
+        '2xl': ['1.5rem', { lineHeight: '1.25' }],
+        '3xl': ['1.875rem', { lineHeight: '1.25' }],
+        '4xl': ['2.25rem', { lineHeight: '1.25' }],
+      },
+      // Additional radii independent of shadcn radius var
+      borderRadiusScale: {
+        xl: '1rem',
+        '2xl': '1.25rem',
+      },
     }
   },
   plugins: [animate],
