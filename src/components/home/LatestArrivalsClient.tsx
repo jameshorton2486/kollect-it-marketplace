@@ -46,7 +46,7 @@ export default function LatestArrivals() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+              className="group relative border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
             >
               <Image
                 src={item.img}
@@ -55,6 +55,12 @@ export default function LatestArrivals() {
                 height={400}
                 className="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-500"
               />
+              {/* Hover overlay CTA */}
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover:bg-black/20 group-hover:opacity-100">
+                <span className="pointer-events-auto inline-block rounded border-2 border-brand-gold px-4 py-2 text-[12px] uppercase tracking-wide text-brand-gold transition-all duration-300 hover:bg-brand-gold hover:text-brand-navy">
+                  View Details
+                </span>
+              </div>
               <div className="p-6 text-left">
                 <h3 className="text-2xl text-navy mb-2">
                   {item.title}

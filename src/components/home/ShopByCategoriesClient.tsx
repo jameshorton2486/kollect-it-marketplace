@@ -76,8 +76,17 @@ export default function ShopByCategories() {
           ))}
         </div>
 
+        <div className="mt-10 text-center">
+          <Link
+            href="/shop"
+            className="text-[13px] uppercase tracking-wide text-brand-gold underline underline-offset-4 hover:text-brand-gold/90 transition-colors"
+          >
+            View All Categories
+          </Link>
+        </div>
+
         <motion.p
-          className="mt-12 text-gray-700 text-lg max-w-2xl mx-auto"
+          className="mt-10 text-gray-700 text-lg max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
