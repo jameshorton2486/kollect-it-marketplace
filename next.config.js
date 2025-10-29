@@ -4,10 +4,16 @@
 // Only relax type/lint checks in local dev, enforce in CI
 const isCI = process.env.CI === 'true';
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-  openAnalyzer: true,
-});
+let withBundleAnalyzer = (config) => config;
+if (process.env.ANALYZE === 'true') {
+  try {
+    const analyzer = require('@next/bundle-analyzer');
+    withBundleAnalyzer = analyzer({ enabled: true, openAnalyzer: true });
+  } catch (_e) {
+    // Analyzer not available; proceed without wrapping
+    withBundleAnalyzer = (config) => config;
+  }
+}
 
 const nextConfig = {
   eslint: {

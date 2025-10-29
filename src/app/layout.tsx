@@ -84,10 +84,16 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning className="antialiased">
+        {/* Skip link for keyboard users */}
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:bg-white focus:text-brand-navy focus:px-4 focus:py-2 focus:rounded">
+          Skip to main content
+        </a>
         <SessionProvider>
           <CartProvider>
             <WishlistProvider>
-              <ClientBody>{children}</ClientBody>
+              <ClientBody>
+                <div id="main">{children}</div>
+              </ClientBody>
             </WishlistProvider>
           </CartProvider>
         </SessionProvider>
