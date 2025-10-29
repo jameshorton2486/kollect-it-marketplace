@@ -7,9 +7,10 @@ import { Prisma } from '@prisma/client';
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const category = searchParams.get('category');
+  const category = searchParams.get('category');
     const limit = searchParams.get('limit');
     const featured = searchParams.get('featured');
+  const q = searchParams.get('q');
 
     const where: Prisma.ProductWhereInput = {
       status: 'active',
@@ -21,6 +22,10 @@ export async function GET(request: NextRequest) {
 
     if (featured === 'true') {
       where.featured = true;
+    }
+
+    if (q) {
+      where.title = { contains: q, mode: 'insensitive' };
     }
 
     const products = await prisma.product.findMany({

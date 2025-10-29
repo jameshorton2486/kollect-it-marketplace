@@ -148,7 +148,11 @@ export default function AccountPage() {
             </select>
           </div>
           {/* Desktop tabs */}
-          <div className="hidden items-stretch gap-8 md:flex">
+          <div
+            className="hidden items-stretch gap-8 md:flex"
+            role="tablist"
+            aria-label="Account sections"
+          >
             {([
               { key: 'profile', label: 'Profile', icon: User },
               { key: 'orders', label: `Orders (${orders.length})`, icon: Receipt },
@@ -163,6 +167,9 @@ export default function AccountPage() {
                     : 'border-transparent text-[var(--color-gray-dark)] hover:text-[var(--color-charcoal)]'
                 }`}
                 onClick={() => setActiveTab(key)}
+                role="tab"
+                id={`tab-${key}`}
+                aria-controls={`panel-${key}`}
               >
                 <Icon size={18} />
                 {label}
@@ -177,7 +184,12 @@ export default function AccountPage() {
         <div className="container">
           {/* Profile Tab */}
           {activeTab === 'profile' && (
-            <div className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6">
+            <div
+              className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6"
+              role="tabpanel"
+              id="panel-profile"
+              aria-labelledby="tab-profile"
+            >
               <h2 className="mb-4 font-serif text-2xl">Profile Information</h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
@@ -211,7 +223,12 @@ export default function AccountPage() {
 
           {/* Orders Tab */}
           {activeTab === 'orders' && (
-            <div className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6">
+            <div
+              className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6"
+              role="tabpanel"
+              id="panel-orders"
+              aria-labelledby="tab-orders"
+            >
               <h2 className="mb-4 font-serif text-2xl">Order History</h2>
               {orders.length === 0 ? (
                 <div className="flex flex-col items-center justify-center gap-2 rounded border border-[var(--color-gray-light)] bg-cream p-8 text-center">
@@ -253,7 +270,12 @@ export default function AccountPage() {
 
           {/* Wishlist Tab */}
           {activeTab === 'wishlist' && (
-            <div className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6">
+            <div
+              className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6"
+              role="tabpanel"
+              id="panel-wishlist"
+              aria-labelledby="tab-wishlist"
+            >
               <h2 className="mb-4 font-serif text-2xl">My Wishlist</h2>
               {wishlist.length === 0 ? (
                 <div className="flex flex-col items-center justify-center gap-2 rounded border border-[var(--color-gray-light)] bg-cream p-8 text-center">
@@ -317,7 +339,12 @@ export default function AccountPage() {
 
           {/* Settings Tab */}
           {activeTab === 'settings' && (
-            <div className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6">
+            <div
+              className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6"
+              role="tabpanel"
+              id="panel-settings"
+              aria-labelledby="tab-settings"
+            >
               <h2 className="mb-4 font-serif text-2xl">Settings</h2>
               <div className="space-y-4">
                 <label className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">

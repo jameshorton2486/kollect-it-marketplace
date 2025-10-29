@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import ImageUpload from '@/components/admin/ImageUpload';
+import { Package, CheckCircle2, ShoppingBag, DollarSign, Plus, Settings, Users, Home } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -22,14 +23,57 @@ interface Category {
   slug: string;
 }
 
+interface Order {
+  id: string;
+  orderNumber: string;
+  customerName: string | null;
+  customerEmail: string | null;
+  status: string;
+  total: number;
+  paymentStatus: string;
+  createdAt: string;
+  items: { id: string; quantity: number }[];
+}
+
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'sold' | 'draft'>('all');
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
+
+  // Derived data
+  const monthlyRevenueStr = useMemo(() => {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    const revenue = orders
+      .filter((o) => o.paymentStatus === 'paid' && new Date(o.createdAt) >= start)
+      .reduce((sum, o) => sum + (o.total || 0), 0);
+    return revenue.toLocaleString('en-US', { minimumFractionDigits: 2 });
+  }, [orders]);
+
+  const filteredProducts = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return products.filter((p) => {
+      const matchesQuery = q ? p.title.toLowerCase().includes(q) || p.category.name.toLowerCase().includes(q) : true;
+      const matchesStatus = statusFilter === 'all' ? true : p.status === statusFilter;
+      return matchesQuery && matchesStatus;
+    });
+  }, [products, searchQuery, statusFilter]);
+
+  const pagedProducts = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filteredProducts.slice(start, start + pageSize);
+  }, [filteredProducts, page]);
+
+  const hasNoNextPage = useMemo(() => page * pageSize >= filteredProducts.length, [filteredProducts, page]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -43,6 +87,7 @@ export default function AdminDashboard() {
     if (session?.user?.role === 'admin') {
       fetchProducts();
       fetchCategories();
+      fetchOrders();
     }
   }, [session]);
 
@@ -65,6 +110,18 @@ export default function AdminDashboard() {
       setCategories(data);
     } catch (error) {
       console.error('Error fetching categories:', error);
+    }
+  };
+
+  const fetchOrders = async () => {
+    try {
+      const res = await fetch('/api/admin/orders');
+      if (res.ok) {
+        const data = await res.json();
+        setOrders(data);
+      }
+    } catch (error) {
+      console.error('Error fetching orders:', error);
     }
   };
 
@@ -104,6 +161,7 @@ export default function AdminDashboard() {
               <p className="text-sm text-gray-600 mt-1">
                 Welcome back, {session.user.name || session.user.email}
               </p>
+              <p className="text-xs text-gray-500">{new Date().toLocaleString()}</p>
             </div>
             <div className="flex gap-4">
               <button
@@ -113,7 +171,7 @@ export default function AdminDashboard() {
                 Manage Orders
               </button>
               <button
-                onClick={() => router.push('/')}
+                onClick={() => window.open('/', '_blank')}
                 className="px-4 py-2 text-gray-700 hover:text-gray-900 transition"
               >
                 View Site
@@ -132,35 +190,37 @@ export default function AdminDashboard() {
       {/* Stats */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-medium text-gray-600">Total Products</h3>
-            <p className="text-3xl font-bold text-gray-900 mt-2">{products.length}</p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-medium text-gray-600">Active</h3>
-            <p className="text-3xl font-bold text-green-600 mt-2">
-              {products.filter((p) => p.status === 'active').length}
-            </p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-medium text-gray-600">Sold</h3>
-            <p className="text-3xl font-bold text-blue-600 mt-2">
-              {products.filter((p) => p.status === 'sold').length}
-            </p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-medium text-gray-600">Categories</h3>
-            <p className="text-3xl font-bold text-purple-600 mt-2">{categories.length}</p>
-          </div>
+          <StatCard icon={<Package className="text-gray-800" size={20} />} label="Total Products" value={products.length.toString()} />
+          <StatCard icon={<CheckCircle2 className="text-green-700" size={20} />} label="Active Products" value={products.filter((p) => p.status === 'active').length.toString()} highlight="green" />
+          <StatCard icon={<ShoppingBag className="text-indigo-700" size={20} />} label="Total Orders" value={orders.length.toString()} />
+          <StatCard icon={<DollarSign className="text-emerald-700" size={20} />} label="Revenue (This Month)" value={`$${monthlyRevenueStr}`} />
         </div>
 
         {/* Actions */}
-        <div className="mb-6">
+        <div className="mb-6 flex flex-wrap gap-3">
           <button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition font-semibold"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition font-semibold"
           >
-            {showAddForm ? 'Cancel' : '+ Add New Product'}
+            <Plus size={18} /> {showAddForm ? 'Cancel' : 'Add New Product'}
+          </button>
+          <button
+            onClick={() => router.push('/admin/orders')}
+            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+          >
+            <ShoppingBag size={18} /> Manage Orders
+          </button>
+          <button
+            onClick={() => router.push('/admin/customers')}
+            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+          >
+            <Users size={18} /> View Customers
+          </button>
+          <button
+            onClick={() => router.push('/admin/settings')}
+            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+          >
+            <Settings size={18} /> Settings
           </button>
         </div>
 
@@ -178,8 +238,29 @@ export default function AdminDashboard() {
 
         {/* Products Table */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 border-b">
+          <div className="px-6 py-4 border-b flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <h2 className="text-lg font-semibold">Products</h2>
+            <div className="flex flex-wrap items-center gap-3">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
+                placeholder="Search products..."
+                className="w-64 max-w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                aria-label="Search products"
+              />
+              <select
+                value={statusFilter}
+                onChange={(e) => { setStatusFilter(e.target.value as typeof statusFilter); setPage(1); }}
+                className="px-3 py-2 border border-gray-300 rounded-md"
+                aria-label="Filter by status"
+              >
+                <option value="all">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="sold">Sold</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -205,8 +286,8 @@ export default function AdminDashboard() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {products.map((product) => (
+               <tbody className="bg-white divide-y divide-gray-200">
+                {pagedProducts.map((product: Product) => (
                   <tr key={product.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -246,7 +327,7 @@ export default function AdminDashboard() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(product.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         onClick={() => handleDeleteProduct(product.id)}
                         className="text-red-600 hover:text-red-900 ml-4"
@@ -259,8 +340,89 @@ export default function AdminDashboard() {
               </tbody>
             </table>
           </div>
+          {/* Pagination */}
+          <div className="flex items-center justify-between px-6 py-4 border-t text-sm">
+            <div>
+              Page {page}
+            </div>
+            <div className="flex gap-2">
+              <button
+                className="px-3 py-1 border rounded disabled:opacity-50"
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+              >
+                Previous
+              </button>
+              <button
+                className="px-3 py-1 border rounded disabled:opacity-50"
+                onClick={() => setPage((p) => p + 1)}
+                disabled={hasNoNextPage}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Orders */}
+        <div className="bg-white rounded-lg shadow overflow-hidden mt-8">
+          <div className="px-6 py-4 border-b flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Recent Orders</h2>
+            <button
+              onClick={() => router.push('/admin/orders')}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              View All Orders
+            </button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order #</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {orders.slice(0, 10).map((order: Order) => {
+                  const statusClass =
+                    order.status === 'delivered'
+                      ? 'bg-green-100 text-green-800'
+                      : order.status === 'cancelled'
+                      ? 'bg-red-100 text-red-800'
+                      : order.status === 'processing' || order.status === 'paid'
+                      ? 'bg-amber-100 text-amber-900'
+                      : 'bg-gray-100 text-gray-800';
+                  return (
+                    <tr key={order.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap font-medium">{order.orderNumber}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{order.customerName || 'Guest'}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(order.createdAt).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 whitespace-nowrap font-semibold">${(order.total || 0).toLocaleString()}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}`}>{order.status}</span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function StatCard({ icon, label, value, highlight }: { icon: React.ReactNode; label: string; value: string; highlight?: 'green' | 'blue' | 'amber' | 'purple' | 'emerald' }) {
+  const color = highlight === 'green' ? 'text-green-600' : highlight === 'blue' ? 'text-blue-600' : highlight === 'amber' ? 'text-amber-700' : highlight === 'emerald' ? 'text-emerald-700' : 'text-gray-900';
+  return (
+    <div className="bg-white rounded-lg shadow p-6">
+      <div className="flex items-center gap-3 text-sm font-medium text-gray-600">{icon}<span>{label}</span></div>
+      <p className={`text-3xl font-bold mt-2 ${color}`}>{value}</p>
     </div>
   );
 }

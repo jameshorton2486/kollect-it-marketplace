@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import { BLUR_DATA_URL, transformCloudinary } from '@/lib/image';
 
 interface ProductImage {
   url: string;
@@ -70,11 +72,15 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
           onMouseLeave={() => setIsHoverZoom(false)}
           title={isHoverZoom ? 'Zooming' : 'Hover to zoom'}
         >
-          <img
+          <Image
             key={`img-${selectedIndex}`}
-            src={selectedImage.url}
+            src={transformCloudinary(selectedImage.url, 'detail')}
             alt={selectedImage.alt || title}
-            loading="eager"
+            width={1200}
+            height={1200}
+            priority
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
             className={`h-full w-full object-contain transition-all duration-300 ${
               showImage ? 'opacity-100' : 'opacity-0'
             } ${isHoverZoom ? 'scale-[1.6]' : 'scale-100'}`}
@@ -101,7 +107,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               title={`View ${index + 1}`}
               aria-label={`View image ${index + 1}`}
             >
-              <img src={image.url} alt={`${title} view ${index + 1}`} className="h-16 w-16 object-cover" />
+              <Image src={transformCloudinary(image.url, 'thumbnail')} alt={`${title} view ${index + 1}`} width={64} height={64} className="h-16 w-16 object-cover" loading="lazy" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
             </button>
           ))}
         </div>

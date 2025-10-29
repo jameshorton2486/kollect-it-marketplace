@@ -70,6 +70,12 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       description: product.description,
       images: product.images.map((img) => img.url),
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.title,
+      description: product.description || undefined,
+      images: product.images.slice(0, 1).map((i) => i.url),
+    },
   };
 }
 

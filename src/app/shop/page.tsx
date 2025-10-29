@@ -1,7 +1,11 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { BLUR_DATA_URL, transformCloudinary } from '@/lib/image';
 import { prisma } from '@/lib/prisma';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import ProductGrid from '@/components/ProductGrid';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Shop All Collections - Kollect-It',
@@ -52,8 +56,42 @@ async function getCategories() {
   }
 }
 
-export default async function ShopPage() {
+export default async function ShopPage({ searchParams }: { searchParams?: Promise<{ q?: string | string[] }> }) {
   const categories = await getCategories();
+  const sp = (await searchParams) || {};
+  const qParam = typeof sp.q === 'string' ? sp.q.trim() : Array.isArray(sp.q) ? sp.q[0]?.trim() : '';
+  const q = qParam || '';
+
+  let products: Array<{
+    id: string;
+    title: string;
+    slug: string;
+    price: number;
+    condition: string | null;
+    images: { url: string }[];
+    category: { name: string };
+  }> = [];
+
+  if (q) {
+    try {
+      products = await prisma.product.findMany({
+        where: {
+          status: 'active',
+          title: { contains: q, mode: 'insensitive' },
+        },
+        include: {
+          images: { orderBy: { order: 'asc' } },
+          category: true,
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 60,
+      });
+    } catch (e) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Search query failed, returning empty results');
+      }
+    }
+  }
 
   return (
     <div>
@@ -100,6 +138,26 @@ export default async function ShopPage() {
       {/* Page Content */}
       <section className="shop-page">
         <div className="container">
+          {/* Search Results */}
+          {q && (
+            <div className="mb-10">
+              <h2 className="font-serif text-2xl mb-2">Search results for “{q}”</h2>
+              {products.length > 0 ? (
+                <>
+                  <p className="text-[var(--color-gray-dark)] mb-4">{products.length} result{products.length === 1 ? '' : 's'}</p>
+                  <ProductGrid products={products} />
+                </>
+              ) : (
+                <div className="rounded border border-[var(--color-gray-light)] bg-cream p-6">
+                  <p className="text-[var(--color-gray-dark)]">No products found. Try a different search term.</p>
+                  <div className="mt-3">
+                    <Link href="/shop" className="underline">Back to Shop</Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Animated Headline */}
           <div className="shop-intro text-center mb-[clamp(3rem,6vw,5rem)]">
             <p className="section-subtitle" data-reveal>EXPERTLY CURATED COLLECTIONS</p>
@@ -115,7 +173,7 @@ export default async function ShopPage() {
             {categories.map((category) => (
               <Link key={category.id} href={`/category/${category.slug}`} className="category-card shop-category-tile">
                 <div className="category-image">
-                  <img src={category.image} alt={category.name} />
+                  <Image src={transformCloudinary(category.image, { width: 800, height: 600, crop: 'fill', quality: 85 })} alt={`${category.name} banner`} width={800} height={600} className="h-full w-full object-cover" quality={85} loading="lazy" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
                 </div>
                 <div className="category-description">
                   <h4>{category.name.toUpperCase()}</h4>
@@ -130,31 +188,7 @@ export default async function ShopPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-col">
-              <h3>About</h3>
-              <p>
-                Kollect-It offers inspiring antiques and collectibles for modern collectors who
-                insist on quality and character.
-              </p>
-            </div>
-            <div className="footer-col">
-              <h3>Quick Links</h3>
-              <ul>
-                <li><Link href="/shop">Shop</Link></li>
-                <li><Link href="/about">About</Link></li>
-                <li><Link href="/contact">Contact</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>&copy; Kollect-It {new Date().getFullYear()}</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -8,6 +8,8 @@ import { Elements } from '@stripe/react-stripe-js';
 import { getStripe } from '@/lib/stripe';
 import CheckoutForm from '@/components/checkout/CheckoutForm';
 import Link from 'next/link';
+import Image from 'next/image';
+import { BLUR_DATA_URL, transformCloudinary } from '@/lib/image';
 
 interface ShippingInfo {
   fullName: string;
@@ -476,7 +478,7 @@ export default function CheckoutPage() {
               <div className="checkout-summary-items">
                 {items.map((item) => (
                   <div key={item.id} className="checkout-summary-item">
-                    <img src={item.image} alt={item.title} />
+                    <Image src={transformCloudinary(item.image, 'thumbnail')} alt={`${item.title} in order summary`} width={64} height={64} className="rounded object-cover" loading="lazy" quality={85} placeholder="blur" blurDataURL={BLUR_DATA_URL} />
                     <div className="checkout-summary-item-info">
                       <h4>{item.title}</h4>
                       <p>Qty: {item.quantity}</p>

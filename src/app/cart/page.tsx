@@ -3,6 +3,7 @@
 import { useCart } from '@/contexts/CartContext';
 import Link from 'next/link';
 import Image from 'next/image';
+import { BLUR_DATA_URL, transformCloudinary } from '@/lib/image';
 import { useEffect, useState } from 'react';
 
 interface SuggestionProduct {
@@ -134,7 +135,7 @@ export default function CartPage() {
               <Link key={p.id} href={`/product/${p.slug}`} className="w-[220px] shrink-0">
                 <div className="h-[160px] w-full overflow-hidden rounded">
                   {p.images[0] ? (
-                    <img src={p.images[0].url} alt={p.title} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
+                    <Image src={transformCloudinary(p.images[0].url, 'thumbnail')} alt={`${p.title} suggestion`} width={240} height={160} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" quality={85} placeholder="blur" blurDataURL={BLUR_DATA_URL} />
                   ) : (
                     <div className="h-full w-full bg-[var(--color-gray-light)]" />
                   )}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 import {
   DndContext,
   closestCenter,
@@ -251,7 +252,7 @@ function SortableImage({ image, index, onDelete }: SortableImageProps) {
   return (
     <div ref={setNodeRef} style={style} className="image-preview-item">
       <div className="image-preview-wrapper" {...attributes} {...listeners}>
-        <img src={image.url} alt={image.alt || `Product image ${index + 1}`} />
+  <Image src={image.url} alt={image.alt || `Product image ${index + 1}`} width={120} height={120} className="h-auto w-auto max-w-full" />
         {index === 0 && <span className="main-badge">Main</span>}
         <div className="image-overlay">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">

@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
+import { BLUR_DATA_URL, transformCloudinary } from '@/lib/image';
 import { useRef } from 'react';
 
 interface Product {
@@ -49,7 +51,7 @@ export default function RelatedProducts({ products, categoryName }: RelatedProdu
             >
               <div className="related-product-image h-[180px] w-full overflow-hidden rounded">
                 {product.images[0] ? (
-                  <img src={product.images[0].url} alt={product.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
+                  <Image src={transformCloudinary(product.images[0].url, 'thumbnail')} alt={`${product.title} - ${product.category.name} related`} width={300} height={180} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" quality={85} placeholder="blur" blurDataURL={BLUR_DATA_URL} />
                 ) : (
                   <div className="related-product-placeholder h-full w-full bg-[var(--color-gray-light)]" />
                 )}
