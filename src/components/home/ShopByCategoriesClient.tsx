@@ -38,7 +38,7 @@ export default function ShopByCategories() {
         <h2 className="text-4xl text-navy font-semibold mb-6">
           Shop by Category
         </h2>
-        <p className="text-gray-600 mb-12">
+        <p className="text-ink-secondary mb-12">
           Explore diverse categories curated for collectors, designers, and
           historians alike.
         </p>
@@ -54,7 +54,7 @@ export default function ShopByCategories() {
             >
               <Link
                 href={cat.href}
-                className="group block border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 bg-white"
+                className="group block border border-gray-200 rounded-2xl overflow-hidden shadow-elevation-sm hover:shadow-elevation-lg transition-all duration-300 bg-white"
               >
                 <Image
                   src={cat.img}
@@ -67,7 +67,7 @@ export default function ShopByCategories() {
                   <h3 className="text-2xl text-navy mb-2">
                     {cat.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-ink-secondary leading-relaxed">
                     {cat.desc}
                   </p>
                 </div>
@@ -86,7 +86,7 @@ export default function ShopByCategories() {
         </div>
 
         <motion.p
-          className="mt-10 text-gray-700 text-lg max-w-2xl mx-auto"
+          className="mt-10 text-ink-secondary text-lg max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

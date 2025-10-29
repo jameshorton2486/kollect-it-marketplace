@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 export default {
     darkMode: ["class"],
@@ -10,6 +11,31 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Semantic mappings to CSS variables (token system) - avoid clashing with existing primary/secondary
+        ink: {
+          primary: 'var(--color-text-primary)',
+          secondary: 'var(--color-text-secondary)',
+          tertiary: 'var(--color-text-tertiary)'
+        },
+        gold: {
+          DEFAULT: 'var(--color-accent)',
+          light: 'var(--color-accent-light)',
+          dark: 'var(--color-accent-dark)'
+        },
+        surface: {
+          DEFAULT: 'var(--color-bg)',
+          alt: 'var(--color-bg-alt)',
+          elevated: 'var(--color-bg-elevated)'
+        },
+        cta: {
+          DEFAULT: 'var(--color-cta)',
+          hover: 'var(--color-cta-hover)'
+        },
+        link: {
+          DEFAULT: 'var(--color-link)',
+          hover: 'var(--color-link-hover)'
+        },
+        'border-neutral': 'var(--color-border-token)',
         // 1stdibs Luxury Palette
         white: '#FFFFFF',
         'off-white': '#F9F9F9',
@@ -72,6 +98,8 @@ export default {
       fontFamily: {
         serif: ['var(--font-serif)', 'Playfair Display', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', 'Inter', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-heading)', 'Cormorant Garamond', 'Georgia', 'serif'],
+        body: ['var(--font-body)', 'Lato', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -107,5 +135,5 @@ export default {
       },
     }
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 } satisfies Config;
