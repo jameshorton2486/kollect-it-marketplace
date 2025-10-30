@@ -328,7 +328,7 @@ export default function AdminOrdersPage() {
                         </span>
                       </td>
                       <td>
-                        <Link href={`/admin/orders/${order.id}`} className="btn-view-order">
+                        <Link href={`/admin/orders/${order.id}`} className="btn-secondary">
                           View Details
                         </Link>
                       </td>

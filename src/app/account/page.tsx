@@ -110,16 +110,16 @@ export default function AccountPage() {
   return (
     <div className="account-page">
       {/* Header */}
-      <div className="border-b border-[var(--color-gray-light)] bg-white">
+      <div className="border-b border-border-neutral bg-white">
         <div className="container py-6">
           <div className="flex items-start justify-between gap-4">
             <div>
               <h1 className="font-serif text-[42px] leading-tight text-brand-navy">My Account</h1>
-              <p className="text-[14px] text-[var(--color-gray-dark)]">Welcome back, {session.user?.name}!</p>
+              <p className="text-[14px] text-ink-secondary">Welcome back, {session.user?.name}!</p>
             </div>
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
-              className="inline-flex items-center gap-2 rounded border border-[var(--color-gray-light)] px-3 py-2 text-[14px] text-[var(--color-gray-dark)] hover:bg-cream"
+              className="inline-flex items-center gap-2 rounded border border-border-neutral px-3 py-2 text-[14px] text-ink hover:bg-cream"
               aria-label="Sign out"
             >
               <LogOut size={18} />
@@ -130,7 +130,7 @@ export default function AccountPage() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-[var(--color-gray-light)] bg-white">
+      <div className="border-b border-border-neutral bg-white">
         <div className="container">
           {/* Mobile select */}
           <div className="py-3 md:hidden">
@@ -163,8 +163,8 @@ export default function AccountPage() {
                 key={key}
                 className={`relative -mb-px inline-flex items-center gap-2 border-b-4 px-1 py-4 text-[14px] ${
                   activeTab === key
-                    ? 'border-[var(--color-muted-gold)] text-[var(--color-charcoal)]'
-                    : 'border-transparent text-[var(--color-gray-dark)] hover:text-[var(--color-charcoal)]'
+                    ? 'border-gold-hover text-ink'
+                    : 'border-transparent text-ink-secondary hover:text-ink'
                 }`}
                 onClick={() => setActiveTab(key)}
                 role="tab"
@@ -185,38 +185,38 @@ export default function AccountPage() {
           {/* Profile Tab */}
           {activeTab === 'profile' && (
             <div
-              className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6"
+              className="rounded-lg border border-border-neutral bg-white p-6"
               role="tabpanel"
               id="panel-profile"
               aria-labelledby="tab-profile"
             >
               <h2 className="mb-4 font-serif text-2xl">Profile Information</h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
-                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Name</span>
+                <div className="flex items-center justify-between rounded border border-border-neutral p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-ink-secondary">Name</span>
                   <span className="font-medium">{session.user?.name || 'Not set'}</span>
                 </div>
-                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
-                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Email</span>
+                <div className="flex items-center justify-between rounded border border-border-neutral p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-ink-secondary">Email</span>
                   <span className="font-medium">{session.user?.email}</span>
                 </div>
-                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
-                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Phone</span>
+                <div className="flex items-center justify-between rounded border border-border-neutral p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-ink-secondary">Phone</span>
                   <span className="font-medium">Not set</span>
                 </div>
-                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
-                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Account Type</span>
+                <div className="flex items-center justify-between rounded border border-border-neutral p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-ink-secondary">Account Type</span>
                   <span className="font-medium">{((session.user as { role?: string } | undefined)?.role === 'admin') ? 'Administrator' : 'Customer'}</span>
                 </div>
-                <div className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
-                  <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">Default Shipping</span>
+                <div className="flex items-center justify-between rounded border border-border-neutral p-3">
+                  <span className="text-[12px] uppercase tracking-wide text-ink-secondary">Default Shipping</span>
                   <span className="font-medium">Not set</span>
                 </div>
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">
                 <button className="btn-primary">Edit Profile</button>
-                <button className="inline-flex items-center justify-center rounded border border-[var(--color-gray-light)] px-4 py-2 text-[14px] text-[var(--color-charcoal)] hover:bg-cream">Change Password</button>
+                <button className="btn-secondary">Change Password</button>
               </div>
             </div>
           )}
@@ -224,21 +224,21 @@ export default function AccountPage() {
           {/* Orders Tab */}
           {activeTab === 'orders' && (
             <div
-              className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6"
+              className="rounded-lg border border-border-neutral bg-white p-6"
               role="tabpanel"
               id="panel-orders"
               aria-labelledby="tab-orders"
             >
               <h2 className="mb-4 font-serif text-2xl">Order History</h2>
               {orders.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-2 rounded border border-[var(--color-gray-light)] bg-cream p-8 text-center">
-                  <Receipt className="text-[var(--color-gray-dark)]" size={48} />
+                <div className="flex flex-col items-center justify-center gap-2 rounded border border-border-neutral bg-cream p-8 text-center">
+                  <Receipt className="text-ink-secondary" size={48} />
                   <h3 className="font-serif text-xl">No Orders Yet</h3>
-                  <p className="text-[var(--color-gray-dark)]">You haven't placed any orders yet.</p>
+                  <p className="text-ink-secondary">You haven't placed any orders yet.</p>
                   <Link href="/" className="btn-primary">Start Shopping</Link>
                 </div>
               ) : (
-                <div className="divide-y divide-[var(--color-gray-light)]">
+                <div className="divide-y divide-border-neutral">
                   {orders.map((order) => {
                     const statusClass =
                       order.status === 'delivered'
@@ -246,16 +246,16 @@ export default function AccountPage() {
                         : order.status === 'cancelled'
                         ? 'bg-red-100 text-red-800'
                         : order.status === 'processing' || order.status === 'paid'
-                        ? 'bg-[rgba(199,168,94,0.15)] text-[var(--color-charcoal)]'
+                        ? 'bg-[rgba(199,168,94,0.15)] text-ink'
                         : 'bg-gray-100 text-gray-800';
                     return (
                       <div key={order.id} className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-col">
                           <Link href={`/account/orders/${order.id}`} className="font-medium underline">Order #{order.orderNumber}</Link>
-                          <span className="text-[12px] text-[var(--color-gray-dark)]">{new Date(order.createdAt).toLocaleDateString()}</span>
+                          <span className="text-[12px] text-ink-secondary">{new Date(order.createdAt).toLocaleDateString()}</span>
                         </div>
                         <div className="flex flex-1 flex-col gap-2 md:flex-row md:items-center md:justify-end">
-                          <span className="text-[14px] text-[var(--color-gray-dark)]">Items: {order.items?.length ?? 0}</span>
+                          <span className="text-[14px] text-ink-secondary">Items: {order.items?.length ?? 0}</span>
                           <span className={`inline-flex w-fit items-center rounded-full px-3 py-1 text-[12px] ${statusClass}`}>{order.status}</span>
                           <span className="font-semibold">Total: ${order.total.toLocaleString()}</span>
                           <Link href={`/account/orders/${order.id}`} className="underline">View Details</Link>
@@ -271,23 +271,23 @@ export default function AccountPage() {
           {/* Wishlist Tab */}
           {activeTab === 'wishlist' && (
             <div
-              className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6"
+              className="rounded-lg border border-border-neutral bg-white p-6"
               role="tabpanel"
               id="panel-wishlist"
               aria-labelledby="tab-wishlist"
             >
               <h2 className="mb-4 font-serif text-2xl">My Wishlist</h2>
               {wishlist.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-2 rounded border border-[var(--color-gray-light)] bg-cream p-8 text-center">
-                  <Heart className="text-[var(--color-gray-dark)]" size={48} />
+                <div className="flex flex-col items-center justify-center gap-2 rounded border border-border-neutral bg-cream p-8 text-center">
+                  <Heart className="text-ink-secondary" size={48} />
                   <h3 className="font-serif text-xl">No Wishlist Items</h3>
-                  <p className="text-[var(--color-gray-dark)]">Save items you love to your wishlist.</p>
+                  <p className="text-ink-secondary">Save items you love to your wishlist.</p>
                   <Link href="/" className="btn-primary">Browse Products</Link>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {wishlist.map((item) => (
-                    <div key={item.id} className="group rounded-lg border border-[var(--color-gray-light)] bg-white p-3">
+                    <div key={item.id} className="group rounded-lg border border-border-neutral bg-white p-3">
                       <Link href={`/product/${item.product.slug}`} className="block overflow-hidden rounded">
                         {item.product.images[0] ? (
                           <Image
@@ -298,12 +298,12 @@ export default function AccountPage() {
                             className="h-auto w-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
                           />
                         ) : (
-                          <div className="flex h-[200px] items-center justify-center bg-cream text-[var(--color-gray-dark)]">No Image</div>
+                          <div className="flex h-[200px] items-center justify-center bg-cream text-ink-secondary">No Image</div>
                         )}
                       </Link>
                       <div className="mt-3 flex flex-col gap-1">
-                        <span className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)]">{item.product.category.name}</span>
-                        <Link href={`/product/${item.product.slug}`} className="font-medium hover:text-[var(--color-muted-gold)]">
+                        <span className="text-[12px] uppercase tracking-wide text-ink-secondary">{item.product.category.name}</span>
+                        <Link href={`/product/${item.product.slug}`} className="font-medium hover:text-gold-hover">
                           {item.product.title}
                         </Link>
                         <span className="text-brand-gold font-semibold">${item.product.price.toLocaleString()}</span>
@@ -311,7 +311,7 @@ export default function AccountPage() {
                       <div className="mt-3 flex items-center justify-between gap-3">
                         <button
                           onClick={() => removeFromWishlist(item.productId)}
-                          className="inline-flex items-center gap-2 rounded border border-[var(--color-gray-light)] px-3 py-2 text-[14px] hover:bg-cream"
+                          className="inline-flex items-center gap-2 rounded border border-border-neutral px-3 py-2 text-[14px] hover:bg-cream"
                           aria-label="Remove from wishlist"
                         >
                           <Heart size={16} />
@@ -327,7 +327,7 @@ export default function AccountPage() {
                             categoryName: item.product.category.name,
                           }}
                           quantity={1}
-                          className="btn-cta"
+                          className="btn-primary"
                         />
                       </div>
                     </div>
@@ -340,17 +340,17 @@ export default function AccountPage() {
           {/* Settings Tab */}
           {activeTab === 'settings' && (
             <div
-              className="rounded-lg border border-[var(--color-gray-light)] bg-white p-6"
+              className="rounded-lg border border-border-neutral bg-white p-6"
               role="tabpanel"
               id="panel-settings"
               aria-labelledby="tab-settings"
             >
               <h2 className="mb-4 font-serif text-2xl">Settings</h2>
               <div className="space-y-4">
-                <label className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
+                <label className="flex items-center justify-between rounded border border-border-neutral p-3">
                   <div>
                     <span className="block font-medium">Email Notifications</span>
-                    <span className="text-[13px] text-[var(--color-gray-dark)]">Order updates and account alerts</span>
+                    <span className="text-[13px] text-ink-secondary">Order updates and account alerts</span>
                   </div>
                   <input
                     type="checkbox"
@@ -361,10 +361,10 @@ export default function AccountPage() {
                   />
                 </label>
 
-                <label className="flex items-center justify-between rounded border border-[var(--color-gray-light)] p-3">
+                <label className="flex items-center justify-between rounded border border-border-neutral p-3">
                   <div>
                     <span className="block font-medium">Newsletter Subscription</span>
-                    <span className="text-[13px] text-[var(--color-gray-dark)]">Occasional stories and arrivals</span>
+                    <span className="text-[13px] text-ink-secondary">Occasional stories and arrivals</span>
                   </div>
                   <input
                     type="checkbox"

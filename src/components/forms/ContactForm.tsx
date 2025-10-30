@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import { Button } from '../ui/Button';
 
 interface FormState {
   name: string;
@@ -43,14 +44,14 @@ export default function ContactForm() {
 
   const Input = ({ id, label, type = 'text' }: { id: keyof FormState; label: string; type?: string }) => (
     <div className="mb-4">
-      <label htmlFor={id} className="mb-1 block text-sm font-medium text-[var(--color-charcoal)]">{label}</label>
+      <label htmlFor={id} className="mb-1 block text-sm font-medium text-ink">{label}</label>
       <input
         id={id}
         type={type}
         value={form[id]}
         onChange={(ev) => setForm((s) => ({ ...s, [id]: ev.target.value }))}
-        className={`w-full rounded border px-3 py-2 outline-none ${errors[id] ? 'border-red-500' : 'border-[var(--color-border)]'}`}
-        aria-invalid={errors[id] ? 'true' : undefined}
+        className={`w-full rounded border px-3 py-2 outline-none ${errors[id] ? 'border-red-500' : 'border-border-neutral'}`}
+  aria-invalid={errors[id] ? 'true' : 'false'}
         aria-describedby={errors[id] ? `${id}-error` : undefined}
       />
       {errors[id] && <p id={`${id}-error`} className="mt-1 text-sm text-red-600">{errors[id]}</p>}
@@ -58,11 +59,11 @@ export default function ContactForm() {
   );
 
   return (
-    <form onSubmit={onSubmit} noValidate className="rounded border border-[var(--color-gray-light)] bg-cream p-6">
+    <form onSubmit={onSubmit} noValidate className="rounded border border-border-neutral bg-cream p-6">
       {sent ? (
         <div className="text-center">
           <h3 className="font-serif text-2xl text-brand-navy">Message sent</h3>
-          <p className="mt-2 text-[var(--color-charcoal)]">We\'ll get back to you shortly.</p>
+          <p className="mt-2 text-ink-secondary">We\'ll get back to you shortly.</p>
         </div>
       ) : (
         <>
@@ -70,23 +71,23 @@ export default function ContactForm() {
           <Input id="email" label="Email *" type="email" />
           <Input id="subject" label="Subject *" />
           <div className="mb-4">
-            <label htmlFor="message" className="mb-1 block text-sm font-medium text-[var(--color-charcoal)]">Message *</label>
+            <label htmlFor="message" className="mb-1 block text-sm font-medium text-ink">Message *</label>
             <textarea
               id="message"
               rows={6}
               maxLength={500}
               value={form.message}
               onChange={(ev) => setForm((s) => ({ ...s, message: ev.target.value }))}
-              className={`w-full rounded border px-3 py-2 outline-none ${errors.message ? 'border-red-500' : 'border-[var(--color-border)]'}`}
-              aria-invalid={errors.message ? 'true' : undefined}
+              className={`w-full rounded border px-3 py-2 outline-none ${errors.message ? 'border-red-500' : 'border-border-neutral'}`}
+              aria-invalid={errors.message ? 'true' : 'false'}
               aria-describedby={errors.message ? 'message-error' : undefined}
             />
-            <div className="mt-1 text-right text-xs text-[var(--color-gray-dark)]">{form.message.length} / 500</div>
+            <div className="mt-1 text-right text-xs text-ink-secondary">{form.message.length} / 500</div>
             {errors.message && <p id="message-error" className="mt-1 text-sm text-red-600">{errors.message}</p>}
           </div>
-          <button type="submit" className="btn-cta w-full" disabled={submitting}>
+          <Button type="submit" className="w-full" disabled={submitting}>
             {submitting ? 'Sending…' : 'Send Message'}
-          </button>
+          </Button>
         </>
       )}
     </form>

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Button } from './ui/Button';
 
 interface CategoryFiltersProps {
   minPrice?: number;
@@ -65,20 +66,20 @@ export default function CategoryFilters({ minPrice = 0, maxPrice = 10000 }: Cate
     <aside className="hidden lg:block w-64 shrink-0">
       <div className="sticky top-24 space-y-6">
         <div>
-          <div className="mb-2 text-xs uppercase tracking-wider text-[var(--color-charcoal)]">Price</div>
+          <div className="mb-2 text-xs uppercase tracking-wider text-ink-secondary">Price</div>
           <div className="flex items-center gap-2">
-            <input type="number" className="w-20 rounded border border-[var(--color-border)] px-2 py-1 text-sm" value={priceMin}
+            <input type="number" className="w-20 rounded border border-border-neutral px-2 py-1 text-sm" value={priceMin}
                    min={0}
                    onChange={(e)=> setPriceMin(Math.max(0, Number(e.target.value) || 0))} aria-label="Min price" />
             <span>–</span>
-            <input type="number" className="w-20 rounded border border-[var(--color-border)] px-2 py-1 text-sm" value={priceMax}
+            <input type="number" className="w-20 rounded border border-border-neutral px-2 py-1 text-sm" value={priceMax}
                    min={0}
                    onChange={(e)=> setPriceMax(Math.max(0, Number(e.target.value) || 0))} aria-label="Max price" />
           </div>
         </div>
 
         <div>
-          <div className="mb-2 text-xs uppercase tracking-wider text-[var(--color-charcoal)]">Condition</div>
+          <div className="mb-2 text-xs uppercase tracking-wider text-ink-secondary">Condition</div>
           <div className="space-y-1">
             {CONDITIONS.map((c) => (
               <label key={c} className="flex items-center gap-2 text-sm">
@@ -98,21 +99,21 @@ export default function CategoryFilters({ minPrice = 0, maxPrice = 10000 }: Cate
         </div>
 
         <div>
-          <div className="mb-2 text-xs uppercase tracking-wider text-[var(--color-charcoal)]">Year</div>
+          <div className="mb-2 text-xs uppercase tracking-wider text-ink-secondary">Year</div>
           <div className="flex items-center gap-2">
-            <input type="number" className="w-20 rounded border border-[var(--color-border)] px-2 py-1 text-sm" value={yearMin as number | ""}
+            <input type="number" className="w-20 rounded border border-border-neutral px-2 py-1 text-sm" value={yearMin as number | ""}
                    min={0}
                    onChange={(e)=> setYearMin(Number(e.target.value) || "")} aria-label="Min year" />
             <span>–</span>
-            <input type="number" className="w-20 rounded border border-[var(--color-border)] px-2 py-1 text-sm" value={yearMax as number | ""}
+            <input type="number" className="w-20 rounded border border-border-neutral px-2 py-1 text-sm" value={yearMax as number | ""}
                    min={0}
                    onChange={(e)=> setYearMax(Number(e.target.value) || "")} aria-label="Max year" />
           </div>
         </div>
 
         <div className="flex gap-2">
-          <button onClick={apply} className="btn-cta">Apply Filters</button>
-          <button onClick={clearAll} className="rounded border border-[var(--color-border)] px-3 py-2 text-sm">Clear All</button>
+          <Button onClick={apply}>Apply Filters</Button>
+          <Button onClick={clearAll} variant="secondary" size="sm">Clear All</Button>
         </div>
       </div>
     </aside>

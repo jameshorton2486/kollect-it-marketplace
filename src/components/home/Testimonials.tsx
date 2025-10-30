@@ -8,7 +8,7 @@ export default function Testimonials() {
     <section className="section-spacing bg-cream">
       <div className="container grid gap-8 md:grid-cols-3">
         {items.map((t) => (
-          <div key={t.a} className="rounded border border-[var(--color-gray-light)] bg-white p-5">
+          <div key={t.a} className="rounded border border-border-neutral bg-white p-5">
             <p className="font-serif text-[18px] leading-7 text-brand-navy italic">{t.q}</p>
             <p className="mt-2 text-[14px] text-brand-gold">{t.a}</p>
           </div>

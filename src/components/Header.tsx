@@ -36,10 +36,10 @@ export default function Header({ categories = [] }: HeaderProps) {
 
   const getCategoryIcon = (slug?: string, name?: string) => {
     const key = (slug || name || '').toLowerCase();
-    if (key.includes('art')) return <Palette size={16} className="text-[var(--color-gray-dark)]" />;
-    if (key.includes('book')) return <Book size={16} className="text-[var(--color-gray-dark)]" />;
-    if (key.includes('militar')) return <Shield size={16} className="text-[var(--color-gray-dark)]" />;
-    return <Gem size={16} className="text-[var(--color-gray-dark)]" />; // Collectibles / default
+  if (key.includes('art')) return <Palette size={16} className="text-ink-secondary" />;
+  if (key.includes('book')) return <Book size={16} className="text-ink-secondary" />;
+  if (key.includes('militar')) return <Shield size={16} className="text-ink-secondary" />;
+  return <Gem size={16} className="text-ink-secondary" />; // Collectibles / default
   };
 
   useEffect(() => {
@@ -98,16 +98,16 @@ export default function Header({ categories = [] }: HeaderProps) {
   }, [query]);
 
   return (
-    <header className={`sticky top-0 z-50 bg-white border-b border-[var(--color-gray-light)] transition-[box-shadow,height] ${scrolled ? 'shadow-sm' : ''}`}>
+    <header className={`sticky top-0 z-50 bg-white border-b border-border-neutral transition-[box-shadow,height] ${scrolled ? 'shadow-sm' : ''}`}>
       {/* Top bar */}
-      <div className="hidden md:block border-b border-[var(--color-gray-light)]">
+      <div className="hidden md:block border-b border-border-neutral">
         <div className="container flex items-center justify-between py-2 text-[13px]">
-          <div className="text-[var(--color-gray-dark)]">
+          <div className="text-ink-secondary">
             {/* Optional announcement if AnnouncementBar not used */}
             <span>Timeless objects, curated with care.</span>
           </div>
           <div className="flex items-center gap-4">
-            <select aria-label="Currency" className="px-2 py-1 border border-[var(--color-gray-light)] rounded text-[12px] bg-white">
+            <select aria-label="Currency" className="px-2 py-1 border border-border-neutral rounded text-[12px] bg-white">
               <option>USD</option>
               <option>EUR</option>
               <option>GBP</option>
@@ -161,11 +161,11 @@ export default function Header({ categories = [] }: HeaderProps) {
                 onMouseEnter={() => setCatOpen(true)}
                 onMouseLeave={() => setCatOpen(false)}
               >
-                <button className="inline-flex items-center gap-1 hover:text-[var(--color-muted-gold)]">
+                <button className="inline-flex items-center gap-1 hover:text-gold-hover">
                   Shop by Category <ChevronDown size={16} />
                 </button>
                 {catOpen && (
-                  <div className="absolute left-0 mt-2 w-[280px] rounded border border-[var(--color-gray-light)] bg-white shadow-md">
+                  <div className="absolute left-0 mt-2 w-[280px] rounded border border-border-neutral bg-white shadow-md">
                     <div className="max-h-[60vh] overflow-auto py-2">
                       {categories.map((cat) => (
                         <Link key={cat.id} href={`/category/${cat.slug}`} className="flex items-center gap-2 px-4 py-2 hover:bg-cream">
@@ -174,25 +174,25 @@ export default function Header({ categories = [] }: HeaderProps) {
                         </Link>
                       ))}
                     </div>
-                    <div className="border-t border-[var(--color-gray-light)] p-2 text-right">
+                    <div className="border-t border-border-neutral p-2 text-right">
                       <Link href="/shop" className="text-[13px] underline">View All</Link>
                     </div>
                   </div>
                 )}
               </div>
             ) : (
-              <Link href="/shop" className="hover:text-[var(--color-muted-gold)]">Shop</Link>
+              <Link href="/shop" className="hover:text-gold-hover">Shop</Link>
             )}
-            <Link href="/shop?sort=new" className="hover:text-[var(--color-muted-gold)]">Latest Arrivals</Link>
-            <Link href="/authentication" className="hover:text-[var(--color-muted-gold)]">Authentication Services</Link>
-            <Link href="/about" className="hover:text-[var(--color-muted-gold)]">About Us</Link>
-            <Link href="/contact" className="hover:text-[var(--color-muted-gold)]">Contact</Link>
+            <Link href="/shop?sort=new" className="hover:text-gold-hover">Latest Arrivals</Link>
+            <Link href="/authentication" className="hover:text-gold-hover">Authentication Services</Link>
+            <Link href="/about" className="hover:text-gold-hover">About Us</Link>
+            <Link href="/contact" className="hover:text-gold-hover">Contact</Link>
           </nav>
 
           {/* Search */}
           <div className="relative" ref={searchRef}>
-            <div className={`flex items-center gap-2 border border-[var(--color-gray-light)] rounded px-2 py-1 transition-all ${searchOpen ? 'w-[360px]' : 'w-[220px]'}`}>
-              <SearchIcon size={18} className="text-[var(--color-gray-dark)]" />
+            <div className={`flex items-center gap-2 border border-border-neutral rounded px-2 py-1 transition-all ${searchOpen ? 'w-[360px]' : 'w-[220px]'}`}>
+              <SearchIcon size={18} className="text-ink-secondary" />
               <input
                 type="search"
                 placeholder="Search products..."
@@ -204,13 +204,13 @@ export default function Header({ categories = [] }: HeaderProps) {
               />
             </div>
             {searchOpen && (query || loading) && (
-              <div className="absolute z-10 mt-2 w-[420px] rounded border border-[var(--color-gray-light)] bg-white shadow-lg">
+              <div className="absolute z-10 mt-2 w-[420px] rounded border border-border-neutral bg-white shadow-lg">
                 <div className="max-h-[70vh] overflow-auto">
                   {loading && (
-                    <div className="p-3 text-[14px] text-[var(--color-gray-dark)]">Searching…</div>
+                    <div className="p-3 text-[14px] text-ink-secondary">Searching…</div>
                   )}
                   {!loading && results.length === 0 && (
-                    <div className="p-3 text-[14px] text-[var(--color-gray-dark)]">No results</div>
+                    <div className="p-3 text-[14px] text-ink-secondary">No results</div>
                   )}
                   {!loading && results.map((p) => (
                     <Link key={p.id} href={`/product/${p.slug}`} className="flex items-center gap-3 p-3 hover:bg-cream">
@@ -224,7 +224,7 @@ export default function Header({ categories = [] }: HeaderProps) {
                   ))}
                 </div>
                 {results.length > 0 && (
-                  <div className="border-t border-[var(--color-gray-light)] p-2 text-right">
+                  <div className="border-t border-border-neutral p-2 text-right">
                     <Link href={`/shop?q=${encodeURIComponent(query)}`} className="text-[13px] underline">View all results</Link>
                   </div>
                 )}
@@ -236,9 +236,9 @@ export default function Header({ categories = [] }: HeaderProps) {
 
       {/* Mobile search bar */}
       {searchOpen && (
-        <div className="md:hidden border-t border-[var(--color-gray-light)]">
+        <div className="md:hidden border-t border-border-neutral">
           <div className="container py-2">
-            <div className="flex items-center gap-2 border border-[var(--color-gray-light)] rounded px-2 py-1" ref={searchRef}>
+            <div className="flex items-center gap-2 border border-border-neutral rounded px-2 py-1" ref={searchRef}>
               <SearchIcon size={18} />
               <input
                 type="search"
@@ -254,11 +254,11 @@ export default function Header({ categories = [] }: HeaderProps) {
               </button>
             </div>
             {(query || loading) && (
-              <div className="mt-2 rounded border border-[var(--color-gray-light)] bg-white">
-                {loading && <div className="p-3 text-[14px] text-[var(--color-gray-dark)]">Searching…</div>}
-                {!loading && results.length === 0 && <div className="p-3 text-[14px] text-[var(--color-gray-dark)]">No results</div>}
+              <div className="mt-2 rounded border border-border-neutral bg-white">
+                {loading && <div className="p-3 text-[14px] text-ink-secondary">Searching…</div>}
+                {!loading && results.length === 0 && <div className="p-3 text-[14px] text-ink-secondary">No results</div>}
                 {!loading && results.map((p) => (
-                  <Link key={p.id} href={`/product/${p.slug}`} className="flex items-center gap-3 p-3 border-t border-[var(--color-gray-light)]">
+                  <Link key={p.id} href={`/product/${p.slug}`} className="flex items-center gap-3 p-3 border-t border-border-neutral">
                     {p.images?.[0]?.url ? (
                       <Image src={transformCloudinary(p.images[0].url, { width: 80, height: 80, crop: 'fill', quality: 85 })} alt={p.title} width={40} height={40} className="w-10 h-10 object-cover rounded" quality={85} loading="lazy" />
                     ) : (
@@ -286,7 +286,7 @@ export default function Header({ categories = [] }: HeaderProps) {
             </div>
             <nav className="space-y-1">
               <div>
-                <div className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)] mb-1">Categories</div>
+                <div className="text-[12px] uppercase tracking-wide text-ink-secondary mb-1">Categories</div>
                 <div className="flex flex-col">
                   {categories.length > 0 ? (
                     categories.map((cat) => (
@@ -308,8 +308,8 @@ export default function Header({ categories = [] }: HeaderProps) {
                 <Link href="/about" className="block px-2 py-2 rounded hover:bg-cream" onClick={() => setMobileOpen(false)}>About Us</Link>
                 <Link href="/contact" className="block px-2 py-2 rounded hover:bg-cream" onClick={() => setMobileOpen(false)}>Contact</Link>
               </div>
-              <div className="pt-2 border-t border-[var(--color-gray-light)] mt-2">
-                <div className="text-[12px] uppercase tracking-wide text-[var(--color-gray-dark)] mb-1">Account</div>
+              <div className="pt-2 border-t border-border-neutral mt-2">
+                <div className="text-[12px] uppercase tracking-wide text-ink-secondary mb-1">Account</div>
                 {/* Reuse account dropdown link target patterns */}
                 <Link href="/account" className="block px-2 py-2 rounded hover:bg-cream" onClick={() => setMobileOpen(false)}>My Account</Link>
                 <Link href="/login" className="block px-2 py-2 rounded hover:bg-cream" onClick={() => setMobileOpen(false)}>Login</Link>

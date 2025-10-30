@@ -7,6 +7,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
+import { Button } from '../ui/Button';
 
 interface AddressInfo {
   fullName: string;
@@ -120,11 +121,7 @@ export default function CheckoutForm({
         />
       </div>
 
-      <button
-        type="submit"
-        disabled={!stripe || loading}
-        className="btn-pay"
-      >
+      <Button type="submit" disabled={!stripe || loading}>
         {loading ? (
           <>
             <div className="spinner"></div>
@@ -139,7 +136,7 @@ export default function CheckoutForm({
             {typeof totalAmount === 'number' ? `Place Order - $${totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'Pay Now'}
           </>
         )}
-      </button>
+      </Button>
 
       <p className="checkout-secure-notice">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

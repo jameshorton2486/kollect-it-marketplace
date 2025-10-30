@@ -165,7 +165,7 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
             categoryName: product.category.name,
           }}
           quantity={quantity}
-          className="btn-cta"
+          variant="primary"
         />
 
         <button

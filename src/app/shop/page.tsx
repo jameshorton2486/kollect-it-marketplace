@@ -144,12 +144,12 @@ export default async function ShopPage({ searchParams }: { searchParams?: Promis
               <h2 className="font-serif text-2xl mb-2">Search results for “{q}”</h2>
               {products.length > 0 ? (
                 <>
-                  <p className="text-[var(--color-gray-dark)] mb-4">{products.length} result{products.length === 1 ? '' : 's'}</p>
+                  <p className="text-ink-secondary mb-4">{products.length} result{products.length === 1 ? '' : 's'}</p>
                   <ProductGrid products={products} />
                 </>
               ) : (
-                <div className="rounded border border-[var(--color-gray-light)] bg-cream p-6">
-                  <p className="text-[var(--color-gray-dark)]">No products found. Try a different search term.</p>
+                <div className="rounded border border-border-neutral bg-cream p-6">
+                  <p className="text-ink-secondary">No products found. Try a different search term.</p>
                   <div className="mt-3">
                     <Link href="/shop" className="underline">Back to Shop</Link>
                   </div>
@@ -162,7 +162,7 @@ export default async function ShopPage({ searchParams }: { searchParams?: Promis
           <div className="shop-intro text-center mb-[clamp(3rem,6vw,5rem)]">
             <p className="section-subtitle" data-reveal>EXPERTLY CURATED COLLECTIONS</p>
             <h1 className="section-title-main" data-reveal data-reveal-delay="100">Shop by Category</h1>
-            <p className="max-w-[700px] mx-auto text-base leading-[1.7] text-[var(--color-gray-dark)]" data-reveal data-reveal-delay="200">
+            <p className="max-w-[700px] mx-auto text-base leading-[1.7] text-ink-secondary" data-reveal data-reveal-delay="200">
               Discover authenticated art pieces, rare books, collectibles, and historical artifacts
               curated for discerning collectors who insist on quality and character.
             </p>

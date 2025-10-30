@@ -231,7 +231,7 @@ export default async function AboutPage() {
           >
             CATEGORIES
           </p>
-          <h2 className="font-serif text-[clamp(36px,4vw,48px)] font-normal mb-16 leading-[1.3] text-[var(--color-navy)]">
+          <h2 className="font-serif text-[clamp(36px,4vw,48px)] font-normal mb-16 leading-[1.3] text-brand-navy">
             What We Collect
           </h2>
 
@@ -240,7 +240,7 @@ export default async function AboutPage() {
               <div key={category.id}>
                 <Link
                   href={`/category/${category.slug}`}
-                  className="category-link no-underline text-[18px] font-medium tracking-[0.05em] uppercase text-[var(--color-navy)] block mb-3 font-serif hover:text-[var(--color-muted-gold)] transition-colors"
+                  className="category-link no-underline text-[18px] font-medium tracking-[0.05em] uppercase text-brand-navy block mb-3 font-serif hover:text-gold-hover transition-colors"
                 >
                   {category.name}
                 </Link>
@@ -254,7 +254,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-[100px] px-8 bg-[var(--color-navy)] text-white text-center">
+  <section className="py-[100px] px-8 bg-deep-navy text-white text-center">
         <div className="container max-w-[700px] mx-auto">
           <h2 className="font-serif text-[clamp(36px,4vw,42px)] font-normal mb-4 leading-[1.3] text-white">
             Begin Your Collection
@@ -264,7 +264,7 @@ export default async function AboutPage() {
           </p>
           <Link
             href="/"
-            className="about-cta-button inline-flex items-center justify-center px-10 py-4 border-2 border-[var(--color-gold)] text-[var(--color-gold)] text-[14px] font-medium tracking-[0.1em] uppercase rounded-[2px] no-underline transition-colors hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
+            className="about-cta-button inline-flex items-center justify-center px-10 py-4 border-2 border-gold text-gold text-[14px] font-medium tracking-[0.1em] uppercase rounded-[2px] no-underline transition-colors hover:bg-gold hover:text-brand-navy"
           >
             BROWSE COLLECTION
           </Link>

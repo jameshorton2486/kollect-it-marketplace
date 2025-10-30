@@ -326,7 +326,7 @@ export default function CheckoutPage() {
                     <button
                       onClick={handleContinueToPayment}
                       disabled={loading}
-                      className="btn-continue"
+                      className="btn-primary"
                     >
                       {loading ? 'Processing...' : 'Continue to Payment'}
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -346,7 +346,7 @@ export default function CheckoutPage() {
                   <div className="shipping-review">
                     <div className="shipping-review-header">
                       <h3>Shipping To</h3>
-                      <button onClick={() => setStep('shipping')} className="btn-link">Edit</button>
+                      <button onClick={() => setStep('shipping')} className="underline text-link hover:text-link-hover">Edit</button>
                     </div>
                     <div className="shipping-review-body">
                       <p className="font-medium">{shippingInfo.fullName}</p>

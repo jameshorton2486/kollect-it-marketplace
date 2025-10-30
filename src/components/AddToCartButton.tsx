@@ -2,6 +2,7 @@
 
 import { useCart } from '@/contexts/CartContext';
 import { useState } from 'react';
+import { Button } from './ui/Button';
 
 interface AddToCartButtonProps {
   product: {
@@ -82,9 +83,10 @@ export default function AddToCartButton({ product, variant = 'primary', classNam
 
   if (variant === 'secondary') {
     return (
-      <button
+      <Button
+        variant="secondary"
         onClick={handleAddToCart}
-        className={`btn-secondary ${added ? 'added' : ''} ${className}`}
+        className={`${added ? 'added' : ''} ${className}`}
       >
         {added ? (
           <>
@@ -103,14 +105,16 @@ export default function AddToCartButton({ product, variant = 'primary', classNam
             Add to Cart
           </>
         )}
-      </button>
+      </Button>
     );
   }
 
+  // default 'primary'
   return (
-    <button
+    <Button
+      variant="primary"
       onClick={handleAddToCart}
-      className={`btn-add-to-cart ${added ? 'added' : ''} ${className}`}
+      className={`${added ? 'added' : ''} ${className}`}
     >
       {added ? (
         <>
@@ -129,6 +133,6 @@ export default function AddToCartButton({ product, variant = 'primary', classNam
           Add to Cart
         </>
       )}
-    </button>
+    </Button>
   );
 }

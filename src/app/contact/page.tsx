@@ -43,7 +43,7 @@ export default function ContactPage() {
               <h2 className="font-serif text-[clamp(1.75rem,3vw,2.25rem)] mb-6">
                 We're Here to Help
               </h2>
-              <p className="text-base leading-[1.7] text-[var(--color-gray-dark)] mb-8">
+              <p className="text-base leading-[1.7] text-ink-secondary mb-8">
                 Whether you're looking to acquire a rare piece, need an authentication, or have questions
                 about our collection, our team of experts is ready to assist you.
               </p>
@@ -53,7 +53,7 @@ export default function ContactPage() {
                   <h3 className="text-[14px] font-semibold tracking-[0.08em] uppercase mb-2">
                     Email
                   </h3>
-                  <a href="mailto:hello@kollect-it.com" className="text-[var(--color-muted-gold)] text-base">
+                  <a href="mailto:hello@kollect-it.com" className="text-gold text-base hover:text-gold-hover underline-offset-2 hover:underline">
                     hello@kollect-it.com
                   </a>
                 </div>
@@ -62,7 +62,7 @@ export default function ContactPage() {
                   <h3 className="text-[14px] font-semibold tracking-[0.08em] uppercase mb-2">
                     Phone
                   </h3>
-                  <a href="tel:+15551234567" className="text-[var(--color-muted-gold)] text-base">
+                  <a href="tel:+15551234567" className="text-gold text-base hover:text-gold-hover underline-offset-2 hover:underline">
                     +1 (555) 123-4567
                   </a>
                 </div>
@@ -71,7 +71,7 @@ export default function ContactPage() {
                   <h3 className="text-[14px] font-semibold tracking-[0.08em] uppercase mb-2">
                     Hours
                   </h3>
-                  <p className="text-base text-[var(--color-gray-dark)]">
+                  <p className="text-base text-ink-secondary">
                     Monday – Friday: 9:00 AM – 6:00 PM EST<br />
                     Saturday: 10:00 AM – 4:00 PM EST<br />
                     Sunday: Closed
@@ -87,7 +87,7 @@ export default function ContactPage() {
       </section>
 
       {/* Map Section */}
-      <section className="py-[clamp(4rem,8vw,6rem)] bg-[var(--color-cream)]">
+  <section className="py-[clamp(4rem,8vw,6rem)] bg-cream">
         <div className="container">
           <h2 className="section-subtitle text-center mb-8">VISIT OUR SHOWROOM</h2>
           <div className="map-container" data-reveal>
@@ -101,7 +101,7 @@ export default function ContactPage() {
               title="Kollect-It Location"
             />
           </div>
-          <p className="text-center mt-6 text-sm text-[var(--color-gray-medium)]">
+          <p className="text-center mt-6 text-sm text-ink-muted">
             By appointment only. Please contact us to schedule a visit.
           </p>
         </div>

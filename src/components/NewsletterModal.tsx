@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { Button } from './ui/Button';
 import { X } from 'lucide-react';
 
 interface NewsletterModalProps {
@@ -176,7 +177,7 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
 
                 <div className="form-group">
                   <label htmlFor="newsletter-firstname" className="form-label">
-                    First Name <span style={{ opacity: 0.6 }}>(optional)</span>
+                    First Name <span className="opacity-60">(optional)</span>
                   </label>
                   <input
                     id="newsletter-firstname"
@@ -194,13 +195,9 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
                   </div>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn btn--primary newsletter-modal-submit"
-                >
+                <Button type="submit" disabled={isSubmitting} className="newsletter-modal-submit">
                   {isSubmitting ? 'Subscribing...' : 'Get Your Free Guide'}
-                </button>
+                </Button>
               </form>
 
               {/* Trust message */}
@@ -226,18 +223,15 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
                 We've sent you the Collector's Guide to <strong>{email}</strong>
               </p>
 
-              <button
-                onClick={handleDownload}
-                className="btn btn--primary newsletter-modal-submit"
-              >
+              <Button onClick={handleDownload} className="newsletter-modal-submit">
                 Download Guide Now
-              </button>
+              </Button>
 
               <p className="newsletter-modal-trust">
                 Didn't receive it? Check your spam folder or{' '}
                 <button
                   onClick={() => setIsSuccess(false)}
-                  style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+                  className="underline bg-transparent border-0 text-inherit cursor-pointer"
                 >
                   try again
                 </button>
