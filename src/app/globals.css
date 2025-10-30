@@ -33,9 +33,9 @@
     --cta-600: 212 52% 21%; /* darker hover */
     --cta-400: 212 52% 35%; /* ring */
 
-    /* Link */
-    --link-600: 212 28% 49%; /* ~#5C7BA0 */
-    --link-700: 212 28% 43%; /* ~#4B688E */
+  /* Link: darken default to meet AA on white */
+  --link-600: 212 28% 43%; /* ~#4B688E */
+  --link-700: 212 28% 38%; /* darker hover ~#405A7A */
 
     /* Borders */
     --border-300: 36 9% 86%;  /* ~#E0DDD9 */
@@ -58,8 +58,8 @@
     /* Design Tokens: Interactive */
     --color-cta: #1E3A5F;           /* Deep navy CTA */
     --color-cta-hover: #254B74;     /* Hover */
-    --color-link: #5C7BA0;          /* Accessible blue-gray */
-    --color-link-hover: #4B688E;    /* Link hover */
+  --color-link: #4B688E;          /* Darker default for AA */
+  --color-link-hover: #405A7A;    /* Darker hover */
 
     /* Design Tokens: System States */
     --color-success: #2D6A4F;
