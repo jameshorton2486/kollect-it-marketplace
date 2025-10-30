@@ -87,7 +87,7 @@ export default function FAQPage() {
           <p style={{ maxWidth: '600px', margin: '0 auto 2rem', fontSize: '16px', lineHeight: '1.7', color: 'var(--color-gray-dark)' }}>
             Our team of experts is here to help. Contact us for personalized assistance.
           </p>
-          <a href="/contact" className="btn-primary cta-pulse">
+            <a href="/contact" className="btn-primary">
             CONTACT US
           </a>
         </div>

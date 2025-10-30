@@ -116,7 +116,7 @@ export default function ShippingReturnsPage() {
           <p style={{ maxWidth: '600px', margin: '0 auto 2rem', fontSize: '16px', lineHeight: '1.7', color: 'var(--color-gray-dark)' }}>
             Our customer service team is here to assist with any questions about our policies.
           </p>
-          <a href="/contact" className="btn-primary cta-pulse">
+            <a href="/contact" className="btn-primary">
             CONTACT US
           </a>
         </div>

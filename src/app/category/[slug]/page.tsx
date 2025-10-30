@@ -262,7 +262,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                   <div className="no-products text-center py-16">
                     <h3 className="font-serif text-brand-navy text-2xl">Nothing found here</h3>
                     <p className="mt-2 text-ink-secondary">Try adjusting filters or browse all products.</p>
-                    <Link href="/" className="btn-cta mt-4 inline-block">Browse All Products</Link>
+                    <Link href="/" className="btn-primary mt-4 inline-block">Browse All Products</Link>
                   </div>
                 )}
 

@@ -106,7 +106,7 @@ export default function AuthenticationPage() {
           <p style={{ fontSize: '17px', lineHeight: '1.8', color: 'var(--color-gray-dark)', fontWeight: 600, marginBottom: '2rem' }}>
             If any item is later found to be inauthentic, we offer a full refund with no questions asked.
           </p>
-          <a href="/contact" className="btn-primary cta-shimmer">
+            <a href="/contact" className="btn-primary">
             CONTACT OUR EXPERTS
           </a>
         </div>

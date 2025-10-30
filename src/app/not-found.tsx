@@ -7,7 +7,7 @@ export default function NotFoundPage() {
         <h1 className="font-serif text-3xl text-brand-navy">Page Not Found</h1>
         <p className="mt-2 text-ink-secondary">The page you’re looking for doesn’t exist or was moved.</p>
         <div className="mt-4">
-          <Link href="/" className="btn-cta">Return Home</Link>
+          <Link href="/" className="btn-primary">Return Home</Link>
         </div>
       </div>
     </div>

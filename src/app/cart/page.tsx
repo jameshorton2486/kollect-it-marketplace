@@ -51,7 +51,7 @@ export default function CartPage() {
           </div>
           <h1 className="font-serif text-3xl text-brand-navy">Your cart is empty</h1>
           <p className="mt-2 text-ink-secondary">Start exploring our collection.</p>
-          <Link href="/shop" className="btn-cta mt-4 inline-block">Browse Products</Link>
+          <Link href="/shop" className="btn-primary mt-4 inline-block">Browse Products</Link>
         </div>
       </div>
     );
@@ -120,7 +120,7 @@ export default function CartPage() {
             <div className="my-3 border-t border-border-neutral" />
             <div className="flex items-center justify-between font-semibold text-brand-gold"><span>Total</span><span>${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>
 
-            <Link href="/checkout" className="btn-cta mt-4 block w-full text-center">Proceed to Checkout</Link>
+            <Link href="/checkout" className="btn-primary mt-4 block w-full text-center">Proceed to Checkout</Link>
             <Link href="/shop" className="mt-2 block text-center text-sm text-brand-gold hover:underline">Continue Shopping</Link>
           </div>
         </aside>
