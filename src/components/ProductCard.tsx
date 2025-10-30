@@ -26,7 +26,7 @@ export default function ProductCard({ product, variant = 'grid' }: { product: Pr
 
   if (variant === 'list') {
     return (
-      <div className="flex gap-4 rounded border border-[var(--color-gray-light)] bg-white p-3">
+      <div className="flex gap-4 rounded border border-border-neutral bg-white p-3">
         <Link href={`/product/${product.slug}`} className="block h-36 w-36 shrink-0 overflow-hidden rounded">
           <Image src={imgSrc} alt={`${product.title} - ${product.category || 'Product'} thumbnail`} width={150} height={150} className="h-full w-full object-cover" quality={85} loading="lazy" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
         </Link>
@@ -39,7 +39,7 @@ export default function ProductCard({ product, variant = 'grid' }: { product: Pr
               <h3 className="font-serif text-[20px] leading-snug text-brand-navy line-clamp-2">{product.title}</h3>
             </Link>
             {product.description && (
-              <p className="mt-1 text-[14px] text-[var(--color-gray-dark)] line-clamp-2">{product.description}</p>
+              <p className="mt-1 text-[14px] text-ink-muted line-clamp-2">{product.description}</p>
             )}
             <div className="mt-2 text-[20px] font-semibold text-brand-gold">${product.price.toLocaleString()}</div>
             <div className="mt-3 flex items-center gap-2">
@@ -56,7 +56,7 @@ export default function ProductCard({ product, variant = 'grid' }: { product: Pr
                 quantity={1}
               />
               <button
-                className={`inline-flex items-center gap-2 rounded border border-[var(--color-gray-light)] px-3 py-2 text-[14px] ${wishlisted ? 'text-brand-gold' : ''}`}
+                className={`inline-flex items-center gap-2 rounded border border-border-neutral px-3 py-2 text-[14px] ${wishlisted ? 'text-brand-gold' : ''}`}
                 aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                 onClick={async (e) => { e.preventDefault(); await toggleWishlist(product.id); }}
                 disabled={loading}
@@ -76,7 +76,7 @@ export default function ProductCard({ product, variant = 'grid' }: { product: Pr
   // grid variant
   return (
     <div
-      className="group rounded-lg border border-[var(--color-gray-light)] bg-white p-3 transition-transform duration-200 hover:-translate-y-1 hover:shadow-sm"
+      className="group rounded-lg border border-border-neutral bg-white p-3 transition-transform duration-200 hover:-translate-y-1 hover:shadow-sm"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -102,7 +102,7 @@ export default function ProductCard({ product, variant = 'grid' }: { product: Pr
         </Link>
         {/* Wishlist button */}
         <button
-          className="absolute right-2 top-2 inline-flex items-center justify-center rounded border border-[var(--color-gray-light)] bg-white/90 p-2 hover:text-brand-gold"
+          className="absolute right-2 top-2 inline-flex items-center justify-center rounded border border-border-neutral bg-white/90 p-2 hover:text-brand-gold"
           aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
           onClick={async (e) => { e.preventDefault(); await toggleWishlist(product.id); }}
           disabled={loading}

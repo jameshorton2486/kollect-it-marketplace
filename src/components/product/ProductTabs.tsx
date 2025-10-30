@@ -39,8 +39,8 @@ export default function ProductTabs({ product }: ProductTabsProps) {
           </button>
         </div>
 
-        {/* Tab Content */}
-        <div className="product-tabs-content leading-[1.8] text-[var(--color-gray-dark)]">
+  {/* Tab Content */}
+  <div className="product-tabs-content leading-[1.8] text-ink-muted">
           {activeTab === 'details' && (
             <div className="tab-panel">
               <h3 className="font-serif text-brand-navy">Product Description</h3>

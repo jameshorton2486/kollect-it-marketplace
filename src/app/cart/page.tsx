@@ -42,7 +42,7 @@ export default function CartPage() {
     return (
       <div className="container py-16">
         <div className="mx-auto max-w-xl text-center">
-          <div className="mx-auto mb-4 h-24 w-24 text-[var(--color-charcoal)]">
+          <div className="mx-auto mb-4 h-24 w-24 text-ink-secondary">
             <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mx-auto">
               <circle cx="9" cy="21" r="1" />
               <circle cx="20" cy="21" r="1" />
@@ -50,7 +50,7 @@ export default function CartPage() {
             </svg>
           </div>
           <h1 className="font-serif text-3xl text-brand-navy">Your cart is empty</h1>
-          <p className="mt-2 text-[var(--color-charcoal)]">Start exploring our collection.</p>
+          <p className="mt-2 text-ink-secondary">Start exploring our collection.</p>
           <Link href="/shop" className="btn-cta mt-4 inline-block">Browse Products</Link>
         </div>
       </div>
@@ -60,10 +60,10 @@ export default function CartPage() {
   return (
     <div className="container py-10">
       {/* Header */}
-      <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--color-border)] pb-4">
+  <div className="flex flex-wrap items-end justify-between gap-3 border-b border-border-neutral pb-4">
         <div>
           <h1 className="font-serif text-brand-navy text-[42px] leading-tight">Your Cart</h1>
-          <p className="text-xs uppercase tracking-wider text-[var(--color-charcoal)]">{itemCount} {itemCount === 1 ? 'item' : 'items'}</p>
+          <p className="text-xs uppercase tracking-wider text-ink-secondary">{itemCount} {itemCount === 1 ? 'item' : 'items'}</p>
         </div>
         <Link href="/shop" className="text-sm text-brand-gold hover:underline">Continue Shopping</Link>
       </div>
@@ -73,8 +73,8 @@ export default function CartPage() {
         {/* Items */}
         <div className="flex-1">
           {items.map((item) => (
-            <div key={item.id} className="flex items-start gap-4 border-b border-[var(--color-border)] py-4">
-              <Link href={`/product/${item.slug}`} className="block h-[120px] w-[120px] shrink-0 overflow-hidden rounded bg-[var(--color-gray-light)]">
+            <div key={item.id} className="flex items-start gap-4 border-b border-border-neutral py-4">
+              <Link href={`/product/${item.slug}`} className="block h-[120px] w-[120px] shrink-0 overflow-hidden rounded bg-surface-2">
                 <Image src={item.image} alt={item.title} width={120} height={120} className="h-full w-full object-cover" />
               </Link>
 
@@ -87,7 +87,7 @@ export default function CartPage() {
                   </div>
 
                   <div className="text-right">
-                    <div className="inline-flex items-center rounded border border-[var(--color-border)]">
+                    <div className="inline-flex items-center rounded border border-border-neutral">
                       <button onClick={() => updateQuantity(item.id, item.quantity - 1)} aria-label="Decrease quantity" className="px-3 py-2">−</button>
                       <span className="w-10 text-center">{item.quantity}</span>
                       <button onClick={() => updateQuantity(item.id, item.quantity + 1)} aria-label="Increase quantity" className="px-3 py-2">+</button>
@@ -97,27 +97,27 @@ export default function CartPage() {
                 </div>
 
                 <div>
-                  <button onClick={() => removeItem(item.id)} aria-label="Remove item" className="text-sm text-[var(--color-gray-dark)] transition-colors hover:text-red-500">× Remove</button>
+                  <button onClick={() => removeItem(item.id)} aria-label="Remove item" className="text-sm text-ink-muted transition-colors hover:text-red-500">× Remove</button>
                 </div>
               </div>
             </div>
           ))}
 
           <div className="mt-3">
-            <button onClick={clearCart} className="rounded border border-[var(--color-border)] px-3 py-2 text-sm">Clear Cart</button>
+            <button onClick={clearCart} className="rounded border border-border-neutral px-3 py-2 text-sm">Clear Cart</button>
           </div>
         </div>
 
         {/* Summary */}
         <aside className="w-full lg:w-80 lg:shrink-0">
-          <div className="rounded border border-[var(--color-border)] p-4">
+          <div className="rounded border border-border-neutral p-4">
             <h2 className="font-serif text-brand-navy text-xl">Order Summary</h2>
             <div className="mt-3 space-y-2 text-sm">
               <div className="flex items-center justify-between"><span>Subtotal ({itemCount} {itemCount === 1 ? 'item' : 'items'})</span><span>${subtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>
-              <div className="flex items-center justify-between"><span>Shipping</span><span className="text-[var(--color-charcoal)]">Calculated at checkout</span></div>
+              <div className="flex items-center justify-between"><span>Shipping</span><span className="text-ink-secondary">Calculated at checkout</span></div>
               <div className="flex items-center justify-between"><span>Estimated Tax (8%)</span><span>${tax.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>
             </div>
-            <div className="my-3 border-t border-[var(--color-border)]" />
+            <div className="my-3 border-t border-border-neutral" />
             <div className="flex items-center justify-between font-semibold text-brand-gold"><span>Total</span><span>${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>
 
             <Link href="/checkout" className="btn-cta mt-4 block w-full text-center">Proceed to Checkout</Link>
@@ -137,7 +137,7 @@ export default function CartPage() {
                   {p.images[0] ? (
                     <Image src={transformCloudinary(p.images[0].url, 'thumbnail')} alt={`${p.title} suggestion`} width={240} height={160} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" quality={85} placeholder="blur" blurDataURL={BLUR_DATA_URL} />
                   ) : (
-                    <div className="h-full w-full bg-[var(--color-gray-light)]" />
+                    <div className="h-full w-full bg-surface-2" />
                   )}
                 </div>
                 <div className="mt-2">

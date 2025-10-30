@@ -76,8 +76,8 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
 
   {/* Quantity Selector */}
   <div className="product-qty my-4 flex items-center gap-3">
-        <label htmlFor="quantity" className="text-sm text-[var(--color-charcoal)]">Quantity</label>
-        <div className="inline-flex items-center rounded border border-[var(--color-border)]">
+    <label htmlFor="quantity" className="text-sm text-ink-secondary">Quantity</label>
+    <div className="inline-flex items-center rounded border border-border-neutral">
           <button
             type="button"
             className="px-3 py-2 select-none"
@@ -112,7 +112,7 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
       </div>
 
   {/* Details Grid */}
-  <div className="product-info-details leading-[1.8] text-[var(--color-charcoal)]">
+  <div className="product-info-details leading-[1.8] text-ink-secondary">
         {product.artist && (
           <div className="product-detail-item">
             <span className="product-detail-label">Artist/Maker:</span>

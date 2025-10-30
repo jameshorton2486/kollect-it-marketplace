@@ -36,8 +36,8 @@ export default function RelatedProducts({ products, categoryName }: RelatedProdu
         <div className="flex items-center justify-between gap-3">
           <h2 className="related-products-title font-serif text-brand-navy text-3xl md:text-4xl">You May Also Like</h2>
           <div className="hidden md:flex gap-2">
-            <button className="rounded border border-[var(--color-border)] px-3 py-2" aria-label="Scroll left" onClick={() => scrollByCards(-1)}>◀</button>
-            <button className="rounded border border-[var(--color-border)] px-3 py-2" aria-label="Scroll right" onClick={() => scrollByCards(1)}>▶</button>
+            <button className="rounded border border-border-neutral px-3 py-2" aria-label="Scroll left" onClick={() => scrollByCards(-1)}>◀</button>
+            <button className="rounded border border-border-neutral px-3 py-2" aria-label="Scroll right" onClick={() => scrollByCards(1)}>▶</button>
           </div>
         </div>
 
@@ -53,7 +53,7 @@ export default function RelatedProducts({ products, categoryName }: RelatedProdu
                 {product.images[0] ? (
                   <Image src={transformCloudinary(product.images[0].url, 'thumbnail')} alt={`${product.title} - ${product.category.name} related`} width={300} height={180} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" quality={85} placeholder="blur" blurDataURL={BLUR_DATA_URL} />
                 ) : (
-                  <div className="related-product-placeholder h-full w-full bg-[var(--color-gray-light)]" />
+                  <div className="related-product-placeholder h-full w-full bg-surface-2" />
                 )}
               </div>
               <div className="related-product-info mt-2">

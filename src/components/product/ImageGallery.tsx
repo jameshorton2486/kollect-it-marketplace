@@ -101,7 +101,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
             <button
               key={index}
               className={`product-gallery-thumbnail shrink-0 snap-start rounded border ${
-                index === selectedIndex ? 'border-brand-gold' : 'border-[var(--color-border)]'
+                index === selectedIndex ? 'border-brand-gold' : 'border-border-neutral'
               }`}
               onClick={() => setSelectedIndex(index)}
               title={`View ${index + 1}`}

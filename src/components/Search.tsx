@@ -125,9 +125,9 @@ export default function Search() {
   return (
     <div className="relative" ref={boxRef}>
       <form onSubmit={handleSubmit} role="search" aria-label="Site search" className="flex items-center">
-  <div className={`flex w-full items-center gap-2 rounded border px-3 py-2 bg-white focus-within:border-[#B1874C] focus-within:ring-1 focus-within:ring-[#B1874C]`}>
+  <div className={`flex wfull items-center gap-2 rounded border px-3 py-2 bg-white focus-within:border-[#B1874C] focus-within:ring-1 focus-within:ring-[#B1874C]`}>
           {/* Magnifying glass */}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--color-gray-dark)]">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-ink-muted">
             <circle cx="11" cy="11" r="8" />
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
@@ -135,7 +135,7 @@ export default function Search() {
             ref={inputRef}
             type="search"
             placeholder="Search products..."
-            className="w-full bg-transparent outline-none placeholder:text-[var(--color-gray)]"
+            className="w-full bg-transparent outline-none placeholder:text-ink-muted"
             value={query}
             onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
             onFocus={() => setOpen(true)}
@@ -153,16 +153,16 @@ export default function Search() {
 
       {/* Dropdown */}
       {open && (
-        <div id="search-dropdown" className="absolute z-50 mt-2 w-[420px] max-w-[90vw] rounded border border-[var(--color-gray-light)] bg-white p-2 shadow-md" aria-label="Search results">
+        <div id="search-dropdown" className="absolute z-50 mt-2 w-[420px] max-w-[90vw] rounded border border-border-neutral bg-white p-2 shadow-md" aria-label="Search results">
           {/* Recent searches */}
           {showRecent && (
             <div className="p-2">
-              <div className="mb-1 text-xs text-[var(--color-gray-dark)]">Recent searches</div>
+              <div className="mb-1 text-xs text-ink-muted">Recent searches</div>
               <ul className="space-y-1">
                 {recent.map((r) => (
                   <li key={r}>
                     <button
-                      className="w-full rounded px-2 py-1 text-left hover:bg-[var(--color-gray-ultra-light)]"
+                      className="w-full rounded px-2 py-1 text-left hover:bg-surface-1"
                       onClick={() => { setQuery(r); setOpen(false); router.push(`/shop?q=${encodeURIComponent(r)}`); }}
                     >
                       {r}
@@ -194,7 +194,7 @@ export default function Search() {
                   <li key={p.id}>
                     <Link
                       href={`/product/${p.slug}`}
-                      className="flex items-center gap-3 rounded px-2 py-2 hover:bg-[var(--color-gray-ultra-light)]"
+                      className="flex items-center gap-3 rounded px-2 py-2 hover:bg-surface-1"
                       onClick={() => { saveRecent(query.trim()); setOpen(false); }}
                     >
                       <Image src={img} alt={`${p.title} thumbnail`} width={40} height={40} className="h-10 w-10 rounded object-cover" quality={85} loading="lazy" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
@@ -212,7 +212,7 @@ export default function Search() {
 
           {/* No results */}
           {query.trim().length >= 2 && !loading && results.length === 0 && (
-            <div className="p-3 text-sm text-[var(--color-gray-dark)]">
+            <div className="p-3 text-sm text-ink-muted">
               <div className="font-medium text-brand-navy">No products found</div>
               <div>Try different keywords</div>
             </div>
@@ -220,10 +220,10 @@ export default function Search() {
 
           {/* View all link */}
           {query.trim().length >= 2 && (
-            <div className="mt-2 border-t border-[var(--color-gray-ultra-light)] pt-2">
+            <div className="mt-2 border-t border-border-neutral pt-2">
               <Link
                 href={`/shop?q=${encodeURIComponent(query.trim())}`}
-                className="block rounded px-2 py-2 text-center text-sm text-brand-gold hover:bg-[var(--color-gray-ultra-light)]"
+                className="block rounded px-2 py-2 text-center text-sm text-brand-gold hover:bg-surface-1"
                 onClick={() => { saveRecent(query.trim()); setOpen(false); }}
               >
                 View all results for "{query.trim()}"

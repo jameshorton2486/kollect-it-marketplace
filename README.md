@@ -13,7 +13,7 @@ A full-stack Next.js application for Kollect-It antiques and collectibles market
 
 2. **Admin Dashboard**
    - Secure login with authentication
-   - **Multi-image upload with drag-and-drop** (Cloudinary integration)
+   - **Multi-image upload with drag-and-drop** (ImageKit integration)
    - Add new products with rich metadata (artist, year, period, etc.)
    - Delete products
    - View statistics (total products, active, sold, etc.)
@@ -23,7 +23,7 @@ A full-stack Next.js application for Kollect-It antiques and collectibles market
    - Drag-and-drop or browse to upload
    - Multiple images per product (up to 8)
    - Auto-resize to max 1600px width
-   - Cloudinary CDN for fast, optimized delivery
+   - ImageKit CDN for fast, optimized delivery
    - Drag to reorder images
    - Delete unwanted images
    - Visual thumbnails with "Main" badge
@@ -180,15 +180,20 @@ bun run db:studio       # Open database GUI
 
 ### **Setting Up Image Uploads (One-Time Setup):**
 
-Before you can upload product images, you need to configure Cloudinary:
+Before you can upload product images, you need to configure ImageKit:
 
-1. **See the detailed guide**: Read [CLOUDINARY_SETUP.md](./CLOUDINARY_SETUP.md) for step-by-step instructions
+1. **See the detailed guide**: Read [docs/IMAGEKIT_SETUP.md](./docs/IMAGEKIT_SETUP.md) for step-by-step instructions
 2. **Quick summary**:
-   - Create a free Cloudinary account
-   - Get your Cloud Name, API Key, and API Secret
-   - Create an unsigned upload preset
-   - Update your `.env` file with the credentials
-   - Restart the dev server
+   - Create a free ImageKit account
+   - Get your URL Endpoint and Public Key; generate a Private Key
+    - Add these to `.env`:
+
+       ```env
+     NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=
+     NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=
+     IMAGEKIT_PRIVATE_KEY=
+     ```
+    - Restart the dev server
 
 **This only needs to be done once!** After setup, image uploads will work seamlessly.
 
@@ -198,10 +203,11 @@ Before you can accept payments, you need to configure Stripe:
 
 1. **See the detailed guide**: Read [STRIPE_SETUP.md](./STRIPE_SETUP.md) for step-by-step instructions
 2. **Quick summary**:
-   - Create a free Stripe account at https://stripe.com
+   - Create a free Stripe account at [stripe.com](https://stripe.com)
    - Get your test API keys from the Stripe Dashboard
    - Update your `.env` file with the keys:
-     ```env
+     
+   ```env
      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_your-key"
      STRIPE_SECRET_KEY="sk_test_your-key"
      ```
@@ -456,7 +462,7 @@ If you need help with deployment, you can:
 ## 🎉 What's Next?
 
 ### **✅ Recently Completed:**
-1. ~~Image Upload~~ ✅ **Multi-image upload with Cloudinary**
+1. ~~Image Upload~~ ✅ **Multi-image upload with ImageKit**
 2. ~~Product Details Pages~~ ✅ **Full product pages with gallery**
 3. ~~Shopping Cart~~ ✅ **Complete cart system with checkout UI**
 4. ~~User Authentication~~ ✅ **Login, register, accounts, wishlist**

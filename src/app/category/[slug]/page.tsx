@@ -261,7 +261,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                 ) : (
                   <div className="no-products text-center py-16">
                     <h3 className="font-serif text-brand-navy text-2xl">Nothing found here</h3>
-                    <p className="mt-2 text-[var(--color-charcoal)]">Try adjusting filters or browse all products.</p>
+                    <p className="mt-2 text-ink-secondary">Try adjusting filters or browse all products.</p>
                     <Link href="/" className="btn-cta mt-4 inline-block">Browse All Products</Link>
                   </div>
                 )}
@@ -282,7 +282,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                       const href = `?${params.toString()}`;
                       const isActive = i + 1 === currentPage;
                       return (
-                        <Link key={i} href={href} className={`rounded border px-3 py-2 text-sm ${isActive ? 'border-brand-gold text-brand-navy' : 'border-[var(--color-border)]'}`}>
+                        <Link key={i} href={href} className={`rounded border px-3 py-2 text-sm ${isActive ? 'border-brand-gold text-brand-navy' : 'border-border-neutral'}`}>
                           {i + 1}
                         </Link>
                       );
