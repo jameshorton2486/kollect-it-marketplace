@@ -28,8 +28,7 @@ const nextConfig = {
     unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'ik.imagekit.io', pathname: '/**' },
-      { protocol: 'https', hostname: 'res.cloudinary.com', pathname: '/**' },
-      { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+      // Keep only explicitly used external assets (OG images, etc.)
       { protocol: 'https', hostname: 'ext.same-assets.com', pathname: '/**' },
     ]
   }

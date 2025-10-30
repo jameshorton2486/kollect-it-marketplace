@@ -1,6 +1,7 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+import pluginImport from "eslint-plugin-import";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,6 +12,17 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  // Global rules and plugins
+  {
+    plugins: {
+      import: pluginImport,
+    },
+    rules: {
+      // Prevent sneaky CommonJS in our TS/ESM codebase
+      "@typescript-eslint/no-var-requires": "error",
+      "import/no-commonjs": "error",
+    },
+  },
   {
     languageOptions: {
       parserOptions: {

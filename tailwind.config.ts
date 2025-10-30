@@ -18,6 +18,34 @@ export default {
           muted: 'hsl(var(--ink-500))',
           inverted: 'hsl(var(--ink-inverted))',
         },
+        /**
+         * Design token aliases (non-breaking) mapped to requested Path A scheme.
+         * We avoid overriding Shadcn's primary/secondary/background keys.
+         */
+        neutral: {
+          primary: '#2C2C2C',   // text primary
+          secondary: '#5A5A5A', // text secondary
+          tertiary: '#8C8C8C',  // captions/labels
+        },
+        brandAccent: {
+          DEFAULT: '#B1874C',
+          light: '#D6A85F',
+          dark: '#8B6937',
+        },
+        backgrounds: {
+          canvas: '#FFFFFF',
+          alt: '#F5F3F0',
+          elevated: '#FAFAF9',
+        },
+        ctaBrand: {
+          DEFAULT: '#1E3A5F',
+          hover: '#254B74',
+        },
+        linkBrand: {
+          DEFAULT: '#5C7BA0',
+          hover: '#4B688E',
+        },
+        borderToken: '#E0DDD9',
         gold: {
           DEFAULT: 'hsl(var(--gold-500))',
           hover: 'hsl(var(--gold-600))',

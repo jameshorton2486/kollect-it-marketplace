@@ -1,4 +1,4 @@
-// Image helpers for Cloudinary and placeholders
+// Image helpers (compat shim) and placeholders
 
 export type TransformVariant = 'thumbnail' | 'detail' | 'banner' | 'custom';
 
@@ -10,6 +10,7 @@ interface TransformOptions {
 }
 
 const CLOUDINARY_HOST = 'res.cloudinary.com';
+const IMAGEKIT_HOST = 'ik.imagekit.io';
 
 export function isCloudinary(url?: string | null): boolean {
   if (!url) return false;
@@ -21,46 +22,61 @@ export function isCloudinary(url?: string | null): boolean {
   }
 }
 
-export function transformCloudinary(url: string, variant: TransformVariant | TransformOptions): string {
-  if (!isCloudinary(url)) return url;
-  const u = new URL(url);
-  const parts = u.pathname.split('/');
-  const uploadIdx = parts.findIndex((p) => p === 'upload');
-  if (uploadIdx === -1) return url;
+function isImageKit(url?: string | null): boolean {
+  if (!url) return false;
+  try {
+    const u = new URL(url);
+    return u.hostname.includes(IMAGEKIT_HOST);
+  } catch {
+    return false;
+  }
+}
 
-  let options: TransformOptions;
-  if (typeof variant === 'string') {
-    switch (variant) {
-      case 'thumbnail':
-        options = { width: 400, height: 400, crop: 'fill', quality: 85 };
-        break;
-      case 'detail':
-        options = { width: 1200, height: 1200, crop: 'fit', quality: 85 };
-        break;
-      case 'banner':
-        options = { width: 1600, height: 600, crop: 'fill', quality: 85 };
-        break;
-      default:
-        options = {};
+// Backward-compatible name used throughout the app. Now supports ImageKit.
+export function transformCloudinary(url: string, variant: TransformVariant | TransformOptions): string {
+  if (!url) return url;
+  // Transform ImageKit URLs
+  if (isImageKit(url)) {
+    let options: TransformOptions;
+    if (typeof variant === 'string') {
+      switch (variant) {
+        case 'thumbnail':
+          options = { width: 400, height: 400, quality: 80, crop: 'fill' };
+          break;
+        case 'detail':
+          options = { width: 1200, height: 1200, quality: 90, crop: 'fit' };
+          break;
+        case 'banner':
+          options = { width: 1600, height: 600, quality: 85, crop: 'fill' };
+          break;
+        default:
+          options = {};
+      }
+    } else {
+      options = variant;
     }
-  } else {
-    options = variant;
+
+    const txParts: string[] = [];
+    if (options.width) txParts.push(`w-${options.width}`);
+    if (options.height) txParts.push(`h-${options.height}`);
+    // Use focal optimization to preserve subject where possible
+    txParts.push('fo-auto');
+    if (options.quality) txParts.push(`q-${options.quality}`);
+    const tx = txParts.join(',');
+
+    try {
+      const u = new URL(url);
+      // Strip an existing /tr: segment if present
+      const cleanedPath = u.pathname.replace(/\/tr:[^/]+/, '');
+      u.pathname = `/tr:${tx}${cleanedPath}`;
+      return u.toString();
+    } catch {
+      return url;
+    }
   }
 
-  const tx = [
-    options.width ? `w_${options.width}` : null,
-    options.height ? `h_${options.height}` : null,
-    options.crop ? `c_${options.crop}` : null,
-    options.quality ? `q_${options.quality}` : null,
-  ]
-    .filter(Boolean)
-    .join(',');
-
-  // Inject transformation right after /upload/
-  const prefix = parts.slice(0, uploadIdx + 1).join('/');
-  const suffix = parts.slice(uploadIdx + 1).join('/');
-  u.pathname = `${prefix}/${tx}/${suffix}`.replace(/\/+/, '/');
-  return u.toString();
+  // Leave non-ImageKit URLs untouched
+  return url;
 }
 
 // Tiny blur data URL (soft cream tone to match brand)

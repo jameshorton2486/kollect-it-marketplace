@@ -62,3 +62,4 @@ prisma/dev.db-journal
 logs
 *.log
 /tmp
+test-results/

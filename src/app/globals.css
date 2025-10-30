@@ -1,3 +1,5 @@
+/* tailwindcss */
+/* postcss */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -299,5 +301,25 @@
   .focus-ring-cta:focus-visible {
     outline: none;
     box-shadow: var(--shadow-focus);
+  }
+
+  /* Shared utilities built on semantic tokens */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl px-5 py-3 font-medium text-white bg-cta hover:bg-cta-hover shadow-elevation-sm focus:outline-none;
+    box-shadow: 0 0 0 0 hsla(var(--cta-400), 0);
+  }
+  .btn-primary:focus-visible {
+    box-shadow: 0 0 0 4px hsla(var(--cta-400), 0.35);
+  }
+
+  .link {
+    @apply underline text-link hover:text-link-hover;
+  }
+
+  .card {
+    @apply rounded-2xl bg-surface shadow-elevation-sm;
+  }
+  .card:hover {
+    @apply shadow-elevation-lg;
   }
 }

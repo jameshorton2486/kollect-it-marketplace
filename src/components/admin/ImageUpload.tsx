@@ -58,42 +58,34 @@ export default function ImageUpload({
     }
   };
 
-  const uploadToCloudinary = async (file: File): Promise<ImageData | null> => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append(
-      'upload_preset',
-      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'kollect-it-uploads'
-    );
-    formData.append(
-      'cloud_name',
-      process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || ''
-    );
-
-    // Add transformation to resize to max 1600px width
-    formData.append('transformation', 'w_1600,c_limit,q_auto,f_auto');
-
+  const uploadToImageKit = async (file: File): Promise<ImageData | null> => {
     try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
+      // 1) Get auth params from server
+      const authRes = await fetch('/api/imagekit-auth');
+      if (!authRes.ok) throw new Error('Auth failed');
+      const { token, expire, signature } = await authRes.json();
 
-      if (!response.ok) {
-        throw new Error('Upload failed');
-      }
+      // 2) Build multipart form for ImageKit upload API
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('fileName', file.name);
+      formData.append('token', token);
+      formData.append('expire', String(expire));
+      formData.append('signature', signature);
+      formData.append('publicKey', process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY || '');
+      formData.append('folder', '/products');
+      formData.append('useUniqueFileName', 'true');
 
+      // 3) POST to ImageKit
+      const response = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      if (!response.ok) throw new Error('Upload failed');
       const data = await response.json();
-      return {
-        url: data.secure_url,
-        publicId: data.public_id,
-        alt: file.name,
-      };
+      return { url: data.url, alt: file.name };
     } catch (error) {
-      console.error('Error uploading to Cloudinary:', error);
+      console.error('Error uploading to ImageKit:', error);
       return null;
     }
   };
@@ -111,7 +103,7 @@ export default function ImageUpload({
     setUploading(true);
 
     try {
-      const uploadPromises = filesToUpload.map((file) => uploadToCloudinary(file));
+  const uploadPromises = filesToUpload.map((file) => uploadToImageKit(file));
       const results = await Promise.all(uploadPromises);
       const successfulUploads = results.filter((result) => result !== null) as ImageData[];
 
@@ -165,6 +157,8 @@ export default function ImageUpload({
           type="file"
           accept="image/*"
           multiple
+          aria-label="Upload images"
+          title="Upload images"
           onChange={(e) => handleFileChange(e.target.files)}
           className="image-upload-input"
         />
