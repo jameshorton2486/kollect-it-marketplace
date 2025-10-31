@@ -288,7 +288,7 @@ export default function CheckoutPage() {
                             })
                           }
                           className="form-input"
-                          placeholder="(555) 123-4567"
+                          placeholder="(469) 386-6065"
                         />
                       </div>
                     </div>
@@ -335,7 +335,7 @@ export default function CheckoutPage() {
                             })
                           }
                           className="form-input"
-                          placeholder="New York"
+                          placeholder="San Antonio"
                         />
                       </div>
                       <div className="form-group">
@@ -550,7 +550,7 @@ export default function CheckoutPage() {
                               })
                             }
                             className="form-input"
-                            placeholder="New York"
+                            placeholder="San Antonio"
                           />
                         </div>
                         <div className="form-group">

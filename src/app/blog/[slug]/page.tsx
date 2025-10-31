@@ -10,8 +10,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: { params: Params }): Promise<Metadata> {
-  const { meta } = getPostBySlug(params.slug);
+}: { params: Promise<Params> }): Promise<Metadata> {
+  const { slug } = await params;
+  const { meta } = getPostBySlug(slug);
   const url = `/blog/${meta.slug}`;
   return {
     title: `${meta.title} | Kollect-It`,
@@ -27,8 +28,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPostPage({ params }: { params: Params }) {
-  const { meta, content } = getPostBySlug(params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<Params> }) {
+  const { slug } = await params;
+  const { meta, content } = getPostBySlug(slug);
   const html = await markdownToHtml(content);
 
   return (

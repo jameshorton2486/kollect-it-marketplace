@@ -54,10 +54,10 @@ export default function ContactPage() {
                     Email
                   </h3>
                   <a
-                    href="mailto:hello@kollect-it.com"
+                    href="mailto:support@kollect-it.com"
                     className="text-gold text-base hover:text-gold-hover underline-offset-2 hover:underline"
                   >
-                    hello@kollect-it.com
+                    support@kollect-it.com
                   </a>
                 </div>
 
@@ -66,10 +66,10 @@ export default function ContactPage() {
                     Phone
                   </h3>
                   <a
-                    href="tel:+15551234567"
+                    href="tel:+14693866065"
                     className="text-gold text-base hover:text-gold-hover underline-offset-2 hover:underline"
                   >
-                    +1 (555) 123-4567
+                    +1 (469) 386-6065
                   </a>
                 </div>
 
@@ -102,13 +102,13 @@ export default function ContactPage() {
           </h2>
           <div className="map-container" data-reveal>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976035!3d40.6974881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1234567890123"
+              src="https://www.google.com/maps?q=San%20Antonio%2C%20TX%2C%20USA&output=embed"
               width="600"
               height="450"
               className="border-0"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
-              title="Kollect-It Location"
+              title="Kollect-It San Antonio Location"
             />
           </div>
           <p className="text-center mt-6 text-sm text-ink-muted">
