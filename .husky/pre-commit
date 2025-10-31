@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Auto-format, fix markdown, type-check, and lint
+bun run format
+bun run lint:md:fix
+bun run type-check
+bun run lint
