@@ -7,6 +7,8 @@ import FeaturedCollection from "@/components/home/FeaturedCollection";
 import Testimonials from "@/components/home/Testimonials";
 import ProcessOverview from "@/components/home/ProcessOverview";
 import FooterExtended from "@/components/FooterExtended";
+import { getAllPostsMeta } from "@/lib/blog";
+import BlogList from "@/components/BlogList";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -38,6 +40,7 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const latest = getAllPostsMeta().slice(0, 3);
   return (
     <main>
       <script
@@ -64,6 +67,10 @@ export default function HomePage() {
       <FeaturedCollection />
       <ShopByCategories />
       <Testimonials />
+      <section className="container max-w-6xl mx-auto px-4 mt-16">
+        <h2 className="text-2xl font-semibold mb-4">From Our Blog</h2>
+        <BlogList posts={latest} />
+      </section>
       <ProcessOverview />
       <FooterExtended />
     </main>

@@ -218,6 +218,9 @@ export default function Header({ categories = [] }: HeaderProps) {
             <Link href="/shop?sort=new" className="hover:text-gold-hover">
               Latest Arrivals
             </Link>
+            <Link href="/blog" className="hover:text-gold-hover">
+              Blog
+            </Link>
             <Link href="/authentication" className="hover:text-gold-hover">
               Authentication Services
             </Link>
@@ -431,6 +434,13 @@ export default function Header({ categories = [] }: HeaderProps) {
                   onClick={() => setMobileOpen(false)}
                 >
                   Latest Arrivals
+                </Link>
+                <Link
+                  href="/blog"
+                  className="block px-2 py-2 rounded hover:bg-cream"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Blog
                 </Link>
                 <Link
                   href="/authentication"

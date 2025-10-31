@@ -41,6 +41,11 @@ export default function Footer({ categories }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link className="hover:text-[#B1874C]" href="/blog">
+                  Blog
+                </Link>
+              </li>
+              <li>
                 <Link className="hover:text-[#B1874C]" href="/contact">
                   Contact
                 </Link>
