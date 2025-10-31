@@ -148,25 +148,25 @@ export default async function AboutPage() {
       <section className="py-[100px] px-8 bg-white">
         <div className="container max-w-[900px] mx-auto">
           <h2
-            className="text-center mb-8 text-[12px] tracking-[0.2em] text-[var(--color-gold)] uppercase font-normal"
+            className="text-center mb-8 text-[12px] tracking-[0.2em] text-gold uppercase font-normal"
           >
             OUR PHILOSOPHY
           </h2>
 
           <div className="mb-6">
-            <p className="text-[18px] leading-[1.8] text-[var(--color-navy)] text-center">
+            <p className="text-[18px] leading-[1.8] text-ink text-center">
               We believe that collecting should be an informed pursuit—one that values provenance, condition, and authenticity above all else. Our mission is to connect discerning collectors with pieces that tell stories and stand the test of time.
             </p>
           </div>
 
           <div className="mb-6">
-            <p className="text-[18px] leading-[1.8] text-[var(--color-navy)] text-center">
+            <p className="text-[18px] leading-[1.8] text-ink text-center">
               Each item is carefully researched, expertly photographed, and transparently described to give you complete confidence in your acquisition. We maintain relationships with specialists, historians, and appraisers to ensure every piece meets our rigorous standards.
             </p>
           </div>
 
           <div>
-            <p className="text-[18px] leading-[1.8] text-[var(--color-navy)] text-center">
+            <p className="text-[18px] leading-[1.8] text-ink text-center">
               From rare books and fine art to collectibles and militaria, our collection represents decades of expertise in identifying and curating items of exceptional quality and historical significance.
             </p>
           </div>
@@ -185,20 +185,20 @@ export default async function AboutPage() {
       </section>
 
       {/* Expertise Section */}
-      <section className="py-[100px] px-8 bg-[#FAFAF8]">
+      <section className="py-[100px] px-8 bg-backgrounds-elevated">
         <div className="container max-w-[700px] text-center mx-auto">
           <p
-            className="text-[12px] tracking-[0.2em] text-[var(--color-gold)] uppercase mb-6 font-normal"
+            className="text-[12px] tracking-[0.2em] text-gold uppercase mb-6 font-normal"
           >
             EXPERTISE
           </p>
           <h2
-            className="mb-6 text-[clamp(32px,4vw,36px)] font-serif font-normal leading-[1.3] text-[var(--color-navy)]"
+            className="mb-6 text-[clamp(32px,4vw,36px)] font-serif font-normal leading-[1.3] text-brand-navy"
           >
             Authenticated by Specialists
           </h2>
           <p
-            className="text-[16px] leading-[1.8] text-[var(--color-navy)] mb-12"
+            className="text-[16px] leading-[1.8] text-ink mb-12"
           >
             Our team includes historians, appraisers, and category specialists who verify authenticity and document provenance for every item we offer.
           </p>
@@ -206,7 +206,7 @@ export default async function AboutPage() {
           <svg className="signature-svg" viewBox="0 0 200 60">
             <path d="M 10 40 Q 30 10, 50 30 T 90 30 Q 110 10, 130 40 T 170 30 L 190 35" />
           </svg>
-          <p className="text-[16px] text-[var(--color-gold)] mt-4 italic">
+          <p className="text-[16px] text-gold mt-4 italic">
             — The Kollect-It Team
           </p>
         </div>
@@ -224,10 +224,10 @@ export default async function AboutPage() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-[100px] px-8 bg-[#FAFAF8] text-center">
+      <section className="py-[100px] px-8 bg-backgrounds-elevated text-center">
         <div className="container max-w-[900px] mx-auto">
           <p
-            className="text-[12px] tracking-[0.2em] text-[var(--color-gold)] uppercase mb-4 font-normal"
+            className="text-[12px] tracking-[0.2em] text-gold uppercase mb-4 font-normal"
           >
             CATEGORIES
           </p>
@@ -244,7 +244,7 @@ export default async function AboutPage() {
                 >
                   {category.name}
                 </Link>
-                <p className="text-[16px] leading-[1.8] text-[rgba(50,41,35,0.9)] font-light">
+                <p className="text-[16px] leading-[1.8] text-ink-secondary font-light">
                   {category.description}
                 </p>
               </div>
