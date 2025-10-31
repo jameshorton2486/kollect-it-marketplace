@@ -5,8 +5,8 @@ const tests = [
   { name: 'Primary text on white', fg: '#2C2C2C', bg: '#FFFFFF' },
   { name: 'Secondary text on white', fg: '#5A5A5A', bg: '#FFFFFF' },
   { name: 'CTA text on button', fg: '#FFFFFF', bg: '#1E3A5F' },
-  { name: 'Link on white', fg: '#5C7BA0', bg: '#FFFFFF' },
-  { name: 'Accent on white', fg: '#B1874C', bg: '#FFFFFF' },
+  { name: 'Link on white', fg: '#4B688E', bg: '#FFFFFF' },
+  { name: 'Accent on white', fg: '#8B6937', bg: '#FFFFFF' },
   { name: 'Text on alt background', fg: '#2C2C2C', bg: '#F5F3F0' },
 ];
 
