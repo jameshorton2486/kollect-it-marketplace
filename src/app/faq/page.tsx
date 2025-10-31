@@ -51,13 +51,7 @@ export default function FAQPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section
-        style={{
-          padding: "clamp(4rem, 8vw, 6rem) 0",
-          background: "var(--color-cream)",
-          textAlign: "center",
-        }}
-      >
+      <section className="category-section text-center">
         <div className="container">
           <p className="section-subtitle" data-reveal>
             HELP CENTER
@@ -70,13 +64,7 @@ export default function FAQPage() {
             Frequently Asked Questions
           </h1>
           <p
-            style={{
-              maxWidth: "700px",
-              margin: "0 auto",
-              fontSize: "16px",
-              lineHeight: "1.7",
-              color: "var(--color-gray-dark)",
-            }}
+            className="mx-auto max-w-[700px] text-base leading-[1.7] text-ink-secondary"
             data-reveal
             data-reveal-delay="200"
           >
@@ -87,8 +75,8 @@ export default function FAQPage() {
       </section>
 
       {/* FAQ Accordion Section */}
-      <section style={{ padding: "clamp(4rem, 8vw, 6rem) 0" }}>
-        <div className="container" style={{ maxWidth: "900px" }}>
+      <section className="new-arrivals">
+        <div className="container max-w-[900px]">
           <div>
             {faqs.map((item, i) => (
               <details key={i} className="faq-item">
@@ -103,26 +91,10 @@ export default function FAQPage() {
       </section>
 
       {/* Contact CTA */}
-      <section
-        style={{
-          padding: "clamp(4rem, 8vw, 6rem) 0",
-          background: "var(--color-cream)",
-          textAlign: "center",
-        }}
-      >
+      <section className="category-section text-center">
         <div className="container">
-          <h2 className="section-title" style={{ marginBottom: "1rem" }}>
-            Still Have Questions?
-          </h2>
-          <p
-            style={{
-              maxWidth: "600px",
-              margin: "0 auto 2rem",
-              fontSize: "16px",
-              lineHeight: "1.7",
-              color: "var(--color-gray-dark)",
-            }}
-          >
+          <h2 className="section-title mb-4">Still Have Questions?</h2>
+          <p className="mx-auto mb-8 max-w-[600px] text-base leading-[1.7] text-ink-secondary">
             Our team of experts is here to help. Contact us for personalized
             assistance.
           </p>

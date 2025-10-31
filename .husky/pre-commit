@@ -1,8 +1,13 @@
 #!/usr/bin/env sh
 
-# Auto-format, fix markdown, type-check, and lint
-bun run format
-# Run markdownlint but don't block commits for now (too many legacy docs)
-bun run lint:md:fix || true
-bun run type-check
-bun run lint
+# Code formatting
+bunx biome format --write
+
+# Markdown linting (with auto-fix)
+bunx markdownlint "**/*.md" --fix
+
+# TypeScript type checking
+bunx tsc --noEmit
+
+# ESLint (new command - replaces "next lint")
+npx eslint --fix

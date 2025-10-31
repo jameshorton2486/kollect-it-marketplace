@@ -1,7 +1,6 @@
 import { Resend } from "resend";
 import { OrderConfirmationEmail } from "@/emails/OrderConfirmationEmail";
 import { OrderStatusUpdateEmail } from "@/emails/OrderStatusUpdateEmail";
-import { WelcomeEmail } from "@/emails/WelcomeEmail";
 import { AdminNewOrderEmail } from "@/emails/AdminNewOrderEmail";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -42,10 +41,7 @@ interface StatusUpdateEmailData {
   carrier?: string;
 }
 
-interface WelcomeEmailData {
-  name: string;
-  email: string;
-}
+// Newsletter welcome email removed with newsletter deprecation
 
 // Send Order Confirmation Email
 export async function sendOrderConfirmationEmail(data: OrderEmailData) {
@@ -90,25 +86,7 @@ export async function sendOrderStatusUpdateEmail(data: StatusUpdateEmailData) {
 }
 
 // Send Welcome Email (Newsletter Signup)
-export async function sendWelcomeEmail(data: WelcomeEmailData) {
-  try {
-    await resend.emails.send({
-      from: FROM_EMAIL,
-      to: data.email,
-      subject: "Welcome to Kollect-It!",
-      react: WelcomeEmail({
-        ...data,
-        siteUrl: SITE_URL,
-      }),
-    });
-
-    console.log(`✅ Welcome email sent to ${data.email}`);
-    return { success: true };
-  } catch (error) {
-    console.error("❌ Error sending welcome email:", error);
-    return { success: false, error };
-  }
-}
+// sendWelcomeEmail removed
 
 // Send Admin New Order Alert
 export async function sendAdminNewOrderEmail(data: OrderEmailData) {

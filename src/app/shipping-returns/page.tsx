@@ -8,16 +8,8 @@ export default function ShippingReturnsPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section
-        style={{
-          padding: "clamp(4rem, 8vw, 6rem) 0",
-          background: "var(--color-cream)",
-        }}
-      >
-        <div
-          className="container"
-          style={{ maxWidth: "900px", textAlign: "center" }}
-        >
+      <section className="category-section">
+        <div className="container max-w-[900px] text-center">
           <p className="section-subtitle" data-reveal>
             POLICIES
           </p>
@@ -29,13 +21,7 @@ export default function ShippingReturnsPage() {
             Shipping & Returns
           </h1>
           <p
-            style={{
-              maxWidth: "700px",
-              margin: "0 auto",
-              fontSize: "16px",
-              lineHeight: "1.7",
-              color: "var(--color-gray-dark)",
-            }}
+            className="mx-auto max-w-[700px] text-base leading-[1.7] text-ink-secondary"
             data-reveal
             data-reveal-delay="200"
           >
@@ -46,13 +32,10 @@ export default function ShippingReturnsPage() {
       </section>
 
       {/* Main Content */}
-      <section style={{ padding: "clamp(4rem, 8vw, 6rem) 0" }}>
-        <div className="container" style={{ maxWidth: "900px" }}>
+      <section className="new-arrivals">
+        <div className="container max-w-[900px]">
           {/* Shipping Section */}
-          <div
-            className="section-header-with-icon"
-            style={{ marginBottom: "2rem" }}
-          >
+          <div className="section-header-with-icon mb-8">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -66,47 +49,28 @@ export default function ShippingReturnsPage() {
               <circle cx="5.5" cy="18.5" r="2.5"></circle>
               <circle cx="18.5" cy="18.5" r="2.5"></circle>
             </svg>
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.75rem, 3vw, 2.25rem)",
-                fontWeight: 400,
-                margin: 0,
-              }}
-            >
+            <h2 className="section-title m-0 text-[clamp(1.75rem,3vw,2.25rem)] font-normal">
               Shipping
               <div className="gold-underline"></div>
             </h2>
           </div>
 
-          <div className="split-fade-left" style={{ marginBottom: "1.5rem" }}>
-            <h3
-              style={{
-                fontSize: "18px",
-                fontWeight: 600,
-                marginBottom: "0.75rem",
-              }}
-            >
+          <div className="split-fade-left mb-6">
+            <h3 className="mb-3 text-[18px] font-semibold">
               Domestic Shipping
             </h3>
-            <p style={{ lineHeight: "1.7", color: "var(--color-gray-dark)" }}>
+            <p className="leading-[1.7] text-ink-secondary">
               All domestic orders are shipped via insured carriers (FedEx, UPS)
               with signature confirmation required. Standard shipping takes 3-5
               business days. Expedited options available at checkout.
             </p>
           </div>
 
-          <div className="split-fade-right" style={{ marginBottom: "1.5rem" }}>
-            <h3
-              style={{
-                fontSize: "18px",
-                fontWeight: 600,
-                marginBottom: "0.75rem",
-              }}
-            >
+          <div className="split-fade-right mb-6">
+            <h3 className="mb-3 text-[18px] font-semibold">
               International Shipping
             </h3>
-            <p style={{ lineHeight: "1.7", color: "var(--color-gray-dark)" }}>
+            <p className="leading-[1.7] text-ink-secondary">
               We ship worldwide with full insurance and tracking. International
               orders typically arrive in 7-14 business days. All customs
               documentation is prepared by our team. Import duties and taxes are
@@ -114,34 +78,20 @@ export default function ShippingReturnsPage() {
             </p>
           </div>
 
-          <div className="split-fade-left" style={{ marginBottom: "1.5rem" }}>
-            <h3
-              style={{
-                fontSize: "18px",
-                fontWeight: 600,
-                marginBottom: "0.75rem",
-              }}
-            >
+          <div className="split-fade-left mb-6">
+            <h3 className="mb-3 text-[18px] font-semibold">
               Packaging & Handling
             </h3>
-            <p style={{ lineHeight: "1.7", color: "var(--color-gray-dark)" }}>
+            <p className="leading-[1.7] text-ink-secondary">
               Every item is professionally packed with archival materials.
               Fragile items receive custom crating. Shipping costs are
               calculated based on destination, item value, and dimensions.
             </p>
           </div>
 
-          <div className="split-fade-right" style={{ marginBottom: "3rem" }}>
-            <h3
-              style={{
-                fontSize: "18px",
-                fontWeight: 600,
-                marginBottom: "0.75rem",
-              }}
-            >
-              Shipping Rates
-            </h3>
-            <p style={{ lineHeight: "1.7", color: "var(--color-gray-dark)" }}>
+          <div className="split-fade-right mb-12">
+            <h3 className="mb-3 text-[18px] font-semibold">Shipping Rates</h3>
+            <p className="leading-[1.7] text-ink-secondary">
               Shipping costs are calculated at checkout. Free domestic shipping
               on orders over $2,500. White-glove delivery available for
               high-value or oversized items.
@@ -149,10 +99,7 @@ export default function ShippingReturnsPage() {
           </div>
 
           {/* Returns Section */}
-          <div
-            className="section-header-with-icon"
-            style={{ marginBottom: "2rem", marginTop: "4rem" }}
-          >
+          <div className="section-header-with-icon mb-8 mt-16">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -165,30 +112,17 @@ export default function ShippingReturnsPage() {
               <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
               <rect x="8" y="8" width="8" height="8" rx="1"></rect>
             </svg>
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.75rem, 3vw, 2.25rem)",
-                fontWeight: 400,
-                margin: 0,
-              }}
-            >
+            <h2 className="section-title m-0 text-[clamp(1.75rem,3vw,2.25rem)] font-normal">
               Returns & Exchanges
               <div className="gold-underline"></div>
             </h2>
           </div>
 
-          <div className="split-fade-left" style={{ marginBottom: "1.5rem" }}>
-            <h3
-              style={{
-                fontSize: "18px",
-                fontWeight: 600,
-                marginBottom: "0.75rem",
-              }}
-            >
+          <div className="split-fade-left mb-6">
+            <h3 className="mb-3 text-[18px] font-semibold">
               30-Day Return Policy
             </h3>
-            <p style={{ lineHeight: "1.7", color: "var(--color-gray-dark)" }}>
+            <p className="leading-[1.7] text-ink-secondary">
               We accept returns within 30 days of delivery. Items must be in
               their original condition with all certificates of authenticity and
               packaging materials. Contact our team to initiate a return
@@ -196,17 +130,9 @@ export default function ShippingReturnsPage() {
             </p>
           </div>
 
-          <div className="split-fade-right" style={{ marginBottom: "1.5rem" }}>
-            <h3
-              style={{
-                fontSize: "18px",
-                fontWeight: 600,
-                marginBottom: "0.75rem",
-              }}
-            >
-              Return Process
-            </h3>
-            <p style={{ lineHeight: "1.7", color: "var(--color-gray-dark)" }}>
+          <div className="split-fade-right mb-6">
+            <h3 className="mb-3 text-[18px] font-semibold">Return Process</h3>
+            <p className="leading-[1.7] text-ink-secondary">
               Email us at returns@kollect-it.com with your order number. Once
               approved, we'll provide a prepaid return shipping label. Upon
               receipt and inspection, refunds are processed within 5-7 business
@@ -214,17 +140,11 @@ export default function ShippingReturnsPage() {
             </p>
           </div>
 
-          <div className="split-fade-left" style={{ marginBottom: "1.5rem" }}>
-            <h3
-              style={{
-                fontSize: "18px",
-                fontWeight: 600,
-                marginBottom: "0.75rem",
-              }}
-            >
+          <div className="split-fade-left mb-6">
+            <h3 className="mb-3 text-[18px] font-semibold">
               Condition Requirements
             </h3>
-            <p style={{ lineHeight: "1.7", color: "var(--color-gray-dark)" }}>
+            <p className="leading-[1.7] text-ink-secondary">
               Items must be returned in the exact condition received. Any
               damage, alterations, or missing documentation will affect
               eligibility for a full refund. We reserve the right to refuse
@@ -233,16 +153,8 @@ export default function ShippingReturnsPage() {
           </div>
 
           <div className="split-fade-right">
-            <h3
-              style={{
-                fontSize: "18px",
-                fontWeight: 600,
-                marginBottom: "0.75rem",
-              }}
-            >
-              Exchanges
-            </h3>
-            <p style={{ lineHeight: "1.7", color: "var(--color-gray-dark)" }}>
+            <h3 className="mb-3 text-[18px] font-semibold">Exchanges</h3>
+            <p className="leading-[1.7] text-ink-secondary">
               We're happy to facilitate exchanges for items of equal or greater
               value. Contact our team to discuss available options. Price
               differences can be settled via store credit or additional payment.
@@ -252,26 +164,12 @@ export default function ShippingReturnsPage() {
       </section>
 
       {/* CTA Section */}
-      <section
-        style={{
-          padding: "clamp(4rem, 8vw, 6rem) 0",
-          background: "var(--color-cream)",
-          textAlign: "center",
-        }}
-      >
+      <section className="category-section text-center">
         <div className="container">
-          <h2 className="section-title" style={{ marginBottom: "1rem" }}>
+          <h2 className="section-title mb-4">
             Questions About Shipping or Returns?
           </h2>
-          <p
-            style={{
-              maxWidth: "600px",
-              margin: "0 auto 2rem",
-              fontSize: "16px",
-              lineHeight: "1.7",
-              color: "var(--color-gray-dark)",
-            }}
-          >
+          <p className="mx-auto mb-8 max-w-[600px] text-base leading-[1.7] text-ink-secondary">
             Our customer service team is here to assist with any questions about
             our policies.
           </p>

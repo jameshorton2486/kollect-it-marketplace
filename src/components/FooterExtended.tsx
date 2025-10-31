@@ -6,7 +6,7 @@ export default function FooterExtended() {
   return (
     <footer className="bg-brand-navy text-white">
       <div className="container py-12">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           {/* Company Info */}
           <div>
             <div className="mb-3 font-serif text-2xl leading-none tracking-wide">
@@ -113,28 +113,7 @@ export default function FooterExtended() {
             </div>
           </div>
 
-          {/* Newsletter */}
-          <div>
-            <h3 className="mb-3 font-serif text-[20px]">Newsletter</h3>
-            <p className="mb-3 text-sm text-white/80">
-              Receive alerts on new acquisitions and private previews.
-            </p>
-            <form className="flex overflow-hidden rounded border border-white/20">
-              <input
-                type="email"
-                required
-                placeholder="Your email"
-                className="w-full bg-transparent px-3 py-2 text-sm placeholder:text-white/60 outline-none"
-                aria-label="Email address"
-              />
-              <button
-                type="submit"
-                className="bg-transparent px-4 py-2 text-[13px] uppercase tracking-wide text-brand-gold transition-all duration-300 hover:bg-brand-gold hover:text-brand-navy"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
+          {/* Newsletter removed */}
         </div>
       </div>
 
