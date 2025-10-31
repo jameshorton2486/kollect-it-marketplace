@@ -16,7 +16,9 @@ export default function BlogCard({ post }: { post: PostMeta }) {
         />
       ) : null}
       <div className="p-4">
-        <h3 className="text-xl font-semibold leading-snug mb-2">{post.title}</h3>
+        <h3 className="text-xl font-semibold leading-snug mb-2">
+          {post.title}
+        </h3>
         <p className="text-sm opacity-70 mb-3">
           <time dateTime={post.date}>
             {new Date(post.date).toLocaleDateString(undefined, {
@@ -27,8 +29,13 @@ export default function BlogCard({ post }: { post: PostMeta }) {
           </time>{" "}
           · {post.author}
         </p>
-        {post.excerpt ? <p className="opacity-80 mb-3">{post.excerpt}</p> : null}
-        <Link href={`/blog/${post.slug}`} className="inline-block underline underline-offset-4">
+        {post.excerpt ? (
+          <p className="opacity-80 mb-3">{post.excerpt}</p>
+        ) : null}
+        <Link
+          href={`/blog/${post.slug}`}
+          className="inline-block underline underline-offset-4"
+        >
           Read more
         </Link>
       </div>

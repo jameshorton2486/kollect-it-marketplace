@@ -16,9 +16,7 @@ export default function FooterExtended() {
               Curated antiques & collectibles with documented provenance,
               authenticated by category specialists.
             </p>
-            <p className="mt-2 text-sm text-white/70">
-              Est. 2012 • ISA/ASA affiliated • 500+ authenticated consignments
-            </p>
+            {/* Removed per request */}
           </div>
 
           {/* Quick Links */}
@@ -81,12 +79,12 @@ export default function FooterExtended() {
                 </a>
               </li>
               <li>
-                <a href="tel:+15551234567" className="hover:text-brand-gold">
-                  +1 (555) 123-4567
+                <a href="tel:+14693866065" className="hover:text-brand-gold">
+                  +1 (469) 386-6065
                 </a>
               </li>
               <li>Mon–Fri, 9am–6pm ET</li>
-              <li>New York, NY</li>
+              <li>San Antonio, Texas</li>
             </ul>
             <div className="mt-4 flex items-center gap-3">
               <Link

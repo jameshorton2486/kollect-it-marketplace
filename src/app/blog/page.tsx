@@ -4,7 +4,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Blog | Kollect-It",
-  description: "Educational articles, how-tos, and collector insights from Kollect-It.",
+  description:
+    "Educational articles, how-tos, and collector insights from Kollect-It.",
 };
 
 export default function BlogIndexPage() {

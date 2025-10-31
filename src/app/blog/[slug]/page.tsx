@@ -8,7 +8,9 @@ export async function generateStaticParams() {
   return getAllPostsMeta().map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: { params: Params }): Promise<Metadata> {
   const { meta } = getPostBySlug(params.slug);
   const url = `/blog/${meta.slug}`;
   return {
@@ -57,7 +59,10 @@ export default async function BlogPostPage({ params }: { params: Params }) {
           />
         ) : null}
 
-        <div className="article-body" dangerouslySetInnerHTML={{ __html: html }} />
+        <div
+          className="article-body"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
       </article>
     </main>
   );

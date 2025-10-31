@@ -13,7 +13,7 @@ export default function ProcessOverview() {
     {
       n: 3,
       title: "Deliver",
-      text: "Insured, secure shipping with archival-grade packing.",
+      text: "Insured, secure shipping with professional packing.",
     },
   ];
   return (
