@@ -11,6 +11,8 @@ coverage
 out/
 build
 dist
+.turbo
+.cache
 
 # Production
 .vercel
@@ -63,3 +65,10 @@ logs
 *.log
 /tmp
 test-results/
+
+# Lockfiles (ensure only one is tracked)
+# Keep exactly one. With current Bun v1.3.x, track bun.lock (text).
+# If using bun.lockb instead, don't commit bun.lock.
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
