@@ -7,6 +7,7 @@
 ## 🎯 Overview
 
 The Kollect-It marketplace uses Stripe for secure payment processing:
+
 - **Test Mode**: For development and verification (`pk_test_`, `sk_test_`)
 - **Live Mode**: For production (switch after full testing)
 - **Payment Intents**: Secure two-step checkout flow
@@ -33,12 +34,14 @@ The Kollect-It marketplace uses Stripe for secure payment processing:
 ### 3. Add to Environment Variables
 
 **Local (.env)**:
+
 ```bash
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_51ABC123..."
 STRIPE_SECRET_KEY="sk_test_51XYZ789..."
 ```
 
 **Netlify**:
+
 1. Site settings → Environment variables
 2. Add both variables
 3. Deploy
@@ -46,6 +49,7 @@ STRIPE_SECRET_KEY="sk_test_51XYZ789..."
 ### 4. Verify Integration
 
 **Test Checkout**:
+
 1. Add product to cart
 2. Go to checkout
 3. Use **Test Card**: `4242 4242 4242 4242`
@@ -56,6 +60,7 @@ STRIPE_SECRET_KEY="sk_test_51XYZ789..."
 5. Verify order created in admin dashboard
 
 **Check Stripe Dashboard**:
+
 1. Go to: https://dashboard.stripe.com/test/payments
 2. Verify test payment appears
 3. Check payment status: "Succeeded"
@@ -82,6 +87,7 @@ STRIPE_SECRET_KEY="sk_test_51XYZ789..."
 | `4000 0000 0000 0127` | Incorrect CVC |
 
 **All test cards**:
+
 - **Expiry**: Any future date
 - **CVC**: Any 3 digits
 - **ZIP**: Any 5 digits
@@ -104,6 +110,7 @@ The marketplace validates cart prices **server-side** before creating payment:
 ```
 
 **Prevents**:
+
 - ❌ Price tampering via browser dev tools
 - ❌ Quantity manipulation
 - ❌ Fake checkout flows
@@ -121,6 +128,7 @@ Orders are created **only after** payment succeeds:
 ```
 
 **Prevents**:
+
 - ❌ Orders without payment
 - ❌ Failed payment orders
 - ❌ Duplicate orders
@@ -152,6 +160,7 @@ Before switching to live keys:
 #### 2. Update Environment Variables
 
 **Netlify**:
+
 1. Site settings → Environment variables
 2. Update `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` to `pk_live_...`
 3. Update `STRIPE_SECRET_KEY` to `sk_live_...`
@@ -159,6 +168,7 @@ Before switching to live keys:
 5. Redeploy site
 
 **⚠️ WARNING**:
+
 - Test cards **will NOT work** with live keys
 - Real cards will be charged real money
 - Ensure you're ready for production before switching
@@ -173,6 +183,7 @@ Before switching to live keys:
    - Review suspicious patterns
 
 **Recommended Rules**:
+
 - Block if CVC check fails
 - Block if postal code check fails
 - Review if shipping address doesn't match billing
@@ -203,6 +214,7 @@ Webhooks enable Stripe to notify your app about payment events.
 **Already created**: `src/app/api/webhooks/stripe/route.ts`
 
 **Handles**:
+
 - `payment_intent.succeeded` - Update order status to paid
 - `payment_intent.payment_failed` - Mark order as failed
 - `charge.succeeded` - Log successful charge
@@ -231,6 +243,7 @@ Webhooks enable Stripe to notify your app about payment events.
 #### 3. Add to Environment Variables
 
 **Netlify**:
+
 1. Site settings → Environment variables
 2. Add variable:
    - **Key**: `STRIPE_WEBHOOK_SECRET`
@@ -246,6 +259,7 @@ Webhooks enable Stripe to notify your app about payment events.
 5. Verify response: `200 OK`
 
 **Check logs**:
+
 - Netlify: Functions → stripe webhook → Recent logs
 - Should show: "Received webhook event: payment_intent.succeeded"
 
@@ -260,6 +274,7 @@ Webhooks enable Stripe to notify your app about payment events.
 - **Currency conversion**: +1%
 
 **Example**:
+
 - Product: $100.00
 - Stripe fee: $3.20 (2.9% + $0.30)
 - You receive: $96.80
@@ -267,12 +282,14 @@ Webhooks enable Stripe to notify your app about payment events.
 ### Fee Handling Options
 
 **Option 1: Absorb fees** (current setup)
+
 ```typescript
 // Customer pays $100, you receive ~$96.80
 const amount = product.price * 100; // $100.00
 ```
 
 **Option 2: Pass fees to customer**
+
 ```typescript
 // Customer pays $103.20, you receive $100
 const subtotal = product.price;
@@ -289,6 +306,7 @@ const total = subtotal + stripeFee;
 ### "Stripe publishable key is invalid"
 
 **Fix**:
+
 1. Verify key starts with `pk_test_` (test) or `pk_live_` (live)
 2. Check for extra spaces or quotes
 3. Ensure variable name is `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
@@ -297,6 +315,7 @@ const total = subtotal + stripeFee;
 ### "Payment Intent creation failed"
 
 **Check**:
+
 1. `STRIPE_SECRET_KEY` is set correctly
 2. Key starts with `sk_test_` or `sk_live_`
 3. Test mode toggle matches key type (test vs live)
@@ -305,6 +324,7 @@ const total = subtotal + stripeFee;
 ### "Payment succeeds but order not created"
 
 **Debug**:
+
 1. Check browser console for errors
 2. Verify `/api/checkout/create-order` endpoint works
 3. Check Netlify function logs
@@ -314,6 +334,7 @@ const total = subtotal + stripeFee;
 ### "Test card declined"
 
 **Verify**:
+
 1. Using correct test card: `4242 4242 4242 4242`
 2. Expiry is future date
 3. Stripe is in test mode
@@ -322,6 +343,7 @@ const total = subtotal + stripeFee;
 ### Webhook not receiving events
 
 **Fix**:
+
 1. Verify endpoint URL is correct (HTTPS, not HTTP)
 2. Check `STRIPE_WEBHOOK_SECRET` is set
 3. Endpoint must be publicly accessible
@@ -335,6 +357,7 @@ const total = subtotal + stripeFee;
 ### Stripe Dashboard
 
 **Key sections**:
+
 - **Payments**: All transactions
 - **Customers**: Customer records
 - **Logs**: API calls and errors
@@ -363,6 +386,7 @@ const total = subtotal + stripeFee;
 6. Click **"Refund"**
 
 **Timeline**:
+
 - Credit card: 5-10 business days
 - Debit card: 5-10 business days
 - Customer sees "pending" immediately

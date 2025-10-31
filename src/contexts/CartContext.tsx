@@ -1,6 +1,12 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 export interface CartItem {
   id: string;
@@ -14,7 +20,7 @@ export interface CartItem {
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (item: Omit<CartItem, 'quantity'>) => void;
+  addItem: (item: Omit<CartItem, "quantity">) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -35,12 +41,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   // Load cart from localStorage on mount
   useEffect(() => {
     setMounted(true);
-    const savedCart = localStorage.getItem('kollect-it-cart');
+    const savedCart = localStorage.getItem("kollect-it-cart");
     if (savedCart) {
       try {
         setItems(JSON.parse(savedCart));
       } catch (error) {
-        console.error('Error loading cart from localStorage:', error);
+        console.error("Error loading cart from localStorage:", error);
       }
     }
   }, []);
@@ -48,18 +54,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
   // Save cart to localStorage whenever it changes
   useEffect(() => {
     if (mounted) {
-      localStorage.setItem('kollect-it-cart', JSON.stringify(items));
+      localStorage.setItem("kollect-it-cart", JSON.stringify(items));
     }
   }, [items, mounted]);
 
-  const addItem = (item: Omit<CartItem, 'quantity'>) => {
+  const addItem = (item: Omit<CartItem, "quantity">) => {
     setItems((currentItems) => {
       const existingItem = currentItems.find((i) => i.id === item.id);
 
       if (existingItem) {
         // Item already in cart, increase quantity
         return currentItems.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i,
         );
       } else {
         // New item, add with quantity 1
@@ -80,8 +86,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     setItems((currentItems) =>
       currentItems.map((item) =>
-        item.id === id ? { ...item, quantity } : item
-      )
+        item.id === id ? { ...item, quantity } : item,
+      ),
     );
   };
 
@@ -90,7 +96,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const itemCount = items.reduce((total, item) => total + item.quantity, 0);
-  const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
+  const subtotal = items.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0,
+  );
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 
@@ -116,7 +125,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 export function useCart() {
   const context = useContext(CartContext);
   if (context === undefined) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 }

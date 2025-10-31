@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
 
 let resendClient: Resend | null = null;
 function getResend() {
@@ -14,22 +14,19 @@ export async function POST(request: NextRequest) {
     const { email, firstName } = await request.json();
 
     if (!email) {
-      return NextResponse.json(
-        { error: 'Email is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
     const resend = getResend();
     if (!resend) {
       // In dev or when key missing, skip send but report success to avoid user-facing failure
-      console.warn('[newsletter] RESEND_API_KEY not set; skipping email send');
+      console.warn("[newsletter] RESEND_API_KEY not set; skipping email send");
       return NextResponse.json({ success: true, skipped: true });
     }
 
     // Send welcome email with PDF link
     await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'Kollect-It <noreply@kollect-it.com>',
+      from: process.env.EMAIL_FROM || "Kollect-It <noreply@kollect-it.com>",
       to: email,
       subject: "Your Free Collector's Guide to Caring for Antique Books",
       html: `
@@ -51,7 +48,7 @@ export async function POST(request: NextRequest) {
               <!-- Content -->
               <div style="padding: 40px 30px;">
                 <h2 style="font-size: 24px; font-weight: 400; color: #2B2B2B; margin: 0 0 20px 0;">
-                  ${firstName ? `Welcome, ${firstName}!` : 'Welcome to Kollect-It!'}
+                  ${firstName ? `Welcome, ${firstName}!` : "Welcome to Kollect-It!"}
                 </h2>
 
                 <p style="font-size: 16px; margin-bottom: 20px;">
@@ -72,7 +69,7 @@ export async function POST(request: NextRequest) {
 
                 <!-- CTA Button -->
                 <div style="text-align: center; margin: 40px 0;">
-            <a href="${process.env.NEXTAUTH_URL || 'https://kollect-it.com'}/downloads/collectors-guide-antique-books.pdf"
+            <a href="${process.env.NEXTAUTH_URL || "https://kollect-it.com"}/downloads/collectors-guide-antique-books.pdf"
               style="display: inline-block; background-color: #B1874C; color: #1F2A2E; padding: 16px 32px; text-decoration: none; font-weight: 600; border-radius: 12px; font-size: 16px; letter-spacing: 0.5px;">
                     Download Your Guide
                   </a>
@@ -99,7 +96,7 @@ export async function POST(request: NextRequest) {
                   © ${new Date().getFullYear()} Kollect-It. All rights reserved.
                 </p>
                 <p style="font-size: 12px; color: #6B7280; margin: 10px 0 0 0;">
-                  <a href="${process.env.NEXTAUTH_URL || 'https://kollect-it.com'}/unsubscribe?email=${encodeURIComponent(email)}"
+                  <a href="${process.env.NEXTAUTH_URL || "https://kollect-it.com"}/unsubscribe?email=${encodeURIComponent(email)}"
                      style="color: #6B7280; text-decoration: underline;">
                     Unsubscribe
                   </a>
@@ -116,10 +113,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Newsletter subscription error:', error);
-    return NextResponse.json(
-      { error: 'Failed to subscribe' },
-      { status: 500 }
-    );
+    console.error("Newsletter subscription error:", error);
+    return NextResponse.json({ error: "Failed to subscribe" }, { status: 500 });
   }
 }

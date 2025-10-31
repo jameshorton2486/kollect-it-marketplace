@@ -16,6 +16,7 @@
 - ❌ Service account credentials
 
 **Consequences of leaked secrets:**
+
 - Unauthorized access to your database
 - Financial loss (Stripe charges)
 - Email quota abuse (Resend)
@@ -30,6 +31,7 @@
 ### Audit Performed: October 24, 2025
 
 **✅ SECURE:**
+
 - `.env` is in `.gitignore` ✅
 - No `.env` files committed to git history ✅
 - Only `.env.example` committed (with placeholders) ✅
@@ -84,6 +86,7 @@
 **⚠️ CRITICAL: Confirm TEST vs LIVE keys**
 
 1. **Check Current Keys:**
+
    ```bash
    # Test keys start with:
    pk_test_... (safe for development)
@@ -109,6 +112,7 @@
 ### E) NextAuth Secret
 
 1. **Generate New Secret:**
+
    ```bash
    openssl rand -base64 32
    ```
@@ -125,6 +129,7 @@
 ### 1. Use .gitignore (Already Configured ✅)
 
 Current `.gitignore` includes:
+
 ```
 .env
 .env*.local
@@ -138,6 +143,7 @@ Current `.gitignore` includes:
 ### 2. Use .env Files Correctly
 
 **✅ CORRECT:**
+
 ```bash
 # .env (NOT committed)
 STRIPE_SECRET_KEY=sk_test_abc123...
@@ -145,6 +151,7 @@ DATABASE_URL=postgresql://user:pass@host:5432/db
 ```
 
 **❌ WRONG:**
+
 ```typescript
 // src/lib/stripe.ts (committed)
 const STRIPE_KEY = 'sk_test_abc123...'; // ❌ NEVER DO THIS
@@ -153,6 +160,7 @@ const STRIPE_KEY = 'sk_test_abc123...'; // ❌ NEVER DO THIS
 ### 3. Use Environment Variables
 
 **✅ CORRECT:**
+
 ```typescript
 const stripeKey = process.env.STRIPE_SECRET_KEY;
 if (!stripeKey) {
@@ -161,6 +169,7 @@ if (!stripeKey) {
 ```
 
 **❌ WRONG:**
+
 ```typescript
 const stripeKey = 'sk_test_hardcoded'; // ❌ NEVER
 ```
@@ -168,17 +177,20 @@ const stripeKey = 'sk_test_hardcoded'; // ❌ NEVER
 ### 4. Netlify Environment Variables
 
 **Set in Netlify Dashboard:**
+
 - Site settings → Environment variables
 - Add each variable individually
 - **NEVER** commit values to code
 
 **Example netlify.toml (✅ SAFE):**
+
 ```toml
 # Comments explain which vars are needed
 # STRIPE_SECRET_KEY = "set in Netlify dashboard"
 ```
 
 **Example netlify.toml (❌ DANGEROUS):**
+
 ```toml
 [build.environment]
   STRIPE_SECRET_KEY = "sk_test_abc123" # ❌ NEVER DO THIS
@@ -211,6 +223,7 @@ ls -la .env*
 ### Manual Review
 
 1. **Check all committed files:**
+
    ```bash
    git ls-files
    ```
@@ -223,6 +236,7 @@ ls -la .env*
    - JWT tokens
 
 3. **Review recent commits:**
+
    ```bash
    git log -p -5
    ```
@@ -271,6 +285,7 @@ git push origin --force --all
 ### Option 3: Create New Repository
 
 If secrets are in many commits:
+
 1. Create fresh repository
 2. Copy current working directory (excluding .git)
 3. Initialize new git repo

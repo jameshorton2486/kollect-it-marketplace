@@ -3,6 +3,7 @@
 ## Method 1: Using Prisma Studio (Visual Interface) - EASIEST
 
 ### Step 1: Open Prisma Studio
+
 ```bash
 cd kollect-it-marketplace
 bunx prisma studio
@@ -11,6 +12,7 @@ bunx prisma studio
 This opens a database GUI at **http://localhost:5555**
 
 ### Step 2: Click on "Product" Table
+
 You'll see all existing products.
 
 ### Step 3: Click "Add Record"
@@ -18,6 +20,7 @@ You'll see all existing products.
 ### Step 4: Fill in the Fields
 
 **Required Fields:**
+
 - **title:** "Victorian Oak Writing Desk, 1890"
 - **slug:** "victorian-oak-writing-desk-1890" (URL-friendly, no spaces)
 - **description:** "Beautiful Victorian-era writing desk..."
@@ -27,6 +30,7 @@ You'll see all existing products.
 - **quantity:** 1
 
 **Optional Fields:**
+
 - **artist:** "Unknown"
 - **year:** "1890s"
 - **medium:** "Oak wood"
@@ -37,9 +41,11 @@ You'll see all existing products.
 - **featured:** true (to show on homepage)
 
 ### Step 5: Save
+
 Click "Save 1 change"
 
 ### Step 6: Add Images
+
 1. Click on "Image" table
 2. Click "Add Record"
 3. Fill in:
@@ -52,6 +58,7 @@ Click "Save 1 change"
 **Repeat for each image**
 
 ### Step 7: View Your Product
+
 Go to: http://localhost:3000
 
 ---
@@ -59,9 +66,11 @@ Go to: http://localhost:3000
 ## Method 2: Edit the Seed File (For Multiple Products)
 
 ### Step 1: Open seed.ts
+
 Open file: `prisma/seed.ts`
 
 ### Step 2: Add Your Product
+
 Scroll to the bottom, before the closing brackets, and add:
 
 ```typescript
@@ -104,6 +113,7 @@ await prisma.product.create({
 ```
 
 ### Step 3: Run the Seed
+
 ```bash
 bunx prisma db seed
 ```
@@ -115,6 +125,7 @@ Your new product is now live!
 ## Finding Images
 
 ### Option 1: Unsplash (Free)
+
 1. Go to https://unsplash.com
 2. Search for your item (e.g., "antique desk")
 3. Click on an image you like
@@ -122,10 +133,12 @@ Your new product is now live!
 5. Use that URL in your product
 
 **Example URLs:**
+
 - https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=1200
 - https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200
 
 ### Option 2: Your Own Photos
+
 1. Take photos of your products
 2. Upload to a service like:
    - Cloudinary (https://cloudinary.com)
@@ -140,15 +153,18 @@ Your new product is now live!
 The slug is the URL-friendly version of your title.
 
 **Good Slugs:**
+
 - "victorian-oak-writing-desk-1890"
 - "first-edition-great-gatsby"
 - "wwii-us-army-flight-jacket"
 
 **Bad Slugs:**
+
 - "Victorian Oak Writing Desk, 1890" (has spaces and capital letters)
 - "desk#1" (has special characters)
 
 **How to Create:**
+
 1. Take the title
 2. Make it lowercase
 3. Replace spaces with hyphens (-)
@@ -222,11 +238,13 @@ await prisma.product.create({
 ## After Adding Products
 
 ### View Your Products
+
 - **Homepage:** http://localhost:3000
 - **Category Pages:** http://localhost:3000/category/collectibles
 - **Search:** http://localhost:3000/search
 
 ### Edit a Product
+
 1. Open Prisma Studio: `bunx prisma studio`
 2. Click on "Product"
 3. Find your product
@@ -235,6 +253,7 @@ await prisma.product.create({
 6. Click "Save"
 
 ### Delete a Product
+
 1. Open Prisma Studio
 2. Click on "Product"
 3. Find product to delete
@@ -246,6 +265,7 @@ await prisma.product.create({
 ## Tips
 
 ✅ **DO:**
+
 - Use high-quality images (at least 1200px wide)
 - Write detailed descriptions
 - Include all measurements
@@ -253,6 +273,7 @@ await prisma.product.create({
 - Use clear, descriptive titles
 
 ❌ **DON'T:**
+
 - Use copyrighted images without permission
 - Exaggerate condition
 - Use tiny images
@@ -263,13 +284,16 @@ await prisma.product.create({
 ## Need Help?
 
 **Can't find the field you need?**
+
 - Check `prisma/schema.prisma` to see all available fields
 
 **Images not showing?**
+
 - Make sure URL starts with `https://`
 - Test URL in browser first
 
 **Product not appearing?**
+
 - Check `status` is set to "active"
 - Check `quantity` is greater than 0
 - Refresh the page
@@ -281,6 +305,7 @@ await prisma.product.create({
 Your new products are now live on the website!
 
 **Test the checkout:**
+
 1. Add product to cart
 2. Go to checkout
 3. Use test card: 4242 4242 4242 4242

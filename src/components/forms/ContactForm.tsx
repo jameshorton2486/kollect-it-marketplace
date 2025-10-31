@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from 'react';
-import { Button } from '../ui/Button';
+import { useState } from "react";
+import { Button } from "../ui/Button";
 
 interface FormState {
   name: string;
@@ -11,17 +11,24 @@ interface FormState {
 }
 
 export default function ContactForm() {
-  const [form, setForm] = useState<FormState>({ name: '', email: '', subject: '', message: '' });
+  const [form, setForm] = useState<FormState>({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
 
   const validate = (f: FormState) => {
     const e: Partial<FormState> = {};
-    if (!f.name.trim()) e.name = 'Name is required';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) e.email = 'Valid email required';
-    if (!f.subject.trim()) e.subject = 'Subject is required';
-    if (f.message.trim().length < 10) e.message = 'Message must be at least 10 characters';
+    if (!f.name.trim()) e.name = "Name is required";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))
+      e.email = "Valid email required";
+    if (!f.subject.trim()) e.subject = "Subject is required";
+    if (f.message.trim().length < 10)
+      e.message = "Message must be at least 10 characters";
     return e;
   };
 
@@ -36,35 +43,55 @@ export default function ContactForm() {
       await new Promise((r) => setTimeout(r, 600));
       setSent(true);
     } catch (err) {
-      if (process.env.NODE_ENV === 'development') console.error(err);
+      if (process.env.NODE_ENV === "development") console.error(err);
     } finally {
       setSubmitting(false);
     }
   };
 
-  const Input = ({ id, label, type = 'text' }: { id: keyof FormState; label: string; type?: string }) => (
+  const Input = ({
+    id,
+    label,
+    type = "text",
+  }: { id: keyof FormState; label: string; type?: string }) => (
     <div className="mb-4">
-      <label htmlFor={id} className="mb-1 block text-sm font-medium text-ink">{label}</label>
+      <label htmlFor={id} className="mb-1 block text-sm font-medium text-ink">
+        {label}
+      </label>
       <input
         id={id}
         name={id}
         type={type}
         value={form[id]}
         onChange={(ev) => setForm((s) => ({ ...s, [id]: ev.target.value }))}
-        className={`w-full rounded border px-3 py-2 outline-none ${errors[id] ? 'border-red-500' : 'border-border-neutral'}`}
-  aria-invalid={errors[id] ? 'true' : undefined}
-  aria-describedby={errors[id] ? `${id}-error` : undefined}
+        className={`w-full rounded border px-3 py-2 outline-none ${errors[id] ? "border-red-500" : "border-border-neutral"}`}
+        aria-invalid={!!errors[id]}
+        aria-describedby={errors[id] ? `${id}-error` : undefined}
       />
-      {errors[id] && <p id={`${id}-error`} className="mt-1 text-sm text-red-600" role="alert">{errors[id]}</p>}
+      {errors[id] && (
+        <p
+          id={`${id}-error`}
+          className="mt-1 text-sm text-red-600"
+          role="alert"
+        >
+          {errors[id]}
+        </p>
+      )}
     </div>
   );
 
   return (
-    <form onSubmit={onSubmit} noValidate className="rounded border border-border-neutral bg-cream p-6">
+    <form
+      onSubmit={onSubmit}
+      noValidate
+      className="rounded border border-border-neutral bg-cream p-6"
+    >
       {sent ? (
         <div className="text-center">
           <h3 className="font-serif text-2xl text-brand-navy">Message sent</h3>
-          <p className="mt-2 text-ink-secondary">We\'ll get back to you shortly.</p>
+          <p className="mt-2 text-ink-secondary">
+            We\'ll get back to you shortly.
+          </p>
         </div>
       ) : (
         <>
@@ -72,23 +99,40 @@ export default function ContactForm() {
           <Input id="email" label="Email *" type="email" />
           <Input id="subject" label="Subject *" />
           <div className="mb-4">
-            <label htmlFor="message" className="mb-1 block text-sm font-medium text-ink">Message *</label>
+            <label
+              htmlFor="message"
+              className="mb-1 block text-sm font-medium text-ink"
+            >
+              Message *
+            </label>
             <textarea
               id="message"
               name="message"
               rows={6}
               maxLength={500}
               value={form.message}
-              onChange={(ev) => setForm((s) => ({ ...s, message: ev.target.value }))}
-              className={`w-full rounded border px-3 py-2 outline-none ${errors.message ? 'border-red-500' : 'border-border-neutral'}`}
-              aria-invalid={errors.message ? 'true' : undefined}
-              aria-describedby={errors.message ? 'message-error' : undefined}
+              onChange={(ev) =>
+                setForm((s) => ({ ...s, message: ev.target.value }))
+              }
+              className={`w-full rounded border px-3 py-2 outline-none ${errors.message ? "border-red-500" : "border-border-neutral"}`}
+              aria-invalid={!!errors.message}
+              aria-describedby={errors.message ? "message-error" : undefined}
             />
-            <div className="mt-1 text-right text-xs text-ink-secondary">{form.message.length} / 500</div>
-            {errors.message && <p id="message-error" className="mt-1 text-sm text-red-600" role="alert">{errors.message}</p>}
+            <div className="mt-1 text-right text-xs text-ink-secondary">
+              {form.message.length} / 500
+            </div>
+            {errors.message && (
+              <p
+                id="message-error"
+                className="mt-1 text-sm text-red-600"
+                role="alert"
+              >
+                {errors.message}
+              </p>
+            )}
           </div>
           <Button type="submit" className="w-full" disabled={submitting}>
-            {submitting ? 'Sending…' : 'Send Message'}
+            {submitting ? "Sending…" : "Send Message"}
           </Button>
         </>
       )}

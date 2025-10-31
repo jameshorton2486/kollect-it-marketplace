@@ -1,26 +1,28 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { Button } from './ui/Button';
-import { X } from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import { Button } from "./ui/Button";
+import { X } from "lucide-react";
 
 interface NewsletterModalProps {
   delaySeconds?: number;
 }
 
-export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalProps) {
+export default function NewsletterModal({
+  delaySeconds = 30,
+}: NewsletterModalProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // Check if user has already seen the modal
-    const hasSeenModal = localStorage.getItem('kollect-it-newsletter-seen');
+    const hasSeenModal = localStorage.getItem("kollect-it-newsletter-seen");
 
     if (!hasSeenModal) {
       // Show modal after delay
@@ -37,7 +39,7 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
   useEffect(() => {
     // Handle ESC key
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === "Escape" && isOpen) {
         handleClose();
       }
     };
@@ -47,12 +49,14 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
       if (!isOpen || !modalRef.current) return;
 
       const focusableElements = modalRef.current.querySelectorAll(
-        'button, input, textarea, select, a[href]'
+        "button, input, textarea, select, a[href]",
       );
       const firstElement = focusableElements[0] as HTMLElement;
-      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+      const lastElement = focusableElements[
+        focusableElements.length - 1
+      ] as HTMLElement;
 
-      if (e.key === 'Tab') {
+      if (e.key === "Tab") {
         if (e.shiftKey && document.activeElement === firstElement) {
           e.preventDefault();
           lastElement?.focus();
@@ -63,40 +67,40 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-    document.addEventListener('keydown', handleTab);
+    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleTab);
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('keydown', handleTab);
+      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleTab);
     };
   }, [isOpen]);
 
   const handleClose = () => {
     setIsOpen(false);
-    localStorage.setItem('kollect-it-newsletter-seen', 'true');
+    localStorage.setItem("kollect-it-newsletter-seen", "true");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/newsletter/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, firstName }),
       });
 
       if (!response.ok) {
-        throw new Error('Subscription failed');
+        throw new Error("Subscription failed");
       }
 
       setIsSuccess(true);
-      localStorage.setItem('kollect-it-newsletter-seen', 'true');
+      localStorage.setItem("kollect-it-newsletter-seen", "true");
     } catch (err) {
-      setError('Something went wrong. Please try again.');
+      setError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -104,7 +108,7 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
 
   const handleDownload = () => {
     // Trigger PDF download
-    window.open('/downloads/collectors-guide-antique-books.pdf', '_blank');
+    window.open("/downloads/collectors-guide-antique-books.pdf", "_blank");
     setTimeout(handleClose, 1000);
   };
 
@@ -141,20 +145,43 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
             <>
               {/* Icon */}
               <div className="newsletter-modal-icon">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="12" y="16" width="40" height="32" rx="2" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M12 20L32 32L52 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <svg
+                  width="64"
+                  height="64"
+                  viewBox="0 0 64 64"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="12"
+                    y="16"
+                    width="40"
+                    height="32"
+                    rx="2"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M12 20L32 32L52 20"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </div>
 
               {/* Heading */}
-              <h2 id="newsletter-modal-title" className="newsletter-modal-title">
+              <h2
+                id="newsletter-modal-title"
+                className="newsletter-modal-title"
+              >
                 Preserve Your Collection
               </h2>
 
               {/* Subheading */}
               <p className="newsletter-modal-subtitle">
-                Download our free <strong>Collector's Guide to Caring for Antique Books</strong>
+                Download our free{" "}
+                <strong>Collector's Guide to Caring for Antique Books</strong>
               </p>
 
               {/* Form */}
@@ -195,8 +222,12 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
                   </div>
                 )}
 
-                <Button type="submit" disabled={isSubmitting} className="newsletter-modal-submit">
-                  {isSubmitting ? 'Subscribing...' : 'Get Your Free Guide'}
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="newsletter-modal-submit"
+                >
+                  {isSubmitting ? "Subscribing..." : "Get Your Free Guide"}
                 </Button>
               </form>
 
@@ -209,26 +240,45 @@ export default function NewsletterModal({ delaySeconds = 30 }: NewsletterModalPr
             <>
               {/* Success state */}
               <div className="newsletter-modal-success-icon">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M20 32L28 40L44 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <svg
+                  width="64"
+                  height="64"
+                  viewBox="0 0 64 64"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="32"
+                    cy="32"
+                    r="28"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M20 32L28 40L44 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </div>
 
-              <h2 className="newsletter-modal-title">
-                Check Your Inbox!
-              </h2>
+              <h2 className="newsletter-modal-title">Check Your Inbox!</h2>
 
               <p className="newsletter-modal-subtitle">
                 We've sent you the Collector's Guide to <strong>{email}</strong>
               </p>
 
-              <Button onClick={handleDownload} className="newsletter-modal-submit">
+              <Button
+                onClick={handleDownload}
+                className="newsletter-modal-submit"
+              >
                 Download Guide Now
               </Button>
 
               <p className="newsletter-modal-trust">
-                Didn't receive it? Check your spam folder or{' '}
+                Didn't receive it? Check your spam folder or{" "}
                 <button
                   onClick={() => setIsSuccess(false)}
                   className="underline bg-transparent border-0 text-inherit cursor-pointer"

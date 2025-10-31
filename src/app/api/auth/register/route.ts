@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
   try {
@@ -9,15 +9,15 @@ export async function POST(request: Request) {
     // Validation
     if (!name || !email || !password) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
+        { error: "Missing required fields" },
+        { status: 400 },
       );
     }
 
     if (password.length < 6) {
       return NextResponse.json(
-        { error: 'Password must be at least 6 characters' },
-        { status: 400 }
+        { error: "Password must be at least 6 characters" },
+        { status: 400 },
       );
     }
 
@@ -28,8 +28,8 @@ export async function POST(request: Request) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: 'User with this email already exists' },
-        { status: 409 }
+        { error: "User with this email already exists" },
+        { status: 409 },
       );
     }
 
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
         name,
         email,
         password: hashedPassword,
-        role: 'user',
+        role: "user",
       },
       select: {
         id: true,
@@ -54,14 +54,14 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(
-      { message: 'User created successfully', user },
-      { status: 201 }
+      { message: "User created successfully", user },
+      { status: 201 },
     );
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error("Registration error:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

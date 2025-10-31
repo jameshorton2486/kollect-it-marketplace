@@ -62,9 +62,7 @@ export default function LatestArrivals() {
                 </span>
               </div>
               <div className="p-6 text-left">
-                <h3 className="text-2xl text-navy mb-2">
-                  {item.title}
-                </h3>
+                <h3 className="text-2xl text-navy mb-2">{item.title}</h3>
                 <p className="text-ink-secondary">{item.desc}</p>
               </div>
             </motion.div>
@@ -78,8 +76,9 @@ export default function LatestArrivals() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          Each piece tells a story of craftsmanship and heritage. Our specialists
-          continually source new treasures to elevate your personal collection.
+          Each piece tells a story of craftsmanship and heritage. Our
+          specialists continually source new treasures to elevate your personal
+          collection.
         </motion.p>
       </div>
     </section>

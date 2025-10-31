@@ -31,6 +31,7 @@ This project uses a signed upload flow for security:
 - Client posts the file to `https://upload.imagekit.io/api/v1/files/upload` with the auth params
 
 These are already wired up in the repo:
+
 - API route: `src/app/api/imagekit-auth/route.ts`
 - Uploader component: `src/components/admin/ImageUpload.tsx`
 
@@ -39,6 +40,7 @@ These are already wired up in the repo:
 When using ImageKit URLs, this project builds transformation strings like `tr:w-600,h-600,fo-auto,q-85` to optimize images per use case (cards, thumbnails, details). Existing calls to `transformCloudinary` are backward-compatible and will apply ImageKit transforms when given ImageKit URLs.
 
 Common presets in code:
+
 - `thumbnail`: `w-400,h-400,fo-auto,q-80`
 - `productCard`: `w-600,h-600,fo-auto,q-85`
 - `productDetail`: `w-1200,h-1200,fo-auto,q-90`

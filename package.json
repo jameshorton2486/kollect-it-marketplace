@@ -2,6 +2,7 @@
   "name": "nextjs-shadcn",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev -H 0.0.0.0 --turbopack",
     "build": "bunx prisma generate && next build",
@@ -13,8 +14,8 @@
     "lint:fix": "next lint --fix",
     "lint:md": "bunx markdownlint \"**/*.md\"",
     "lint:md:fix": "bunx markdownlint \"**/*.md\" --fix",
-    "test:contrast": "node scripts/check-contrast.mjs",
-    "check:contrast": "node scripts/check-contrast.mjs",
+    "test:contrast": "node scripts/check-contrast.js",
+    "check:contrast": "node scripts/check-contrast.js",
     "check:all": "bun run type-check && bun run lint && bun run test:contrast && bun run lint:md",
     "fix:all": "bun run format && bun run lint:fix && bun run lint:md:fix",
     "prepare": "husky",

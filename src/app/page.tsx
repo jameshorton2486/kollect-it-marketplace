@@ -42,18 +42,20 @@ export default function HomePage() {
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "Kollect-It",
-          url: "https://kollect-it.com",
-          logo: "https://ext.same-assets.com/kollect-it/logo.png",
-          sameAs: [
-            "https://www.instagram.com/",
-            "https://www.facebook.com/",
-            "https://www.youtube.com/",
-          ],
-        }) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Kollect-It",
+            url: "https://kollect-it.com",
+            logo: "https://ext.same-assets.com/kollect-it/logo.png",
+            sameAs: [
+              "https://www.instagram.com/",
+              "https://www.facebook.com/",
+              "https://www.youtube.com/",
+            ],
+          }),
+        }}
       />
       <Header />
       <Hero />

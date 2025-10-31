@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import ProductCard, { ProductCardData } from './ProductCard';
+import ProductCard, { ProductCardData } from "./ProductCard";
 
 interface ProductGridProps {
   products: Array<{
@@ -12,11 +12,14 @@ interface ProductGridProps {
     images: { url: string }[];
     category: { name: string };
   }>;
-  view?: 'grid' | 'list';
+  view?: "grid" | "list";
 }
 
-export default function ProductGrid({ products, view = 'grid' }: ProductGridProps) {
-  if (view === 'list') {
+export default function ProductGrid({
+  products,
+  view = "grid",
+}: ProductGridProps) {
+  if (view === "list") {
     return (
       <div className="space-y-3">
         {products.map((product) => (
@@ -28,7 +31,7 @@ export default function ProductGrid({ products, view = 'grid' }: ProductGridProp
               title: product.title,
               price: product.price,
               slug: product.slug,
-              image: product.images[0]?.url || '/placeholder.jpg',
+              image: product.images[0]?.url || "/placeholder.jpg",
               category: product.category.name,
             }}
           />
@@ -46,7 +49,7 @@ export default function ProductGrid({ products, view = 'grid' }: ProductGridProp
             title: product.title,
             price: product.price,
             slug: product.slug,
-            image: product.images[0]?.url || '/placeholder.jpg',
+            image: product.images[0]?.url || "/placeholder.jpg",
             category: product.category.name,
           }}
         />

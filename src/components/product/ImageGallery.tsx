@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import { BLUR_DATA_URL, transformCloudinary } from '@/lib/image';
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { BLUR_DATA_URL, transformCloudinary } from "@/lib/image";
 
 interface ProductImage {
   url: string;
@@ -70,11 +70,11 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
           className="group relative overflow-hidden rounded"
           onMouseEnter={() => setIsHoverZoom(true)}
           onMouseLeave={() => setIsHoverZoom(false)}
-          title={isHoverZoom ? 'Zooming' : 'Hover to zoom'}
+          title={isHoverZoom ? "Zooming" : "Hover to zoom"}
         >
           <Image
             key={`img-${selectedIndex}`}
-            src={transformCloudinary(selectedImage.url, 'detail')}
+            src={transformCloudinary(selectedImage.url, "detail")}
             alt={selectedImage.alt || title}
             width={1200}
             height={1200}
@@ -82,8 +82,8 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
             className={`h-full w-full object-contain transition-all duration-300 ${
-              showImage ? 'opacity-100' : 'opacity-0'
-            } ${isHoverZoom ? 'scale-[1.6]' : 'scale-100'}`}
+              showImage ? "opacity-100" : "opacity-0"
+            } ${isHoverZoom ? "scale-[1.6]" : "scale-100"}`}
           />
         </div>
 
@@ -101,13 +101,24 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
             <button
               key={index}
               className={`product-gallery-thumbnail shrink-0 snap-start rounded border ${
-                index === selectedIndex ? 'border-brand-gold' : 'border-border-neutral'
+                index === selectedIndex
+                  ? "border-brand-gold"
+                  : "border-border-neutral"
               }`}
               onClick={() => setSelectedIndex(index)}
               title={`View ${index + 1}`}
               aria-label={`View image ${index + 1}`}
             >
-              <Image src={transformCloudinary(image.url, 'thumbnail')} alt={`${title} view ${index + 1}`} width={64} height={64} className="h-16 w-16 object-cover" loading="lazy" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
+              <Image
+                src={transformCloudinary(image.url, "thumbnail")}
+                alt={`${title} view ${index + 1}`}
+                width={64}
+                height={64}
+                className="h-16 w-16 object-cover"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL={BLUR_DATA_URL}
+              />
             </button>
           ))}
         </div>

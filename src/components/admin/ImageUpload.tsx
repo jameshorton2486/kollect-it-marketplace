@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import Image from 'next/image';
+import { useState, useRef } from "react";
+import Image from "next/image";
 import {
   DndContext,
   closestCenter,
@@ -10,15 +10,15 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   rectSortingStrategy,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface ImageData {
   url: string;
@@ -45,7 +45,7 @@ export default function ImageUpload({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -61,31 +61,37 @@ export default function ImageUpload({
   const uploadToImageKit = async (file: File): Promise<ImageData | null> => {
     try {
       // 1) Get auth params from server
-      const authRes = await fetch('/api/imagekit-auth');
-      if (!authRes.ok) throw new Error('Auth failed');
+      const authRes = await fetch("/api/imagekit-auth");
+      if (!authRes.ok) throw new Error("Auth failed");
       const { token, expire, signature } = await authRes.json();
 
       // 2) Build multipart form for ImageKit upload API
       const formData = new FormData();
-      formData.append('file', file);
-      formData.append('fileName', file.name);
-      formData.append('token', token);
-      formData.append('expire', String(expire));
-      formData.append('signature', signature);
-      formData.append('publicKey', process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY || '');
-      formData.append('folder', '/products');
-      formData.append('useUniqueFileName', 'true');
+      formData.append("file", file);
+      formData.append("fileName", file.name);
+      formData.append("token", token);
+      formData.append("expire", String(expire));
+      formData.append("signature", signature);
+      formData.append(
+        "publicKey",
+        process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY || "",
+      );
+      formData.append("folder", "/products");
+      formData.append("useUniqueFileName", "true");
 
       // 3) POST to ImageKit
-      const response = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      if (!response.ok) throw new Error('Upload failed');
+      const response = await fetch(
+        "https://upload.imagekit.io/api/v1/files/upload",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+      if (!response.ok) throw new Error("Upload failed");
       const data = await response.json();
       return { url: data.url, alt: file.name };
     } catch (error) {
-      console.error('Error uploading to ImageKit:', error);
+      console.error("Error uploading to ImageKit:", error);
       return null;
     }
   };
@@ -103,14 +109,18 @@ export default function ImageUpload({
     setUploading(true);
 
     try {
-  const uploadPromises = filesToUpload.map((file) => uploadToImageKit(file));
+      const uploadPromises = filesToUpload.map((file) =>
+        uploadToImageKit(file),
+      );
       const results = await Promise.all(uploadPromises);
-      const successfulUploads = results.filter((result) => result !== null) as ImageData[];
+      const successfulUploads = results.filter(
+        (result) => result !== null,
+      ) as ImageData[];
 
       onChange([...images, ...successfulUploads]);
     } catch (error) {
-      console.error('Error uploading images:', error);
-      alert('Error uploading images. Please try again.');
+      console.error("Error uploading images:", error);
+      alert("Error uploading images. Please try again.");
     } finally {
       setUploading(false);
     }
@@ -145,8 +155,8 @@ export default function ImageUpload({
     <div className="image-upload-container">
       {/* Upload Area */}
       <div
-        className={`image-upload-dropzone ${dragOver ? 'drag-over' : ''} ${
-          uploading ? 'uploading' : ''
+        className={`image-upload-dropzone ${dragOver ? "drag-over" : ""} ${
+          uploading ? "uploading" : ""
         }`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -184,11 +194,16 @@ export default function ImageUpload({
             </svg>
             <h3>Drag & Drop Images Here</h3>
             <p>or</p>
-            <button type="button" onClick={handleBrowseClick} className="btn-browse">
+            <button
+              type="button"
+              onClick={handleBrowseClick}
+              className="btn-browse"
+            >
               Browse Files
             </button>
             <p className="upload-info">
-              Max {maxImages} images • Max 1600px width • Supports JPG, PNG, WebP
+              Max {maxImages} images • Max 1600px width • Supports JPG, PNG,
+              WebP
             </p>
           </div>
         )}
@@ -200,14 +215,19 @@ export default function ImageUpload({
           <h4>
             Uploaded Images ({images.length}/{maxImages})
           </h4>
-          <p className="reorder-hint">Drag images to reorder • First image is the main photo</p>
+          <p className="reorder-hint">
+            Drag images to reorder • First image is the main photo
+          </p>
 
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
           >
-            <SortableContext items={images.map((img) => img.url)} strategy={rectSortingStrategy}>
+            <SortableContext
+              items={images.map((img) => img.url)}
+              strategy={rectSortingStrategy}
+            >
               <div className="image-preview-grid">
                 {images.map((image, index) => (
                   <SortableImage
@@ -233,7 +253,14 @@ interface SortableImageProps {
 }
 
 function SortableImage({ image, index, onDelete }: SortableImageProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: image.url,
   });
 
@@ -246,10 +273,22 @@ function SortableImage({ image, index, onDelete }: SortableImageProps) {
   return (
     <div ref={setNodeRef} style={style} className="image-preview-item">
       <div className="image-preview-wrapper" {...attributes} {...listeners}>
-  <Image src={image.url} alt={image.alt || `Product image ${index + 1}`} width={120} height={120} className="h-auto w-auto max-w-full" />
+        <Image
+          src={image.url}
+          alt={image.alt || `Product image ${index + 1}`}
+          width={120}
+          height={120}
+          className="h-auto w-auto max-w-full"
+        />
         {index === 0 && <span className="main-badge">Main</span>}
         <div className="image-overlay">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
             <path d="M9 3h6v6h-6z" />
             <path d="M9 15h6v6h-6z" />
           </svg>
@@ -262,7 +301,14 @@ function SortableImage({ image, index, onDelete }: SortableImageProps) {
         className="image-delete-btn"
         title="Delete image"
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
           <polyline points="3 6 5 6 21 6" />
           <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
           <line x1="10" y1="11" x2="10" y2="17" />

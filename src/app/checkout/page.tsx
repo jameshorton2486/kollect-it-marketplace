@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import { useCart } from '@/contexts/CartContext';
-import { Elements } from '@stripe/react-stripe-js';
-import { getStripe } from '@/lib/stripe';
-import CheckoutForm from '@/components/checkout/CheckoutForm';
-import Link from 'next/link';
-import Image from 'next/image';
-import { BLUR_DATA_URL, transformCloudinary } from '@/lib/image';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useCart } from "@/contexts/CartContext";
+import { Elements } from "@stripe/react-stripe-js";
+import { getStripe } from "@/lib/stripe";
+import CheckoutForm from "@/components/checkout/CheckoutForm";
+import Link from "next/link";
+import Image from "next/image";
+import { BLUR_DATA_URL, transformCloudinary } from "@/lib/image";
 
 interface ShippingInfo {
   fullName: string;
@@ -37,37 +37,37 @@ export default function CheckoutPage() {
   const { data: session } = useSession();
   const { items, itemCount, subtotal, tax, total, clearCart } = useCart();
 
-  const [step, setStep] = useState<'shipping' | 'payment'>('shipping');
-  const [clientSecret, setClientSecret] = useState<string>('');
+  const [step, setStep] = useState<"shipping" | "payment">("shipping");
+  const [clientSecret, setClientSecret] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [validatedTotal, setValidatedTotal] = useState<number | null>(null);
 
   const [shippingInfo, setShippingInfo] = useState<ShippingInfo>({
-    fullName: session?.user?.name || '',
-    email: session?.user?.email || '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: 'United States',
+    fullName: session?.user?.name || "",
+    email: session?.user?.email || "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "United States",
   });
 
   const [billingInfo, setBillingInfo] = useState<BillingInfo>({
     sameAsShipping: true,
-    fullName: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: 'United States',
+    fullName: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "United States",
   });
 
   // Redirect if cart is empty
   useEffect(() => {
     if (itemCount === 0) {
-      router.push('/cart');
+      router.push("/cart");
     }
   }, [itemCount, router]);
 
@@ -83,7 +83,15 @@ export default function CheckoutPage() {
   }, [session]);
 
   const validateShippingForm = (): boolean => {
-    const required = ['fullName', 'email', 'phone', 'address', 'city', 'state', 'zipCode'];
+    const required = [
+      "fullName",
+      "email",
+      "phone",
+      "address",
+      "city",
+      "state",
+      "zipCode",
+    ];
 
     for (const field of required) {
       if (!shippingInfo[field as keyof ShippingInfo]) {
@@ -95,21 +103,21 @@ export default function CheckoutPage() {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(shippingInfo.email)) {
-      setError('Please enter a valid email address');
+      setError("Please enter a valid email address");
       return false;
     }
 
     // Validate phone format (basic)
     const phoneRegex = /^[\d\s\-\(\)]+$/;
     if (!phoneRegex.test(shippingInfo.phone)) {
-      setError('Please enter a valid phone number');
+      setError("Please enter a valid phone number");
       return false;
     }
 
     // Validate ZIP code format (US)
     const zipRegex = /^\d{5}(-\d{4})?$/;
     if (!zipRegex.test(shippingInfo.zipCode)) {
-      setError('Please enter a valid ZIP code');
+      setError("Please enter a valid ZIP code");
       return false;
     }
 
@@ -117,7 +125,7 @@ export default function CheckoutPage() {
   };
 
   const handleContinueToPayment = async () => {
-    setError('');
+    setError("");
 
     if (!validateShippingForm()) {
       return;
@@ -127,9 +135,9 @@ export default function CheckoutPage() {
 
     try {
       // Create Payment Intent
-      const response = await fetch('/api/checkout/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/checkout/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           items,
           shippingInfo,
@@ -140,16 +148,20 @@ export default function CheckoutPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to initialize payment');
+        throw new Error(data.error || "Failed to initialize payment");
       }
 
       setClientSecret(data.clientSecret);
-      if (typeof data.validatedTotal === 'number') {
+      if (typeof data.validatedTotal === "number") {
         setValidatedTotal(data.validatedTotal);
       }
-      setStep('payment');
+      setStep("payment");
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An error occurred. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -165,13 +177,19 @@ export default function CheckoutPage() {
     <div className="checkout-page">
       {/* Progress Indicator */}
       <div className="checkout-progress">
-        <div className={`checkout-steps ${step === 'shipping' ? 'step-1' : 'step-2'}`}>
+        <div
+          className={`checkout-steps ${step === "shipping" ? "step-1" : "step-2"}`}
+        >
           <div className="checkout-step-fill" />
-          <div className={`checkout-step ${step === 'shipping' ? 'active' : 'completed'}`}>
+          <div
+            className={`checkout-step ${step === "shipping" ? "active" : "completed"}`}
+          >
             <div className="checkout-step-circle">1</div>
             <div className="checkout-step-label">Shipping</div>
           </div>
-          <div className={`checkout-step ${step === 'payment' ? 'active' : ''}`}>
+          <div
+            className={`checkout-step ${step === "payment" ? "active" : ""}`}
+          >
             <div className="checkout-step-circle">2</div>
             <div className="checkout-step-label">Payment</div>
           </div>
@@ -185,7 +203,14 @@ export default function CheckoutPage() {
             <div className="checkout-forms">
               {error && (
                 <div className="checkout-error">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <circle cx="12" cy="12" r="10" />
                     <line x1="12" y1="8" x2="12" y2="12" />
                     <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -195,20 +220,32 @@ export default function CheckoutPage() {
               )}
 
               {/* Shipping Form */}
-              {step === 'shipping' && (
+              {step === "shipping" && (
                 <div className="checkout-section">
-                  <h2 className="checkout-section-title">Shipping Information</h2>
+                  <h2 className="checkout-section-title">
+                    Shipping Information
+                  </h2>
 
                   <div className="checkout-form">
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="shipping-fullName">Full Name *</label>
+                        <label
+                          className="form-label"
+                          htmlFor="shipping-fullName"
+                        >
+                          Full Name *
+                        </label>
                         <input
                           id="shipping-fullName"
                           type="text"
                           required
                           value={shippingInfo.fullName}
-                          onChange={(e) => setShippingInfo({ ...shippingInfo, fullName: e.target.value })}
+                          onChange={(e) =>
+                            setShippingInfo({
+                              ...shippingInfo,
+                              fullName: e.target.value,
+                            })
+                          }
                           className="form-input"
                           placeholder="John Doe"
                         />
@@ -217,25 +254,39 @@ export default function CheckoutPage() {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="shipping-email">Email Address *</label>
+                        <label className="form-label" htmlFor="shipping-email">
+                          Email Address *
+                        </label>
                         <input
                           id="shipping-email"
                           type="email"
                           required
                           value={shippingInfo.email}
-                          onChange={(e) => setShippingInfo({ ...shippingInfo, email: e.target.value })}
+                          onChange={(e) =>
+                            setShippingInfo({
+                              ...shippingInfo,
+                              email: e.target.value,
+                            })
+                          }
                           className="form-input"
                           placeholder="john@example.com"
                         />
                       </div>
                       <div className="form-group">
-                        <label className="form-label" htmlFor="shipping-phone">Phone Number *</label>
+                        <label className="form-label" htmlFor="shipping-phone">
+                          Phone Number *
+                        </label>
                         <input
                           id="shipping-phone"
                           type="tel"
                           required
                           value={shippingInfo.phone}
-                          onChange={(e) => setShippingInfo({ ...shippingInfo, phone: e.target.value })}
+                          onChange={(e) =>
+                            setShippingInfo({
+                              ...shippingInfo,
+                              phone: e.target.value,
+                            })
+                          }
                           className="form-input"
                           placeholder="(555) 123-4567"
                         />
@@ -244,13 +295,23 @@ export default function CheckoutPage() {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="shipping-address">Street Address *</label>
+                        <label
+                          className="form-label"
+                          htmlFor="shipping-address"
+                        >
+                          Street Address *
+                        </label>
                         <input
                           id="shipping-address"
                           type="text"
                           required
                           value={shippingInfo.address}
-                          onChange={(e) => setShippingInfo({ ...shippingInfo, address: e.target.value })}
+                          onChange={(e) =>
+                            setShippingInfo({
+                              ...shippingInfo,
+                              address: e.target.value,
+                            })
+                          }
                           className="form-input"
                           placeholder="123 Main Street"
                         />
@@ -259,25 +320,39 @@ export default function CheckoutPage() {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="shipping-city">City *</label>
+                        <label className="form-label" htmlFor="shipping-city">
+                          City *
+                        </label>
                         <input
                           id="shipping-city"
                           type="text"
                           required
                           value={shippingInfo.city}
-                          onChange={(e) => setShippingInfo({ ...shippingInfo, city: e.target.value })}
+                          onChange={(e) =>
+                            setShippingInfo({
+                              ...shippingInfo,
+                              city: e.target.value,
+                            })
+                          }
                           className="form-input"
                           placeholder="New York"
                         />
                       </div>
                       <div className="form-group">
-                        <label className="form-label" htmlFor="shipping-state">State *</label>
+                        <label className="form-label" htmlFor="shipping-state">
+                          State *
+                        </label>
                         <input
                           id="shipping-state"
                           type="text"
                           required
                           value={shippingInfo.state}
-                          onChange={(e) => setShippingInfo({ ...shippingInfo, state: e.target.value })}
+                          onChange={(e) =>
+                            setShippingInfo({
+                              ...shippingInfo,
+                              state: e.target.value,
+                            })
+                          }
                           className="form-input"
                           placeholder="NY"
                         />
@@ -286,50 +361,74 @@ export default function CheckoutPage() {
 
                     <div className="form-row">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="shipping-zip">ZIP Code *</label>
+                        <label className="form-label" htmlFor="shipping-zip">
+                          ZIP Code *
+                        </label>
                         <input
                           id="shipping-zip"
                           type="text"
                           required
                           value={shippingInfo.zipCode}
-                          onChange={(e) => setShippingInfo({ ...shippingInfo, zipCode: e.target.value })}
+                          onChange={(e) =>
+                            setShippingInfo({
+                              ...shippingInfo,
+                              zipCode: e.target.value,
+                            })
+                          }
                           className="form-input"
                           placeholder="10001"
                         />
                       </div>
                       <div className="form-group">
-                        <label className="form-label" htmlFor="shipping-country">Country *</label>
-                          <select
-                            id="shipping-country"
-                            value={shippingInfo.country}
-                            onChange={(e) => setShippingInfo({ ...shippingInfo, country: e.target.value })}
-                            className="form-input"
-                          >
-                            <option>United States</option>
-                            <option>Canada</option>
-                            <option>United Kingdom</option>
-                            <option>Australia</option>
-                            <option>Other</option>
-                          </select>
+                        <label
+                          className="form-label"
+                          htmlFor="shipping-country"
+                        >
+                          Country *
+                        </label>
+                        <select
+                          id="shipping-country"
+                          value={shippingInfo.country}
+                          onChange={(e) =>
+                            setShippingInfo({
+                              ...shippingInfo,
+                              country: e.target.value,
+                            })
+                          }
+                          className="form-input"
+                        >
+                          <option>United States</option>
+                          <option>Canada</option>
+                          <option>United Kingdom</option>
+                          <option>Australia</option>
+                          <option>Other</option>
+                        </select>
                       </div>
                     </div>
 
-                      {session?.user && (
-                        <div className="form-row">
-                          <label className="form-checkbox">
-                            <input type="checkbox" />
-                            <span>Save this address to my account</span>
-                          </label>
-                        </div>
-                      )}
+                    {session?.user && (
+                      <div className="form-row">
+                        <label className="form-checkbox">
+                          <input type="checkbox" />
+                          <span>Save this address to my account</span>
+                        </label>
+                      </div>
+                    )}
 
                     <button
                       onClick={handleContinueToPayment}
                       disabled={loading}
                       className="btn-primary"
                     >
-                      {loading ? 'Processing...' : 'Continue to Payment'}
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      {loading ? "Processing..." : "Continue to Payment"}
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
                         <polyline points="9 18 15 12 9 6" />
                       </svg>
                     </button>
@@ -338,20 +437,30 @@ export default function CheckoutPage() {
               )}
 
               {/* Payment Form */}
-              {step === 'payment' && clientSecret && (
+              {step === "payment" && clientSecret && (
                 <div className="checkout-section">
-                  <h2 className="checkout-section-title">Payment Information</h2>
+                  <h2 className="checkout-section-title">
+                    Payment Information
+                  </h2>
 
                   {/* Shipping Summary with Edit */}
                   <div className="shipping-review">
                     <div className="shipping-review-header">
                       <h3>Shipping To</h3>
-                      <button onClick={() => setStep('shipping')} className="underline text-link hover:text-link-hover">Edit</button>
+                      <button
+                        onClick={() => setStep("shipping")}
+                        className="underline text-link hover:text-link-hover"
+                      >
+                        Edit
+                      </button>
                     </div>
                     <div className="shipping-review-body">
                       <p className="font-medium">{shippingInfo.fullName}</p>
                       <p>{shippingInfo.address}</p>
-                      <p>{shippingInfo.city}, {shippingInfo.state} {shippingInfo.zipCode}</p>
+                      <p>
+                        {shippingInfo.city}, {shippingInfo.state}{" "}
+                        {shippingInfo.zipCode}
+                      </p>
                     </div>
                   </div>
 
@@ -361,7 +470,12 @@ export default function CheckoutPage() {
                       <input
                         type="checkbox"
                         checked={billingInfo.sameAsShipping}
-                        onChange={(e) => setBillingInfo({ ...billingInfo, sameAsShipping: e.target.checked })}
+                        onChange={(e) =>
+                          setBillingInfo({
+                            ...billingInfo,
+                            sameAsShipping: e.target.checked,
+                          })
+                        }
                       />
                       <span>Billing address is same as shipping</span>
                     </label>
@@ -371,13 +485,23 @@ export default function CheckoutPage() {
                     <div className="checkout-form mt-3">
                       <div className="form-row">
                         <div className="form-group">
-                          <label className="form-label" htmlFor="billing-fullName">Full Name *</label>
+                          <label
+                            className="form-label"
+                            htmlFor="billing-fullName"
+                          >
+                            Full Name *
+                          </label>
                           <input
                             id="billing-fullName"
                             type="text"
                             required
                             value={billingInfo.fullName}
-                            onChange={(e) => setBillingInfo({ ...billingInfo, fullName: e.target.value })}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                fullName: e.target.value,
+                              })
+                            }
                             className="form-input"
                             placeholder="John Doe"
                           />
@@ -386,13 +510,23 @@ export default function CheckoutPage() {
 
                       <div className="form-row">
                         <div className="form-group">
-                          <label className="form-label" htmlFor="billing-address">Street Address *</label>
+                          <label
+                            className="form-label"
+                            htmlFor="billing-address"
+                          >
+                            Street Address *
+                          </label>
                           <input
                             id="billing-address"
                             type="text"
                             required
                             value={billingInfo.address}
-                            onChange={(e) => setBillingInfo({ ...billingInfo, address: e.target.value })}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                address: e.target.value,
+                              })
+                            }
                             className="form-input"
                             placeholder="123 Main Street"
                           />
@@ -401,25 +535,39 @@ export default function CheckoutPage() {
 
                       <div className="form-row">
                         <div className="form-group">
-                          <label className="form-label" htmlFor="billing-city">City *</label>
+                          <label className="form-label" htmlFor="billing-city">
+                            City *
+                          </label>
                           <input
                             id="billing-city"
                             type="text"
                             required
                             value={billingInfo.city}
-                            onChange={(e) => setBillingInfo({ ...billingInfo, city: e.target.value })}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                city: e.target.value,
+                              })
+                            }
                             className="form-input"
                             placeholder="New York"
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label" htmlFor="billing-state">State *</label>
+                          <label className="form-label" htmlFor="billing-state">
+                            State *
+                          </label>
                           <input
                             id="billing-state"
                             type="text"
                             required
                             value={billingInfo.state}
-                            onChange={(e) => setBillingInfo({ ...billingInfo, state: e.target.value })}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                state: e.target.value,
+                              })
+                            }
                             className="form-input"
                             placeholder="NY"
                           />
@@ -428,23 +576,40 @@ export default function CheckoutPage() {
 
                       <div className="form-row">
                         <div className="form-group">
-                          <label className="form-label" htmlFor="billing-zip">ZIP Code *</label>
+                          <label className="form-label" htmlFor="billing-zip">
+                            ZIP Code *
+                          </label>
                           <input
                             id="billing-zip"
                             type="text"
                             required
                             value={billingInfo.zipCode}
-                            onChange={(e) => setBillingInfo({ ...billingInfo, zipCode: e.target.value })}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                zipCode: e.target.value,
+                              })
+                            }
                             className="form-input"
                             placeholder="10001"
                           />
                         </div>
                         <div className="form-group">
-                          <label className="form-label" htmlFor="billing-country">Country *</label>
+                          <label
+                            className="form-label"
+                            htmlFor="billing-country"
+                          >
+                            Country *
+                          </label>
                           <select
                             id="billing-country"
                             value={billingInfo.country}
-                            onChange={(e) => setBillingInfo({ ...billingInfo, country: e.target.value })}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                country: e.target.value,
+                              })
+                            }
                             className="form-input"
                           >
                             <option>United States</option>
@@ -462,7 +627,9 @@ export default function CheckoutPage() {
                     <CheckoutForm
                       clientSecret={clientSecret}
                       shippingInfo={shippingInfo}
-                      billingInfo={billingInfo.sameAsShipping ? shippingInfo : billingInfo}
+                      billingInfo={
+                        billingInfo.sameAsShipping ? shippingInfo : billingInfo
+                      }
                       totalAmount={validatedTotal ?? total}
                       onSuccess={() => clearCart()}
                     />
@@ -478,7 +645,17 @@ export default function CheckoutPage() {
               <div className="checkout-summary-items">
                 {items.map((item) => (
                   <div key={item.id} className="checkout-summary-item">
-                    <Image src={transformCloudinary(item.image, 'thumbnail')} alt={`${item.title} in order summary`} width={64} height={64} className="rounded object-cover" loading="lazy" quality={85} placeholder="blur" blurDataURL={BLUR_DATA_URL} />
+                    <Image
+                      src={transformCloudinary(item.image, "thumbnail")}
+                      alt={`${item.title} in order summary`}
+                      width={64}
+                      height={64}
+                      className="rounded object-cover"
+                      loading="lazy"
+                      quality={85}
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA_URL}
+                    />
                     <div className="checkout-summary-item-info">
                       <h4>{item.title}</h4>
                       <p>Qty: {item.quantity}</p>
@@ -494,7 +671,13 @@ export default function CheckoutPage() {
 
               <div className="checkout-summary-row">
                 <span>Subtotal ({itemCount} items)</span>
-                <span>${subtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span>
+                  $
+                  {subtotal.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
               </div>
 
               <div className="checkout-summary-row">
@@ -504,32 +687,65 @@ export default function CheckoutPage() {
 
               <div className="checkout-summary-row">
                 <span>Tax (8%)</span>
-                <span>${tax.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span>
+                  $
+                  {tax.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
               </div>
 
               <div className="checkout-summary-divider" />
 
               <div className="checkout-summary-total">
                 <span>Total</span>
-                <span>${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span>
+                  $
+                  {total.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
               </div>
 
               <div className="checkout-trust-badges">
                 <div className="trust-badge">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   </svg>
                   <span>Secure Checkout</span>
                 </div>
                 <div className="trust-badge">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12 6 12 12 16 14" />
                   </svg>
                   <span>30-Day Returns</span>
                 </div>
                 <div className="trust-badge">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
                     <line x1="1" y1="10" x2="23" y2="10" />
                   </svg>

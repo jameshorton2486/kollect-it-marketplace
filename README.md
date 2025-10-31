@@ -75,44 +75,49 @@ A full-stack Next.js application for Kollect-It antiques and collectibles market
    - [📘 Full Stripe Setup Guide](./STRIPE_SETUP.md)
 
 10. **Admin Order Management** ✅
-   - Complete order dashboard with real-time stats
-   - Search and filter orders (status, date, customer)
-   - Detailed order view with customer info
-   - Update order status (Pending → Processing → Shipped → Delivered)
-   - Add tracking numbers and carrier information
-   - Upload/link shipping labels
-   - Automatic email notifications on status changes
-   - Mobile-responsive admin interface
-   - [📘 Full Order Management Guide](./docs/ORDER_MANAGEMENT_GUIDE.md)
+
+- Complete order dashboard with real-time stats
+- Search and filter orders (status, date, customer)
+- Detailed order view with customer info
+- Update order status (Pending → Processing → Shipped → Delivered)
+- Add tracking numbers and carrier information
+- Upload/link shipping labels
+- Automatic email notifications on status changes
+- Mobile-responsive admin interface
+- [📘 Full Order Management Guide](./docs/ORDER_MANAGEMENT_GUIDE.md)
 
 11. **Email Notification System** 🆕
-   - Powered by Resend with React Email components
-   - Order confirmation emails to customers
-   - Order status update notifications with tracking
-   - Admin new order alerts
-   - Welcome emails for newsletter signups
-   - Professional branded templates
-   - Automated triggers on key events
-   - Easy testing with API endpoint
-   - [📘 Full Email Setup Guide](./EMAIL_SETUP.md)
+
+- Powered by Resend with React Email components
+- Order confirmation emails to customers
+- Order status update notifications with tracking
+- Admin new order alerts
+- Welcome emails for newsletter signups
+- Professional branded templates
+- Automated triggers on key events
+- Easy testing with API endpoint
+- [📘 Full Email Setup Guide](./EMAIL_SETUP.md)
 
 12. **Detailed Product Pages**
-   - Image gallery with zoom
-   - Full product information
-   - Tabbed content (description, shipping, authentication)
-   - Related products carousel
-   - Mobile-optimized with sticky cart bar
+
+- Image gallery with zoom
+- Full product information
+- Tabbed content (description, shipping, authentication)
+- Related products carousel
+- Mobile-optimized with sticky cart bar
 
 13. **API Routes**
-   - RESTful API for products and categories
-   - Authentication-protected admin routes
-   - Stripe payment intent creation
-   - Order management endpoints
-   - Wishlist and cart synchronization
+
+- RESTful API for products and categories
+- Authentication-protected admin routes
+- Stripe payment intent creation
+- Order management endpoints
+- Wishlist and cart synchronization
 
 ## 🚀 Getting Started
 
 ### **New to this project?**
+
 👉 Start with [SETUP_CHECKLIST.md](./SETUP_CHECKLIST.md) for a step-by-step guide!
 
 ### **Quick Start:**
@@ -135,6 +140,7 @@ bun run dev
 ```
 
 Visit:
+
 - **Homepage**: http://localhost:3000
 - **Admin Dashboard**: http://localhost:3000/admin/login
 
@@ -150,12 +156,14 @@ Password: admin123
 ### **Environment Variables:**
 
 This project requires several API keys and configurations. See [ENVIRONMENT_VARIABLES.md](./ENVIRONMENT_VARIABLES.md) for:
+
 - Complete list of all required variables
 - Where to get each API key
 - How to set variables locally and on Netlify
 - Security best practices
 
 **Quick setup:**
+
 ```bash
 cp .env.example .env
 # Edit .env and add your API keys (see ENVIRONMENT_VARIABLES.md)
@@ -164,11 +172,13 @@ cp .env.example .env
 ### **Database Setup:**
 
 This project uses PostgreSQL. See [DATABASE_SETUP.md](./DATABASE_SETUP.md) for:
+
 - Getting a free PostgreSQL database (Supabase, Neon, or Vercel)
 - Running migrations and seeding data
 - All available database commands
 
 **Quick Database Commands:**
+
 ```bash
 bun run db:setup        # Complete setup (first time)
 bun run db:migrate      # Create new migration
@@ -189,9 +199,11 @@ Before you can upload product images, you need to configure ImageKit:
     - Add these to `.env`:
 
        ```env
+
      NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=
      NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=
      IMAGEKIT_PRIVATE_KEY=
+
      ```
     - Restart the dev server
 
@@ -206,11 +218,12 @@ Before you can accept payments, you need to configure Stripe:
    - Create a free Stripe account at [stripe.com](https://stripe.com)
    - Get your test API keys from the Stripe Dashboard
    - Update your `.env` file with the keys:
-     
+
    ```env
      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_your-key"
      STRIPE_SECRET_KEY="sk_test_your-key"
      ```
+
    - Restart the dev server
    - Test checkout with card: `4242 4242 4242 4242`
 
@@ -304,18 +317,18 @@ kollect-it-dynamic/
 This project centralizes styling in `src/app/globals.css` and exposes a set of token-driven utilities and components to keep typography, color, spacing, and CTAs consistent across pages.
 
 - Typography (global)
-   - Headings: font-family uses `--font-serif` via base styles
-   - Body text: font-family uses `--font-sans` via base styles
+  - Headings: font-family uses `--font-serif` via base styles
+  - Body text: font-family uses `--font-sans` via base styles
 
 - Color tokens (defined on :root)
-   - `--color-deep-navy`, `--color-muted-gold`, `--color-cream`, `--color-charcoal`, plus gray scales
+  - `--color-deep-navy`, `--color-muted-gold`, `--color-cream`, `--color-charcoal`, plus gray scales
 
 - Utility classes (in @layer components of globals.css)
-   - Text: `.text-navy`, `.text-gold`
-   - Background: `.bg-cream`, `.bg-navy`
-   - Border: `.border-gold`
-   - Spacing: `.section-spacing` (vertical spacing for sections)
-   - CTA: `.btn-cta` (uppercased, gold border/text; hover: gold bg + navy text)
+  - Text: `.text-navy`, `.text-gold`
+  - Background: `.bg-cream`, `.bg-navy`
+  - Border: `.border-gold`
+  - Spacing: `.section-spacing` (vertical spacing for sections)
+  - CTA: `.btn-cta` (uppercased, gold border/text; hover: gold bg + navy text)
 
 Usage example:
 
@@ -328,6 +341,7 @@ Usage example:
 ```
 
 Guidelines:
+
 - Do not import `globals.css` in pages/components; it is imported once by `src/app/layout.tsx`.
 - Prefer token utilities over hard-coded hex values (e.g., `.text-navy` instead of `text-[#0B3D91]`).
 - Keep CTAs consistent by using `.btn-cta` or equivalent Tailwind classes that reference the global tokens.
@@ -364,11 +378,13 @@ Edit `src/app/kollect-it-styles.css`:
 2. Import on Vercel: https://vercel.com
 3. Vercel will auto-detect Next.js
 4. Add environment variables:
+
    ```
    DATABASE_URL=your-postgresql-url
    NEXTAUTH_SECRET=your-random-secret
    NEXTAUTH_URL=https://your-domain.com
    ```
+
 5. Deploy!
 
 ### **Option 2: Netlify**
@@ -388,10 +404,13 @@ For production, migrate from SQLite to PostgreSQL:
 
 1. Get a PostgreSQL database (Railway.app, Supabase, Neon, etc.)
 2. Update `.env`:
+
    ```
    DATABASE_URL="postgresql://user:password@host:5432/database"
    ```
+
 3. Run migrations:
+
    ```bash
    bunx prisma migrate dev
    bun run db:seed
@@ -415,11 +434,13 @@ For production, migrate from SQLite to PostgreSQL:
 ## 📖 API Documentation
 
 ### **Get Products:**
+
 ```
 GET /api/products?category=fine-art&limit=6&featured=true
 ```
 
 ### **Create Product (Admin Only):**
+
 ```
 POST /api/products
 {
@@ -432,6 +453,7 @@ POST /api/products
 ```
 
 ### **Delete Product (Admin Only):**
+
 ```
 DELETE /api/products/[id]
 ```
@@ -439,22 +461,26 @@ DELETE /api/products/[id]
 ## 🆘 Common Issues
 
 ### **"Cannot find module '@prisma/client'"**
+
 ```bash
 bunx prisma generate
 ```
 
 ### **Database doesn't exist**
+
 ```bash
 bunx prisma db push
 bun run db:seed
 ```
 
 ### **Admin login doesn't work**
+
 Make sure `NEXTAUTH_SECRET` is set in `.env`
 
 ## 📞 Support
 
 If you need help with deployment, you can:
+
 1. Hire a developer on Fiverr/Upwork ($50-200 for deployment)
 2. Use Vercel's auto-deployment (easiest!)
 3. Contact deployment support: support@vercel.com
@@ -462,6 +488,7 @@ If you need help with deployment, you can:
 ## 🎉 What's Next?
 
 ### **✅ Recently Completed:**
+
 1. ~~Image Upload~~ ✅ **Multi-image upload with ImageKit**
 2. ~~Product Details Pages~~ ✅ **Full product pages with gallery**
 3. ~~Shopping Cart~~ ✅ **Complete cart system with checkout UI**

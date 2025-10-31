@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import AddToCartButton from '../AddToCartButton';
-import { useWishlist } from '@/contexts/WishlistContext';
+import { useState, useEffect } from "react";
+import AddToCartButton from "../AddToCartButton";
+import { useWishlist } from "@/contexts/WishlistContext";
 
 interface Product {
   id: string;
@@ -24,7 +24,11 @@ interface ProductInfoProps {
 }
 
 export default function ProductInfo({ product, sku }: ProductInfoProps) {
-  const { isInWishlist, toggleWishlist, loading: wishlistLoading } = useWishlist();
+  const {
+    isInWishlist,
+    toggleWishlist,
+    loading: wishlistLoading,
+  } = useWishlist();
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -45,39 +49,50 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
           url: window.location.href,
         });
       } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Share cancelled');
+        if (process.env.NODE_ENV === "development") {
+          console.log("Share cancelled");
         }
       }
     } else {
       // Fallback: copy to clipboard
       navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      alert("Link copied to clipboard!");
     }
   };
 
   return (
     <div className="product-info">
       {/* Category Badge */}
-      <div className="product-info-category uppercase text-[12px] tracking-wide text-brand-gold">{product.category.name}</div>
+      <div className="product-info-category uppercase text-[12px] tracking-wide text-brand-gold">
+        {product.category.name}
+      </div>
 
-  {/* Condition Badge */}
-  {product.condition && (
-    <div className="mt-2 inline-flex items-center rounded-full border border-brand-gold px-3 py-1 text-[12px] text-brand-gold" aria-label={`Condition: ${product.condition}`}>
-      {product.condition}
-    </div>
-  )}
+      {/* Condition Badge */}
+      {product.condition && (
+        <div
+          className="mt-2 inline-flex items-center rounded-full border border-brand-gold px-3 py-1 text-[12px] text-brand-gold"
+          aria-label={`Condition: ${product.condition}`}
+        >
+          {product.condition}
+        </div>
+      )}
 
-  {/* Title */}
-  <h1 className="product-info-title font-serif text-brand-navy leading-tight text-4xl">{product.title}</h1>
+      {/* Title */}
+      <h1 className="product-info-title font-serif text-brand-navy leading-tight text-4xl">
+        {product.title}
+      </h1>
 
-  {/* Price */}
-  <div className="product-info-price text-brand-gold text-[32px] font-semibold">${product.price.toLocaleString()}</div>
+      {/* Price */}
+      <div className="product-info-price text-brand-gold text-[32px] font-semibold">
+        ${product.price.toLocaleString()}
+      </div>
 
-  {/* Quantity Selector */}
-  <div className="product-qty my-4 flex items-center gap-3">
-    <label htmlFor="quantity" className="text-sm text-ink-secondary">Quantity</label>
-    <div className="inline-flex items-center rounded border border-border-neutral">
+      {/* Quantity Selector */}
+      <div className="product-qty my-4 flex items-center gap-3">
+        <label htmlFor="quantity" className="text-sm text-ink-secondary">
+          Quantity
+        </label>
+        <div className="inline-flex items-center rounded border border-border-neutral">
           <button
             type="button"
             className="px-3 py-2 select-none"
@@ -111,8 +126,8 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
         </div>
       </div>
 
-  {/* Details Grid */}
-  <div className="product-info-details leading-[1.8] text-ink-secondary">
+      {/* Details Grid */}
+      <div className="product-info-details leading-[1.8] text-ink-secondary">
         {product.artist && (
           <div className="product-detail-item">
             <span className="product-detail-label">Artist/Maker:</span>
@@ -161,7 +176,7 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
             title: product.title,
             price: product.price,
             slug: product.slug,
-            image: product.images[0]?.url || '/placeholder.jpg',
+            image: product.images[0]?.url || "/placeholder.jpg",
             categoryName: product.category.name,
           }}
           quantity={quantity}
@@ -169,19 +184,42 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
         />
 
         <button
-          className={`btn-wishlist ${isWishlisted ? 'active' : ''} inline-flex items-center gap-2 rounded border border-brand-gold px-4 py-2 text-brand-gold transition-colors hover:bg-brand-navy hover:text-white`}
+          className={`btn-wishlist ${isWishlisted ? "active" : ""} inline-flex items-center gap-2 rounded border border-brand-gold px-4 py-2 text-brand-gold transition-colors hover:bg-brand-navy hover:text-white`}
           onClick={handleWishlist}
-          title={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-          aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+          title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
           disabled={wishlistLoading}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill={isWishlisted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" aria-hidden="true" focusable="false">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill={isWishlisted ? "currentColor" : "none"}
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+            focusable="false"
+          >
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
         </button>
 
-        <button className="btn-share" onClick={handleShare} title="Share this product" aria-label="Share this product">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" focusable="false">
+        <button
+          className="btn-share"
+          onClick={handleShare}
+          title="Share this product"
+          aria-label="Share this product"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+            focusable="false"
+          >
             <circle cx="18" cy="5" r="3" />
             <circle cx="6" cy="12" r="3" />
             <circle cx="18" cy="19" r="3" />
@@ -194,14 +232,28 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
       {/* Trust Badges */}
       <div className="product-info-badges">
         <div className="trust-badge">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             <path d="M9 12l2 2 4-4" />
           </svg>
           <span>Authenticated</span>
         </div>
         <div className="trust-badge">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <rect x="1" y="3" width="15" height="13" />
             <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
             <circle cx="5.5" cy="18.5" r="2.5" />
@@ -210,7 +262,14 @@ export default function ProductInfo({ product, sku }: ProductInfoProps) {
           <span>Free Shipping</span>
         </div>
         <div className="trust-badge">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>

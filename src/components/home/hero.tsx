@@ -9,7 +9,8 @@ export default function Hero() {
           Crafted. Curated. Collected.
         </h1>
         <p className="text-lg md:text-xl text-ink-secondary leading-relaxed max-w-3xl mx-auto mb-10">
-          Kollect-It offers inspiring antiques and collectibles for modern collectors who insist on quality, authenticity and character.
+          Kollect-It offers inspiring antiques and collectibles for modern
+          collectors who insist on quality, authenticity and character.
         </p>
         <Link href="/categories" className="btn-primary">
           Browse Collection

@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-import { stripe } from '@/lib/stripe';
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { stripe } from "@/lib/stripe";
 
 interface OrderItem {
   id: string;
@@ -25,18 +25,18 @@ export async function POST(request: Request) {
 
     if (!paymentIntentId) {
       return NextResponse.json(
-        { error: 'Payment Intent ID required' },
-        { status: 400 }
+        { error: "Payment Intent ID required" },
+        { status: 400 },
       );
     }
 
     // Retrieve the payment intent from Stripe
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
-    if (paymentIntent.status !== 'succeeded') {
+    if (paymentIntent.status !== "succeeded") {
       return NextResponse.json(
-        { error: 'Payment not completed' },
-        { status: 400 }
+        { error: "Payment not completed" },
+        { status: 400 },
       );
     }
 
@@ -54,8 +54,10 @@ export async function POST(request: Request) {
 
     // Parse metadata
     const metadata = paymentIntent.metadata;
-    const items = JSON.parse(metadata.items || '[]') as OrderItem[];
-    const shippingAddress = JSON.parse(metadata.shippingAddress || '{}') as ShippingAddress;
+    const items = JSON.parse(metadata.items || "[]") as OrderItem[];
+    const shippingAddress = JSON.parse(
+      metadata.shippingAddress || "{}",
+    ) as ShippingAddress;
 
     // Generate order number
     const orderNumber = `KI-${Date.now()}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
@@ -89,7 +91,7 @@ export async function POST(request: Request) {
       data: {
         orderNumber,
         userId: userId || undefined,
-        status: 'processing',
+        status: "processing",
         subtotal: parseFloat(metadata.subtotal),
         tax: parseFloat(metadata.tax),
         shipping: parseFloat(metadata.shipping),
@@ -103,7 +105,7 @@ export async function POST(request: Request) {
         shippingZip: shippingAddress.zipCode,
         shippingCountry: shippingAddress.country,
         paymentMethod: paymentIntentId,
-        paymentStatus: 'paid',
+        paymentStatus: "paid",
         items: {
           create: items.map((item) => ({
             productId: item.id,
@@ -120,7 +122,8 @@ export async function POST(request: Request) {
 
     // Send confirmation emails
     try {
-      const { sendOrderConfirmationEmail, sendAdminNewOrderEmail } = await import('@/lib/email');
+      const { sendOrderConfirmationEmail, sendAdminNewOrderEmail } =
+        await import("@/lib/email");
 
       const emailData = {
         orderNumber: order.orderNumber,
@@ -145,7 +148,7 @@ export async function POST(request: Request) {
       sendAdminNewOrderEmail(emailData);
     } catch (emailError) {
       // Log error but don't fail the order creation
-      console.error('Error sending order emails:', emailError);
+      console.error("Error sending order emails:", emailError);
     }
 
     return NextResponse.json({
@@ -162,10 +165,13 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error('Error creating order:', error);
+    console.error("Error creating order:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to create order' },
-      { status: 500 }
+      {
+        error:
+          error instanceof Error ? error.message : "Failed to create order",
+      },
+      { status: 500 },
     );
   }
 }

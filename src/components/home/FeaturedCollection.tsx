@@ -6,10 +6,15 @@ export default function FeaturedCollection() {
     <section className="section-spacing bg-white">
       <div className="container grid items-center gap-8 md:grid-cols-2">
         <div>
-          <p className="mb-3 text-[12px] uppercase tracking-[0.12em] text-brand-gold">Featured Collection</p>
-          <h2 className="mb-4 font-serif text-[clamp(28px,4vw,36px)] leading-[1.3] text-brand-navy">Treasures of the Archive: Rare Books & First Editions</h2>
+          <p className="mb-3 text-[12px] uppercase tracking-[0.12em] text-brand-gold">
+            Featured Collection
+          </p>
+          <h2 className="mb-4 font-serif text-[clamp(28px,4vw,36px)] leading-[1.3] text-brand-navy">
+            Treasures of the Archive: Rare Books & First Editions
+          </h2>
           <p className="mb-6 text-[16px] leading-7 text-ink-secondary">
-            A handpicked selection of literary artifacts with exceptional history and provenance.
+            A handpicked selection of literary artifacts with exceptional
+            history and provenance.
           </p>
           <Link
             href="/category/antique-books"
@@ -18,7 +23,7 @@ export default function FeaturedCollection() {
             Explore Collection
           </Link>
         </div>
-  <div className="relative overflow-hidden rounded border border-border-neutral">
+        <div className="relative overflow-hidden rounded border border-border-neutral">
           <Image
             src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop"
             alt="Featured rare books"

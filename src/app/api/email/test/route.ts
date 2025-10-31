@@ -1,17 +1,17 @@
-import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
 // Validate Resend configuration
 if (!process.env.RESEND_API_KEY) {
-  throw new Error('RESEND_API_KEY is not defined');
+  throw new Error("RESEND_API_KEY is not defined");
 }
 
 if (!process.env.EMAIL_FROM) {
-  throw new Error('EMAIL_FROM is not defined');
+  throw new Error("EMAIL_FROM is not defined");
 }
 
 if (!process.env.ADMIN_EMAIL) {
-  throw new Error('ADMIN_EMAIL is not defined');
+  throw new Error("ADMIN_EMAIL is not defined");
 }
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -26,10 +26,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
  */
 export async function GET(request: Request) {
   // Security: Only allow in development or with admin auth
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     return NextResponse.json(
-      { error: 'Email test endpoint is not available in production' },
-      { status: 403 }
+      { error: "Email test endpoint is not available in production" },
+      { status: 403 },
     );
   }
 
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
     const { data, error } = await resend.emails.send({
       from: process.env.EMAIL_FROM!,
       to: process.env.ADMIN_EMAIL!,
-      subject: 'Kollect-It Email Test - Configuration Successful! ✅',
+      subject: "Kollect-It Email Test - Configuration Successful! ✅",
       html: `
         <!DOCTYPE html>
         <html>
@@ -157,25 +157,27 @@ export async function GET(request: Request) {
     });
 
     if (error) {
-      console.error('Resend error:', error);
+      console.error("Resend error:", error);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Test email sent successfully',
+      message: "Test email sent successfully",
       messageId: data?.id,
       sentTo: process.env.ADMIN_EMAIL,
       sentFrom: process.env.EMAIL_FROM,
     });
   } catch (error) {
-    console.error('Email test error:', error);
+    console.error("Email test error:", error);
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : 'Failed to send test email',
-        details: 'Check your RESEND_API_KEY, EMAIL_FROM, and ADMIN_EMAIL environment variables',
+        error:
+          error instanceof Error ? error.message : "Failed to send test email",
+        details:
+          "Check your RESEND_API_KEY, EMAIL_FROM, and ADMIN_EMAIL environment variables",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

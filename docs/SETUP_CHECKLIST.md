@@ -22,6 +22,7 @@ bun install
 **Choose ONE option:**
 
 #### Option A: Supabase (Recommended)
+
 1. Go to https://supabase.com
 2. Click "Start your project"
 3. Create a new project (wait 2-3 minutes for setup)
@@ -30,6 +31,7 @@ bun install
 6. Paste it as your `DATABASE_URL` in `.env`
 
 #### Option B: Neon
+
 1. Go to https://neon.tech
 2. Sign up and create a new project
 3. Copy the connection string from the dashboard
@@ -42,16 +44,19 @@ cp .env.example .env
 ```
 
 Edit `.env` and add your DATABASE_URL:
+
 ```bash
 DATABASE_URL=postgresql://postgres.xxx:[YOUR-PASSWORD]@aws-0-us-east-1.pooler.supabase.com:6543/postgres
 ```
 
 Generate a random secret:
+
 ```bash
 openssl rand -base64 32
 ```
 
 Add it to `.env`:
+
 ```bash
 NEXTAUTH_SECRET=<paste-your-generated-secret>
 ```
@@ -63,6 +68,7 @@ bun run db:setup
 ```
 
 This will:
+
 - ✅ Generate Prisma Client
 - ✅ Create database tables
 - ✅ Seed with sample data (admin user + products)
@@ -78,6 +84,7 @@ Visit http://localhost:3000 🎉
 ## 🔑 Default Credentials
 
 **Admin Login:**
+
 - URL: http://localhost:3000/admin/login
 - Email: `admin@kollect-it.com`
 - Password: `admin123`
@@ -89,18 +96,22 @@ Visit http://localhost:3000 🎉
 These can be set up later but are needed for full functionality:
 
 ### For Payments (Stripe)
+
 - [ ] Sign up at https://dashboard.stripe.com
 - [ ] Get test API keys
 - [ ] Add to `.env`:
+
   ```bash
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
   STRIPE_SECRET_KEY=sk_test_...
   ```
 
 ### For Image Uploads (ImageKit)
+
 - [ ] Sign up at https://imagekit.io
 - [ ] Get your keys from Developer options
 - [ ] Add to `.env`:
+
   ```bash
   NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/YOUR_ID/
   NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=public_...
@@ -108,9 +119,11 @@ These can be set up later but are needed for full functionality:
   ```
 
 ### For Email Notifications (Resend)
+
 - [ ] Sign up at https://resend.com
 - [ ] Create API key
 - [ ] Add to `.env`:
+
   ```bash
   RESEND_API_KEY=re_...
   ```
@@ -118,34 +131,42 @@ These can be set up later but are needed for full functionality:
 ## 🐛 Troubleshooting
 
 ### "Prisma Client Initialization Error"
+
 **Problem:** DATABASE_URL is not set or invalid
 
 **Solution:**
+
 1. Check `.env` file exists
 2. Verify DATABASE_URL is a real PostgreSQL connection
 3. Run `bun run db:generate`
 4. Restart dev server
 
 ### "Can't reach database server"
+
 **Problem:** Database connection failed
 
 **Solution:**
+
 1. Verify your IP is whitelisted (Supabase: Settings → Database → Connection pooling)
 2. Check connection string format
 3. Try connection pooling port (6543) instead of direct (5432)
 
 ### "Table doesn't exist"
+
 **Problem:** Database not initialized
 
 **Solution:**
+
 ```bash
 bun run db:setup
 ```
 
 ### "Module not found"
+
 **Problem:** Dependencies not installed
 
 **Solution:**
+
 ```bash
 bun install
 ```
@@ -162,6 +183,7 @@ bun install
 After basic setup (Steps 1-5), you'll have:
 
 ✅ **Working:**
+
 - Homepage with product grid
 - Category browsing
 - Product detail pages
@@ -171,6 +193,7 @@ After basic setup (Steps 1-5), you'll have:
 - Database-driven content
 
 ⚠️ **Requires Additional Setup:**
+
 - Image uploads (need ImageKit)
 - Checkout/Payments (need Stripe)
 - Email notifications (need Resend)

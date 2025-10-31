@@ -8,7 +8,7 @@
 
 ## 🛡️ Recent Production Hardening
 
-### Critical Fixes Applied:
+### Critical Fixes Applied
 
 1. **✅ Single Image Pipeline** - Removed Cloudinary, using ImageKit only
 2. **✅ Fixed Stripe API** - Valid API version (2024-06-20) with validation
@@ -103,7 +103,7 @@ Or add a deploy hook in Netlify that runs after successful build.
 
 ## 🔑 Environment Variables (Cleaned Up)
 
-### Required Variables (11 total):
+### Required Variables (11 total)
 
 ```bash
 # Database (PostgreSQL)
@@ -131,7 +131,7 @@ IMAGEKIT_PRIVATE_KEY=private_your_key
 NODE_ENV=production
 ```
 
-### Changes from Previous Version:
+### Changes from Previous Version
 
 - ❌ **Removed**: All Cloudinary variables
 - ❌ **Removed**: Unsplash image domains
@@ -195,6 +195,7 @@ if (!process.env.STRIPE_SECRET_KEY) {
 **GET /api/health**
 
 Returns:
+
 ```json
 {
   "status": "healthy|degraded|unhealthy",
@@ -233,6 +234,7 @@ All documentation moved to `/docs` folder:
 ```
 
 **Kept in root:**
+
 - `README.md` - Project overview
 - `DEPLOYMENT_STATUS.md` - This file
 
@@ -240,7 +242,7 @@ All documentation moved to `/docs` folder:
 
 ## 🚀 Deployment Checklist (Updated)
 
-### Pre-Deployment:
+### Pre-Deployment
 
 - [ ] Set all 11 environment variables in Netlify
 - [ ] Verify `NEXTAUTH_URL` matches your Netlify domain
@@ -249,9 +251,10 @@ All documentation moved to `/docs` folder:
 - [ ] Test locally: `bun run build`
 - [ ] Check health endpoint: `curl /api/health`
 
-### Deployment Steps:
+### Deployment Steps
 
 1. **Push to GitHub**:
+
    ```bash
    git add .
    git commit -m "Production hardening complete"
@@ -261,6 +264,7 @@ All documentation moved to `/docs` folder:
 2. **Netlify Auto-Deploy**: Build triggers automatically
 
 3. **Run Migrations** (after successful build):
+
    ```bash
    # From local machine with DB access:
    DATABASE_URL="your-prod-db-url" bun run db:migrate:deploy
@@ -271,7 +275,7 @@ All documentation moved to `/docs` folder:
    - Check: `https://your-site.netlify.app/api/health`
    - Test: Admin login, product pages, checkout
 
-### Post-Deployment:
+### Post-Deployment
 
 - [ ] Change default admin credentials
 - [ ] Test Stripe checkout with test cards

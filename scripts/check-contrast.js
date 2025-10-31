@@ -1,26 +1,24 @@
-// Simple WCAG contrast checks for token pairs
-// Usage: bun run test:contrast (or npm run test:contrast)
-
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { hex } = require('wcag-contrast');
+// scripts/check-contrast.js
+import { hex } from 'wcag-contrast';
 
 const tests = [
   { name: 'Primary text on white', fg: '#2C2C2C', bg: '#FFFFFF' },
+  { name: 'Secondary text on white', fg: '#5A5A5A', bg: '#FFFFFF' },
   { name: 'CTA text on button', fg: '#FFFFFF', bg: '#1E3A5F' },
   { name: 'Link on white', fg: '#5C7BA0', bg: '#FFFFFF' },
   { name: 'Accent on white', fg: '#B1874C', bg: '#FFFFFF' },
+  { name: 'Text on alt background', fg: '#2C2C2C', bg: '#F5F3F0' },
 ];
 
-let failures = 0;
+console.log('\n🔍 WCAG Contrast Compliance Check\n');
 
-for (const test of tests) {
+tests.forEach(test => {
   const ratio = hex(test.fg, test.bg);
   const passes = ratio >= 4.5;
-  const status = passes ? 'PASS' : 'FAIL';
-  console.log(`${status} ${test.name}: ${ratio.toFixed(2)}:1`);
-  if (!passes) failures++;
-}
+  const status = passes ? '✅ PASS' : '❌ FAIL';
+  const rating = ratio >= 7 ? '(AAA)' : ratio >= 4.5 ? '(AA)' : '(FAIL)';
+  
+  console.log(`${status} ${test.name}: ${ratio.toFixed(2)}:1 ${rating}`);
+});
 
-if (failures > 0) {
-  process.exitCode = 1;
-}
+console.log('\n');

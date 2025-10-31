@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { logger } from './logger';
-import { getRequestId, getIp } from './request-context';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { logger } from "./logger";
+import { getRequestId, getIp } from "./request-context";
 
 export class AppError extends Error {
   code: string;
@@ -15,20 +15,31 @@ export class AppError extends Error {
   }
 }
 
-export function respondOk<T>(req: NextRequest | Request, data: T, init?: { status?: number; headers?: HeadersInit }) {
+export function respondOk<T>(
+  req: NextRequest | Request,
+  data: T,
+  init?: { status?: number; headers?: HeadersInit },
+) {
   const requestId = getRequestId(req);
-  const res = NextResponse.json({ data, requestId }, { status: init?.status ?? 200, headers: init?.headers });
-  res.headers.set('X-Request-ID', requestId);
+  const res = NextResponse.json(
+    { data, requestId },
+    { status: init?.status ?? 200, headers: init?.headers },
+  );
+  res.headers.set("X-Request-ID", requestId);
   return res;
 }
 
-export function respondError(req: NextRequest | Request, err: unknown, init?: { code?: string; status?: number }) {
+export function respondError(
+  req: NextRequest | Request,
+  err: unknown,
+  init?: { code?: string; status?: number },
+) {
   const requestId = getRequestId(req);
   const ip = getIp(req);
 
   let status = init?.status ?? 500;
-  let code = init?.code ?? 'internal_error';
-  let message = 'An unexpected error occurred';
+  let code = init?.code ?? "internal_error";
+  let message = "An unexpected error occurred";
 
   if (err instanceof AppError) {
     status = err.status;
@@ -41,12 +52,12 @@ export function respondError(req: NextRequest | Request, err: unknown, init?: { 
   const payload = { error: { code, message }, requestId };
 
   if (status >= 500) {
-    logger.error('API error', { requestId, ip, status, code }, err);
+    logger.error("API error", { requestId, ip, status, code }, err);
   } else if (status >= 400) {
-    logger.warn('API client error', { requestId, ip, status, code, message });
+    logger.warn("API client error", { requestId, ip, status, code, message });
   }
 
   const res = NextResponse.json(payload, { status });
-  res.headers.set('X-Request-ID', requestId);
+  res.headers.set("X-Request-ID", requestId);
   return res;
 }

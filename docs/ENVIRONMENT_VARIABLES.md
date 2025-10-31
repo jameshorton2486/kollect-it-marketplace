@@ -18,11 +18,13 @@ Complete guide to all environment variables required for the Kollect-It marketpl
 **Variable:** `DATABASE_URL`
 
 **Format:**
+
 ```
 postgresql://user:password@host:5432/database?schema=public
 ```
 
 **Where to get:**
+
 - **Supabase** (Recommended): https://supabase.com
   1. Create new project
   2. Go to Settings → Database
@@ -37,6 +39,7 @@ postgresql://user:password@host:5432/database?schema=public
   2. Copy `POSTGRES_PRISMA_URL`
 
 **Example:**
+
 ```env
 DATABASE_URL="postgresql://postgres.abc123:password@aws-0-us-east-1.pooler.supabase.com:6543/postgres"
 ```
@@ -46,15 +49,18 @@ DATABASE_URL="postgresql://postgres.abc123:password@aws-0-us-east-1.pooler.supab
 ### 2. NextAuth.js (Authentication)
 
 **Variables:**
+
 - `NEXTAUTH_SECRET` - Secret key for encryption
 - `NEXTAUTH_URL` - Your site URL
 
 **How to generate secret:**
+
 ```bash
 openssl rand -base64 32
 ```
 
 **Example:**
+
 ```env
 NEXTAUTH_SECRET="your-generated-secret-key-here"
 NEXTAUTH_URL="https://your-site.netlify.app"
@@ -67,6 +73,7 @@ NEXTAUTH_URL="https://your-site.netlify.app"
 ### 3. Stripe (Payments)
 
 **Variables:**
+
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Public key (client-side)
 - `STRIPE_SECRET_KEY` - Secret key (server-side)
 
@@ -78,6 +85,7 @@ NEXTAUTH_URL="https://your-site.netlify.app"
 4. Copy "Secret key" (starts with `sk_test_`)
 
 **Example:**
+
 ```env
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_51AbC123..."
 STRIPE_SECRET_KEY="sk_test_51AbC123..."
@@ -90,6 +98,7 @@ STRIPE_SECRET_KEY="sk_test_51AbC123..."
 ### 4. ImageKit (Image Hosting & Optimization)
 
 **Variables:**
+
 - `NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT` - Your ImageKit CDN URL
 - `NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY` - Public key (client-side)
 - `IMAGEKIT_PRIVATE_KEY` - Private key (server-side)
@@ -104,6 +113,7 @@ STRIPE_SECRET_KEY="sk_test_51AbC123..."
    - **Private Key** (starts with `private_`)
 
 **Example:**
+
 ```env
 NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/YOUR_IMAGEKIT_ID/
 NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=public_abc123...
@@ -111,6 +121,7 @@ IMAGEKIT_PRIVATE_KEY=private_xyz789...
 ```
 
 **Features:**
+
 - Real-time image optimization
 - Automatic format conversion (WebP, AVIF)
 - Responsive images
@@ -122,6 +133,7 @@ IMAGEKIT_PRIVATE_KEY=private_xyz789...
 ### 5. Resend (Email Notifications)
 
 **Variables:**
+
 - `RESEND_API_KEY`
 - `EMAIL_FROM`
 - `ADMIN_EMAIL`
@@ -134,6 +146,7 @@ IMAGEKIT_PRIVATE_KEY=private_xyz789...
 4. Copy the key (starts with `re_`)
 
 **Example:**
+
 ```env
 RESEND_API_KEY="re_abc123xyz789..."
 EMAIL_FROM="Kollect-It <noreply@your-domain.com>"
@@ -151,6 +164,7 @@ ADMIN_EMAIL="admin@your-domain.com"
 **Value:** `production` (for production) or `development` (for local)
 
 **Example:**
+
 ```env
 NODE_ENV="production"
 ```
@@ -160,11 +174,13 @@ NODE_ENV="production"
 ## 🚀 Setting Variables Locally
 
 1. Copy the example file:
+
 ```bash
 cp .env.example .env
 ```
 
 2. Edit `.env` and add your real values:
+
 ```bash
 # Use your favorite editor
 nano .env
@@ -173,6 +189,7 @@ code .env
 ```
 
 3. Restart your development server:
+
 ```bash
 bun run dev
 ```
@@ -194,12 +211,14 @@ bun run dev
 ### Via Netlify CLI (Faster)
 
 Install Netlify CLI:
+
 ```bash
 npm install -g netlify-cli
 netlify login
 ```
 
 Set variables:
+
 ```bash
 # Database
 netlify env:set DATABASE_URL "postgresql://user:pass@host:5432/db"
@@ -227,6 +246,7 @@ netlify env:set NODE_ENV "production"
 ```
 
 After setting variables, trigger a new deploy:
+
 ```bash
 netlify deploy --prod
 ```
@@ -280,21 +300,25 @@ On Netlify, check the build logs for any missing variables.
 ## ❓ Troubleshooting
 
 ### "Environment variable not defined"
+
 - Check spelling (case-sensitive)
 - Restart dev server after changing `.env`
 - Clear build cache on Netlify
 
 ### "Database connection failed"
+
 - Verify DATABASE_URL format
 - Check IP whitelist in database provider
 - Ensure database is running
 
 ### "Stripe key invalid"
+
 - Ensure using correct key (test vs live)
 - Check for extra spaces in key
 - Verify key is active in Stripe dashboard
 
 ### "Image upload failed"
+
 - Verify Cloudinary/ImageKit credentials
 - Check upload preset exists (Cloudinary)
 - Ensure API keys have upload permissions

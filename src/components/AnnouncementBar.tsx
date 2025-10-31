@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export default function AnnouncementBar() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     // Check if user has previously dismissed the announcement
-    const dismissed = localStorage.getItem('announcement-dismissed');
-    if (dismissed === 'true') {
+    const dismissed = localStorage.getItem("announcement-dismissed");
+    if (dismissed === "true") {
       setIsVisible(false);
     }
   }, []);
 
   const handleDismiss = () => {
     setIsVisible(false);
-    localStorage.setItem('announcement-dismissed', 'true');
+    localStorage.setItem("announcement-dismissed", "true");
   };
 
   if (!isVisible) return null;

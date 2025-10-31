@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 /**
  * Cart Validation Endpoint
@@ -14,8 +14,8 @@ export async function POST(request: Request) {
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
-        { error: 'Cart is empty or invalid' },
-        { status: 400 }
+        { error: "Cart is empty or invalid" },
+        { status: 400 },
       );
     }
 
@@ -39,14 +39,14 @@ export async function POST(request: Request) {
       if (!product) {
         return NextResponse.json(
           { error: `Product ${item.productId} not found` },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
-      if (product.status !== 'active') {
+      if (product.status !== "active") {
         return NextResponse.json(
           { error: `Product "${product.title}" is no longer available` },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       if (!item.quantity || item.quantity < 1 || item.quantity > 99) {
         return NextResponse.json(
           { error: `Invalid quantity for "${product.title}"` },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -89,10 +89,10 @@ export async function POST(request: Request) {
       total: parseFloat(total.toFixed(2)),
     });
   } catch (error) {
-    console.error('Cart validation error:', error);
+    console.error("Cart validation error:", error);
     return NextResponse.json(
-      { error: 'Failed to validate cart' },
-      { status: 500 }
+      { error: "Failed to validate cart" },
+      { status: 500 },
     );
   }
 }

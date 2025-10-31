@@ -38,7 +38,7 @@ export default function ShopByCategories() {
         <h2 className="text-4xl text-navy font-semibold mb-6">
           Shop by Category
         </h2>
-  <p className="text-ink-secondary mb-12">
+        <p className="text-ink-secondary mb-12">
           Explore diverse categories curated for collectors, designers, and
           historians alike.
         </p>
@@ -64,9 +64,7 @@ export default function ShopByCategories() {
                   className="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="p-6 text-left">
-                  <h3 className="text-2xl text-navy mb-2">
-                    {cat.title}
-                  </h3>
+                  <h3 className="text-2xl text-navy mb-2">{cat.title}</h3>
                   <p className="text-ink-secondary leading-relaxed">
                     {cat.desc}
                   </p>

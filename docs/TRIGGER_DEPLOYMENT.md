@@ -3,20 +3,24 @@
 ## Quick Steps (5 minutes)
 
 ### 1. Log into Netlify
+
 Go to: https://app.netlify.com
 
 ### 2. Find Your Site
+
 - Look for: `same-a42equ68lfz-latest`
 - Or go directly to: https://app.netlify.com/sites/same-a42equ68lfz-latest
 
 ### 3. Connect GitHub Repository (IF NOT ALREADY CONNECTED)
 
 **Check if connected:**
+
 - Go to **Site Settings** → **Build & deploy**
 - Look for "Repository" section
 - Should show: `jameshorton2486/kollect-it-marketplace`
 
 **If NOT connected:**
+
 1. Click **"Link site to Git repository"**
 2. Choose **GitHub**
 3. Select repository: `jameshorton2486/kollect-it-marketplace`
@@ -66,6 +70,7 @@ NODE_ENV=production
 ### 6. Watch Build Logs
 
 The build should show:
+
 ```
 ✓ Detected Bun (via bun.lockb)
 ✓ Installing dependencies...
@@ -81,6 +86,7 @@ The build should show:
 Visit: https://same-a42equ68lfz-latest.netlify.app/
 
 **Should see:**
+
 - Kollect-It marketplace homepage
 - Product grid
 - Header with cart icon
@@ -88,6 +94,7 @@ Visit: https://same-a42equ68lfz-latest.netlify.app/
 - NO Lone Fox content
 
 **Should NOT see:**
+
 - Shopify furniture store
 - "Drew's Projects"
 - Newsletter popup
@@ -97,18 +104,22 @@ Visit: https://same-a42equ68lfz-latest.netlify.app/
 ## 🐛 If Build Fails
 
 ### Error: "Module not found"
+
 - Missing environment variable
 - Check all 13 variables are set
 
 ### Error: "Database connection failed"
+
 - Using SQLite (won't work on Netlify)
 - Must use PostgreSQL (Supabase/Neon)
 
 ### Error: "Prisma client not generated"
+
 - Should be fixed in latest netlify.toml
 - Check build command includes: `bunx prisma generate`
 
 ### Still Shows Shopify Content
+
 - Repository not connected
 - Clear cache again
 - Verify deploying from `master` branch

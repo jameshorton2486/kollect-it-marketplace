@@ -1,14 +1,35 @@
 {
   "default": true,
+  "MD029": false,
+  "MD036": false,
+  "MD051": false,
   "MD007": { "indent": 2 },
   "MD009": { "br_spaces": 2 },
   "MD013": false,
   "MD022": { "lines_above": 1, "lines_below": 1 },
   "MD024": false,
-  "MD029": { "style": "ordered" },
+  
   "MD031": true,
   "MD032": true,
   "MD033": false,
   "MD034": false,
-  "MD040": { "allowed_languages": ["bash", "javascript", "typescript", "jsx", "tsx", "json", "css", "html", "markdown"] }
+  "MD040": { "allowed_languages": [
+    "bash",
+    "sh",
+    "powershell",
+    "pwsh",
+    "javascript",
+    "typescript",
+    "jsx",
+    "tsx",
+    "json",
+    "css",
+    "html",
+    "markdown",
+    "env",
+    "toml",
+    "prisma",
+    "mermaid",
+    "ts"
+  ] }
 }

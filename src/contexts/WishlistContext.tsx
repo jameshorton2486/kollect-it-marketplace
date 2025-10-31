@@ -1,7 +1,13 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useSession } from 'next-auth/react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { useSession } from "next-auth/react";
 
 interface WishlistContextType {
   wishlistIds: Set<string>;
@@ -10,7 +16,9 @@ interface WishlistContextType {
   loading: boolean;
 }
 
-const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
+const WishlistContext = createContext<WishlistContextType | undefined>(
+  undefined,
+);
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
@@ -19,22 +27,24 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   // Fetch wishlist when user logs in
   useEffect(() => {
-    if (status === 'authenticated' && session?.user) {
+    if (status === "authenticated" && session?.user) {
       fetchWishlist();
-    } else if (status === 'unauthenticated') {
+    } else if (status === "unauthenticated") {
       setWishlistIds(new Set());
     }
   }, [status, session]);
 
   const fetchWishlist = async () => {
     try {
-      const response = await fetch('/api/wishlist');
+      const response = await fetch("/api/wishlist");
       if (response.ok) {
         const data = await response.json();
-        setWishlistIds(new Set(data.map((item: { productId: string }) => item.productId)));
+        setWishlistIds(
+          new Set(data.map((item: { productId: string }) => item.productId)),
+        );
       }
     } catch (error) {
-      console.error('Error fetching wishlist:', error);
+      console.error("Error fetching wishlist:", error);
     }
   };
 
@@ -44,7 +54,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   const toggleWishlist = async (productId: string) => {
     if (!session?.user) {
-      alert('Please log in to add items to your wishlist');
+      alert("Please log in to add items to your wishlist");
       return;
     }
 
@@ -52,9 +62,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     const isCurrentlyInWishlist = wishlistIds.has(productId);
 
     try {
-      const response = await fetch('/api/wishlist', {
-        method: isCurrentlyInWishlist ? 'DELETE' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/wishlist", {
+        method: isCurrentlyInWishlist ? "DELETE" : "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId }),
       });
 
@@ -70,7 +80,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         });
       }
     } catch (error) {
-      console.error('Error toggling wishlist:', error);
+      console.error("Error toggling wishlist:", error);
     } finally {
       setLoading(false);
     }
@@ -93,7 +103,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 export function useWishlist() {
   const context = useContext(WishlistContext);
   if (context === undefined) {
-    throw new Error('useWishlist must be used within a WishlistProvider');
+    throw new Error("useWishlist must be used within a WishlistProvider");
   }
   return context;
 }

@@ -1,13 +1,15 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { prisma } from '@/lib/prisma';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import dynamic from 'next/dynamic';
-import ClientProductLayout from '@/components/product/ClientProductLayout';
-const ImageGallery = dynamic(() => import('@/components/product/ImageGallery'));
-const ProductInfo = dynamic(() => import('@/components/product/ProductInfo'));
-const ProductTabs = dynamic(() => import('@/components/product/ProductTabs'));
-const RelatedProducts = dynamic(() => import('@/components/product/RelatedProducts'));
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import dynamic from "next/dynamic";
+import ClientProductLayout from "@/components/product/ClientProductLayout";
+const ImageGallery = dynamic(() => import("@/components/product/ImageGallery"));
+const ProductInfo = dynamic(() => import("@/components/product/ProductInfo"));
+const ProductTabs = dynamic(() => import("@/components/product/ProductTabs"));
+const RelatedProducts = dynamic(
+  () => import("@/components/product/RelatedProducts"),
+);
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -20,7 +22,7 @@ async function getProductBySlug(slug: string) {
     where: { slug },
     include: {
       images: {
-        orderBy: { order: 'asc' },
+        orderBy: { order: "asc" },
       },
       category: true,
     },
@@ -32,32 +34,34 @@ async function getProductBySlug(slug: string) {
   const relatedProducts = await prisma.product.findMany({
     where: {
       categoryId: product.categoryId,
-      status: 'active',
+      status: "active",
       id: { not: product.id },
     },
     include: {
       images: {
-        orderBy: { order: 'asc' },
+        orderBy: { order: "asc" },
         take: 1,
       },
       category: true,
     },
-  take: 6,
+    take: 6,
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
 
   return { product, relatedProducts };
 }
 
-export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
   const data = await getProductBySlug(slug);
 
   if (!data) {
     return {
-      title: 'Product Not Found',
+      title: "Product Not Found",
     };
   }
 
@@ -72,7 +76,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       images: product.images.map((img) => img.url),
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: product.title,
       description: product.description || undefined,
       images: product.images.slice(0, 1).map((i) => i.url),
@@ -95,67 +99,77 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   // Breadcrumb Schema for SEO
   const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    'itemListElement': [
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
       {
-        '@type': 'ListItem',
-        'position': 1,
-        'name': 'Home',
-        'item': 'https://kollect-it.com'
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://kollect-it.com",
       },
       {
-        '@type': 'ListItem',
-        'position': 2,
-        'name': product.category.name,
-        'item': `https://kollect-it.com/category/${product.category.slug}`
+        "@type": "ListItem",
+        position: 2,
+        name: product.category.name,
+        item: `https://kollect-it.com/category/${product.category.slug}`,
       },
       {
-        '@type': 'ListItem',
-        'position': 3,
-        'name': product.title,
-        'item': `https://kollect-it.com/product/${product.slug}`
-      }
-    ]
+        "@type": "ListItem",
+        position: 3,
+        name: product.title,
+        item: `https://kollect-it.com/product/${product.slug}`,
+      },
+    ],
   };
 
   // Product Schema for SEO - Enhanced with additionalProperty
   const schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
+    "@context": "https://schema.org",
+    "@type": "Product",
     name: product.title,
     description: product.description,
     image: product.images.map((img) => img.url),
     sku: sku,
     brand: {
-      '@type': 'Brand',
-      name: 'Kollect-It',
+      "@type": "Brand",
+      name: "Kollect-It",
     },
     additionalProperty: [
-      ...(product.category?.name ? [{
-        '@type': 'PropertyValue',
-        name: 'Category',
-        value: product.category.name
-      }] : []),
-      ...(product.condition ? [{
-        '@type': 'PropertyValue',
-        name: 'Condition',
-        value: product.condition
-      }] : []),
+      ...(product.category?.name
+        ? [
+            {
+              "@type": "PropertyValue",
+              name: "Category",
+              value: product.category.name,
+            },
+          ]
+        : []),
+      ...(product.condition
+        ? [
+            {
+              "@type": "PropertyValue",
+              name: "Condition",
+              value: product.condition,
+            },
+          ]
+        : []),
     ],
     offers: {
-      '@type': 'Offer',
+      "@type": "Offer",
       price: product.price,
-      priceCurrency: 'USD',
-      availability: 'https://schema.org/InStock',
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
       url: `https://kollect-it.com/product/${product.slug}`,
       seller: {
-        '@type': 'Organization',
-        name: 'Kollect-It',
+        "@type": "Organization",
+        name: "Kollect-It",
       },
     },
     category: product.category.name,
-    ...(product.condition && { itemCondition: `https://schema.org/UsedCondition` }),
+    ...(product.condition && {
+      itemCondition: `https://schema.org/UsedCondition`,
+    }),
   };
 
   return (
@@ -174,8 +188,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         {/* Breadcrumbs */}
         <Breadcrumbs
           items={[
-            { label: 'Home', href: '/' },
-            { label: product.category.name, href: `/category/${product.category.slug}` },
+            { label: "Home", href: "/" },
+            {
+              label: product.category.name,
+              href: `/category/${product.category.slug}`,
+            },
             { label: product.title, href: `/product/${product.slug}` },
           ]}
         />
@@ -198,11 +215,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
-          <RelatedProducts products={relatedProducts} categoryName={product.category.name} />
+          <RelatedProducts
+            products={relatedProducts}
+            categoryName={product.category.name}
+          />
         )}
 
         {/* Client-only sticky cart bar via wrapper */}
-        <ClientProductLayout product={{ title: product.title, price: product.price }}>
+        <ClientProductLayout
+          product={{ title: product.title, price: product.price }}
+        >
           {/* no additional client-only content here; StickyCartBar is injected within the wrapper */}
         </ClientProductLayout>
       </div>

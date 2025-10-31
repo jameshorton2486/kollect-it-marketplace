@@ -29,6 +29,7 @@ bun install
 ```
 
 Expected output:
+
 ```
 ✔ Generated Prisma Client (v6.18.0)
 Checked 640 packages
@@ -74,25 +75,29 @@ NODE_ENV=development
 
 ### Step 4: Get API Keys (5 min)
 
-#### PostgreSQL Database:
+#### PostgreSQL Database
+
 1. Go to **https://supabase.com** (recommended) or https://neon.tech
 2. Create new project
 3. Go to **Settings** → **Database**
 4. Copy **Connection Pooling** string (port 6543)
 5. Paste as `DATABASE_URL`
 
-#### Stripe (Payments):
+#### Stripe (Payments)
+
 1. Go to **https://dashboard.stripe.com/test/apikeys**
 2. Copy **Publishable key** → `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
 3. Reveal and copy **Secret key** → `STRIPE_SECRET_KEY`
 
-#### Resend (Email):
+#### Resend (Email)
+
 1. Go to **https://resend.com/api-keys**
 2. Create API key
 3. Copy to `RESEND_API_KEY`
 4. For testing, use: `EMAIL_FROM=Kollect-It <onboarding@resend.dev>`
 
-#### ImageKit (Images):
+#### ImageKit (Images)
+
 1. Go to **https://imagekit.io/dashboard**
 2. Go to **Developer options**
 3. Copy all three keys (URL endpoint, Public key, Private key)
@@ -111,6 +116,7 @@ bun run db:seed
 ```
 
 Expected output:
+
 ```
 ✔ Generated Prisma Client
 Database schema in sync
@@ -127,6 +133,7 @@ bun run dev
 ```
 
 Expected output:
+
 ```
 ▲ Next.js 15.5.6 (Turbopack)
 - Local:        http://localhost:3000
@@ -136,12 +143,14 @@ Expected output:
 
 ### Step 7: Verify Setup (2 min)
 
-#### Test Health Check:
+#### Test Health Check
+
 ```bash
 curl http://localhost:3000/api/health | jq
 ```
 
 Expected response:
+
 ```json
 {
   "status": "healthy",
@@ -154,14 +163,16 @@ Expected response:
 }
 ```
 
-#### Test Email (Optional):
+#### Test Email (Optional)
+
 ```bash
 curl http://localhost:3000/api/email/test
 ```
 
 Check your `ADMIN_EMAIL` inbox for test email.
 
-#### Test ImageKit Auth (Optional):
+#### Test ImageKit Auth (Optional)
+
 ```bash
 curl http://localhost:3000/api/imagekit-auth
 ```
@@ -172,26 +183,31 @@ Should return auth parameters.
 
 ## 🎯 Access the Application
 
-### Customer Site:
+### Customer Site
+
 **URL**: http://localhost:3000
 
 Features:
+
 - Browse products by category
 - Add items to cart
 - Checkout with Stripe
 - Create account
 - Order history
 
-### Admin Dashboard:
+### Admin Dashboard
+
 **URL**: http://localhost:3000/admin/login
 
 **Default Credentials**:
+
 - Email: `admin@kollect-it.com`
 - Password: `admin123`
 
 ⚠️ **CHANGE THESE IMMEDIATELY!**
 
 Features:
+
 - Manage products (add, edit, delete)
 - Upload images (ImageKit multi-upload)
 - **Process orders** (full order management system)
@@ -243,7 +259,8 @@ Features:
 
 After setup, verify:
 
-### Required for Basic Functionality:
+### Required for Basic Functionality
+
 - [ ] `bun run dev` starts without errors
 - [ ] Homepage loads at http://localhost:3000
 - [ ] Products display with images
@@ -251,7 +268,8 @@ After setup, verify:
 - [ ] Database connection shows `"connected"`
 - [ ] Admin login works with default credentials
 
-### Required for Full Functionality:
+### Required for Full Functionality
+
 - [ ] Test checkout completes successfully
 - [ ] Payment appears in Stripe Dashboard
 - [ ] Order appears in admin orders dashboard
@@ -265,17 +283,20 @@ After setup, verify:
 
 ## 📚 Documentation
 
-### Core Guides:
+### Core Guides
+
 - **[README.md](README.md)** - Project overview
 - **[DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md)** - Production deployment
 - **[PRODUCTION_HARDENING.md](PRODUCTION_HARDENING.md)** - Security improvements
 
-### API Integration:
+### API Integration
+
 - **[docs/API_INTEGRATION_GUIDE.md](docs/API_INTEGRATION_GUIDE.md)** - Complete API setup
 - **[docs/STRIPE_SETUP.md](docs/STRIPE_SETUP.md)** - Stripe configuration
 - **[docs/DATABASE_SETUP.md](docs/DATABASE_SETUP.md)** - Database setup
 
-### Features:
+### Features
+
 - **[docs/AUTH_GUIDE.md](docs/AUTH_GUIDE.md)** - Authentication system
 - **[docs/EMAIL_SETUP.md](docs/EMAIL_SETUP.md)** - Email configuration
 - **[docs/ADMINISTRATOR-GUIDE.md](docs/ADMINISTRATOR-GUIDE.md)** - Admin features

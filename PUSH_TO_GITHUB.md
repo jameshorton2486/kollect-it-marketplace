@@ -35,6 +35,7 @@ git push -u origin main
 ```
 
 **When prompted**:
+
 - **Username**: `jameshorton2486`
 - **Password**: **Paste your Personal Access Token** (not your GitHub password!)
 
@@ -153,6 +154,7 @@ Add comprehensive production deployment summary
 Visit: https://github.com/jameshorton2486/kollect-it-marketplace
 
 You should see:
+
 - ✅ 3 new commits
 - ✅ All files uploaded
 - ✅ Latest commit: "Add comprehensive production deployment summary"
@@ -162,6 +164,7 @@ You should see:
 **Follow this guide**: `docs/NETLIFY_DEPLOYMENT_GUIDE.md`
 
 **Quick Steps**:
+
 1. Login to https://app.netlify.com
 2. Click "Add new site" → "Import an existing project"
 3. Connect GitHub → Select `kollect-it-marketplace`
@@ -173,6 +176,7 @@ You should see:
 ### 3. After Deployment
 
 **Critical**:
+
 - Update `NEXTAUTH_URL` to your actual Netlify URL
 - Change admin password from default
 - Run database migrations
@@ -200,6 +204,7 @@ https://github.com/jameshorton2486/kollect-it-marketplace
 ### "Failed to push some refs"
 
 **Solution**: Someone else may have pushed. Pull first:
+
 ```bash
 git pull origin main --rebase
 git push -u origin main
@@ -214,6 +219,7 @@ git push -u origin main
 **Your GitHub Username**: `jameshorton2486`
 
 **What You Need**:
+
 - GitHub Personal Access Token (Option 1) OR
 - SSH Key added to GitHub (Option 2)
 
@@ -224,17 +230,20 @@ git push -u origin main
 ## Security Notes
 
 ✅ **Personal Access Token**:
+
 - ✅ More secure than password
 - ✅ Can be revoked anytime
 - ✅ Expiration date enforced
 - ✅ Scope-limited permissions
 
 ✅ **SSH Key**:
+
 - ✅ More convenient (no password needed)
 - ✅ Can be removed from GitHub anytime
 - ✅ Computer-specific (doesn't work elsewhere)
 
 ⚠️ **Never**:
+
 - ❌ Share your Personal Access Token
 - ❌ Commit tokens to Git
 - ❌ Use your GitHub password for git push

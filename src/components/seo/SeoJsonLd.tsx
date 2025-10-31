@@ -1,6 +1,8 @@
-import React from 'react';
+import React from "react";
 
-export default function SeoJsonLd({ json }: { json: Readonly<Record<string, unknown>> }) {
+export default function SeoJsonLd({
+  json,
+}: { json: Readonly<Record<string, unknown>> }) {
   return (
     <script
       type="application/ld+json"
