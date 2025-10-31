@@ -47,14 +47,15 @@ export default function ContactForm() {
       <label htmlFor={id} className="mb-1 block text-sm font-medium text-ink">{label}</label>
       <input
         id={id}
+        name={id}
         type={type}
         value={form[id]}
         onChange={(ev) => setForm((s) => ({ ...s, [id]: ev.target.value }))}
         className={`w-full rounded border px-3 py-2 outline-none ${errors[id] ? 'border-red-500' : 'border-border-neutral'}`}
-  aria-invalid={errors[id] ? 'true' : 'false'}
-        aria-describedby={errors[id] ? `${id}-error` : undefined}
+  aria-invalid={errors[id] ? 'true' : undefined}
+  aria-describedby={errors[id] ? `${id}-error` : undefined}
       />
-      {errors[id] && <p id={`${id}-error`} className="mt-1 text-sm text-red-600">{errors[id]}</p>}
+      {errors[id] && <p id={`${id}-error`} className="mt-1 text-sm text-red-600" role="alert">{errors[id]}</p>}
     </div>
   );
 
@@ -74,16 +75,17 @@ export default function ContactForm() {
             <label htmlFor="message" className="mb-1 block text-sm font-medium text-ink">Message *</label>
             <textarea
               id="message"
+              name="message"
               rows={6}
               maxLength={500}
               value={form.message}
               onChange={(ev) => setForm((s) => ({ ...s, message: ev.target.value }))}
               className={`w-full rounded border px-3 py-2 outline-none ${errors.message ? 'border-red-500' : 'border-border-neutral'}`}
-              aria-invalid={errors.message ? 'true' : 'false'}
+              aria-invalid={errors.message ? 'true' : undefined}
               aria-describedby={errors.message ? 'message-error' : undefined}
             />
             <div className="mt-1 text-right text-xs text-ink-secondary">{form.message.length} / 500</div>
-            {errors.message && <p id="message-error" className="mt-1 text-sm text-red-600">{errors.message}</p>}
+            {errors.message && <p id="message-error" className="mt-1 text-sm text-red-600" role="alert">{errors.message}</p>}
           </div>
           <Button type="submit" className="w-full" disabled={submitting}>
             {submitting ? 'Sending…' : 'Send Message'}
