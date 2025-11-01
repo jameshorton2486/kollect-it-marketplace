@@ -28,7 +28,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPostPage({ params }: { params: Promise<Params> }) {
+export default async function BlogPostPage({
+  params,
+}: { params: Promise<Params> }) {
   const { slug } = await params;
   const { meta, content } = getPostBySlug(slug);
   const html = await markdownToHtml(content);
