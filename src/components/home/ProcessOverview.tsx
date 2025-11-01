@@ -17,20 +17,17 @@ export default function ProcessOverview() {
     },
   ];
   return (
-    <section className="section-spacing bg-white">
-      <div className="container">
+    <section className="ki-section bg-white">
+      <div className="ki-container">
         <p className="mb-3 text-center text-[12px] uppercase tracking-[0.12em] text-brand-gold">
           Our Process
         </p>
-        <h2 className="mb-10 text-center font-serif text-[clamp(28px,4vw,36px)] leading-[1.3] text-brand-navy">
+        <h2 className="mb-10 text-center font-serif text-[clamp(28px,4vw,36px)] leading-[1.3] text-brand-navy ki-gold-underline">
           How We Work
         </h2>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="ki-grid md:grid-cols-3">
           {steps.map((s) => (
-            <div
-              key={s.n}
-              className="rounded border border-border-neutral bg-white p-6 text-center"
-            >
+            <div key={s.n} className="ki-card p-6 text-center">
               <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-brand-gold text-brand-gold">
                 {s.n}
               </div>

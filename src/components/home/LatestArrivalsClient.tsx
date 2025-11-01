@@ -28,9 +28,9 @@ export default function LatestArrivals() {
   ];
 
   return (
-    <section className="section-spacing bg-white">
-      <div className="container mx-auto px-6 max-w-6xl text-center">
-        <h2 className="text-4xl text-navy font-semibold mb-6">
+    <section className="ki-section bg-white">
+      <div className="ki-container text-center">
+        <h2 className="text-4xl text-navy font-semibold mb-6 ki-gold-underline">
           Latest Arrivals
         </h2>
         <p className="text-ink-secondary mb-12">
@@ -38,7 +38,7 @@ export default function LatestArrivals() {
           ready for your collection.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div className="ki-grid sm:grid-cols-2 gap-10">
           {items.map((item, i) => (
             <motion.div
               key={i}
@@ -46,14 +46,14 @@ export default function LatestArrivals() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group relative border border-border-neutral rounded-2xl overflow-hidden shadow-elevation-sm hover:shadow-elevation-lg transition-all duration-300"
+              className="group relative ki-card ki-round overflow-hidden"
             >
               <Image
                 src={item.img}
                 alt={item.title}
                 width={600}
                 height={400}
-                className="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-500"
+                className="object-cover w-full h-64"
               />
               {/* Hover overlay CTA */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover:bg-black/20 group-hover:opacity-100">

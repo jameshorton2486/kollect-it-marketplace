@@ -2,8 +2,8 @@ import { Shield, Package, Award } from "lucide-react";
 
 export default function TrustStrip() {
   return (
-    <section className="trust-strip">
-      <div className="container grid grid-cols-1 gap-6 text-center md:grid-cols-3">
+    <section className="ki-section">
+      <div className="ki-container ki-grid text-center md:grid-cols-3">
         <div>
           <Shield className="mx-auto mb-2 text-brand-gold" />
           <div className="font-semibold text-brand-navy">

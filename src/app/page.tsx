@@ -67,9 +67,11 @@ export default function HomePage() {
       <FeaturedCollection />
       <ShopByCategories />
       <Testimonials />
-      <section className="container max-w-6xl mx-auto px-4 mt-16">
-        <h2 className="text-2xl font-semibold mb-4">From Our Blog</h2>
+      <section className="ki-section">
+        <div className="ki-container">
+        <h2 className="text-2xl font-semibold mb-4 ki-gold-underline">From Our Blog</h2>
         <BlogList posts={latest} />
+        </div>
       </section>
       <ProcessOverview />
       <FooterExtended />
