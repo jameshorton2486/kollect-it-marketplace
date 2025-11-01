@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+# Code formatting
+bunx biome format --write
+
+# Markdown linting (with auto-fix)
+bunx markdownlint "**/*.md" --fix
+
+# TypeScript type checking
+bunx tsc --noEmit
+
+# ESLint (new command - replaces "next lint")
+npx eslint --fix

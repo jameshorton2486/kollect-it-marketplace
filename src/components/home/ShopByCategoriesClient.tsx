@@ -33,17 +33,17 @@ export default function ShopByCategories() {
   ];
 
   return (
-    <section className="section-spacing bg-cream">
-      <div className="container mx-auto px-6 max-w-6xl text-center">
-        <h2 className="text-4xl text-navy font-semibold mb-6">
+    <section className="ki-section ki-parchment">
+      <div className="ki-container text-center">
+        <h2 className="text-4xl text-navy font-semibold mb-6 ki-gold-underline">
           Shop by Category
         </h2>
-  <p className="text-ink-secondary mb-12">
+        <p className="text-ink-secondary mb-12">
           Explore diverse categories curated for collectors, designers, and
           historians alike.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div className="ki-grid sm:grid-cols-2 gap-10">
           {categories.map((cat, i) => (
             <motion.div
               key={i}
@@ -52,21 +52,16 @@ export default function ShopByCategories() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
             >
-              <Link
-                href={cat.href}
-                className="group block border border-gray-200 rounded-2xl overflow-hidden shadow-elevation-sm hover:shadow-elevation-lg transition-all duration-300 bg-white"
-              >
+              <Link href={cat.href} className="group block ki-card ki-round bg-white ki-img-zoom">
                 <Image
                   src={cat.img}
                   alt={cat.title}
                   width={600}
                   height={400}
-                  className="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover w-full h-64"
                 />
                 <div className="p-6 text-left">
-                  <h3 className="text-2xl text-navy mb-2">
-                    {cat.title}
-                  </h3>
+                  <h3 className="text-2xl text-navy mb-2">{cat.title}</h3>
                   <p className="text-ink-secondary leading-relaxed">
                     {cat.desc}
                   </p>
@@ -77,10 +72,7 @@ export default function ShopByCategories() {
         </div>
 
         <div className="mt-10 text-center">
-          <Link
-            href="/shop"
-            className="text-[13px] uppercase tracking-wide text-brand-gold underline underline-offset-4 hover:text-brand-gold/90 transition-colors"
-          >
+          <Link href="/shop" className="ki-btn-primary">
             View All Categories
           </Link>
         </div>

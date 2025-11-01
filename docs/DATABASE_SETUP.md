@@ -24,18 +24,21 @@ This ensures optimal performance and prevents connection issues during deploymen
 **Port:** 6543  
 **Mode:** Transaction mode  
 **Used by:**
+
 - Next.js app queries
 - Prisma Client
 - API routes
 - Server components
 
 **Why pooled?**
+
 - Handles many concurrent connections
 - Prevents "too many connections" errors
 - Better performance under load
 - Required for serverless (Netlify Functions)
 
 **Example:**
+
 ```
 postgresql://user:pass@host:6543/db?pgbouncer=true
 ```
@@ -47,17 +50,20 @@ postgresql://user:pass@host:6543/db?pgbouncer=true
 **Port:** 5432  
 **Mode:** Session mode  
 **Used by:**
+
 - `prisma migrate deploy`
 - `prisma migrate dev`
 - `prisma db push`
 - `prisma db pull`
 
 **Why direct?**
+
 - Migrations require session-level features
 - PgBouncer doesn't support all migration commands
 - Ensures schema changes apply correctly
 
 **Example:**
+
 ```
 postgresql://user:pass@host:5432/db
 ```
@@ -99,6 +105,7 @@ DIRECT_URL="postgresql://postgres.xxxxx:[YOUR-PASSWORD]@aws-0-us-west-1.pooler.s
 ```
 
 **⚠️ Important:**
+
 - Replace `[YOUR-PASSWORD]` with your actual database password
 - DATABASE_URL **must** have `?pgbouncer=true` at the end
 - DIRECT_URL **must NOT** have pgbouncer parameter
@@ -178,6 +185,7 @@ bun run db:seed
 ```
 
 **Or use the combined setup command:**
+
 ```bash
 bun run db:setup
 ```
@@ -219,6 +227,7 @@ DATABASE_URL="your-direct-url-here" bun run db:migrate:deploy
 
 1. Create deploy hook in Netlify
 2. Set up post-deploy command:
+
 ```bash
 bunx prisma migrate deploy
 ```
@@ -241,6 +250,7 @@ if (process.env.NODE_ENV === 'production') {
 ```
 
 **What the seed includes:**
+
 - Sample admin account (email: `admin@kollect-it.com`, password: `admin123`)
 - 4 product categories (Fine Art, Antique Books, Collectibles, Militaria)
 - 6 sample products
@@ -248,11 +258,13 @@ if (process.env.NODE_ENV === 'production') {
 ### When to Seed
 
  **Do seed:**
+
 - Local development
 - Testing environments
 - Demo instances
 
  **Never seed:**
+
 - Production database
 - Live customer data
 - After real orders exist
@@ -265,6 +277,7 @@ bun run db:seed
 ```
 
 **Output:**
+
 ```
   Running in development mode only
  Admin user created: admin@kollect-it.com
@@ -283,6 +296,7 @@ curl http://localhost:3000/api/diagnostics/env
 ```
 
 **Should return:**
+
 ```json
 {
   "status": "complete",
@@ -299,6 +313,7 @@ bun run db:studio
 ```
 
 **Should:**
+
 - Open browser at http://localhost:5555
 - Show all database tables
 - Allow browsing data
@@ -322,12 +337,14 @@ DIRECT_URL="your-direct-url" bun run db:migrate:deploy
 **Problem:** Connection string is wrong
 
 **Check:**
+
 - [ ] Port number (6543 for DATABASE_URL, 5432 for DIRECT_URL)
 - [ ] Password is correct
 - [ ] Host name is correct
 - [ ] Database name exists
 
 **Test connection:**
+
 ```bash
 # Using psql (if installed)
 psql "your-connection-string-here"
@@ -338,6 +355,7 @@ psql "your-connection-string-here"
 **Problem:** Using direct connection (port 5432) instead of pooled (6543)
 
 **Fix:**
+
 ```bash
 # Make sure DATABASE_URL uses port 6543
 DATABASE_URL="postgresql://...@host:6543/db?pgbouncer=true"
@@ -348,6 +366,7 @@ DATABASE_URL="postgresql://...@host:6543/db?pgbouncer=true"
 **Problem:** Trying to run migrations through pooled connection
 
 **Fix:**
+
 ```bash
 # Make sure DIRECT_URL uses port 5432
 DIRECT_URL="postgresql://...@host:5432/db"
@@ -359,6 +378,7 @@ bun run db:migrate:deploy
 ### "Prisma Client not generated"
 
 **Fix:**
+
 ```bash
 bun run db:generate
 ```
@@ -368,6 +388,7 @@ bun run db:generate
 **This is intentional!** Production guard is working.
 
 **Solutions:**
+
 - Use development environment for seeding
 - Manually add data through Prisma Studio
 - Create production data import script
@@ -435,12 +456,14 @@ DATABASE_URL="your-direct-url" bun run db:migrate:deploy
 ### Migration Best Practices
 
  **Do:**
+
 - Test migrations in development first
 - Create migration for every schema change
 - Commit migration files to version control
 - Run migrations separately from app deployment
 
  **Don't:**
+
 - Run migrations during build process
 - Skip creating migrations (using db:push in production)
 - Delete migration files

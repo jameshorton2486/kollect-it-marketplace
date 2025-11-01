@@ -7,6 +7,8 @@ import FeaturedCollection from "@/components/home/FeaturedCollection";
 import Testimonials from "@/components/home/Testimonials";
 import ProcessOverview from "@/components/home/ProcessOverview";
 import FooterExtended from "@/components/FooterExtended";
+import { getAllPostsMeta } from "@/lib/blog";
+import BlogList from "@/components/BlogList";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -38,22 +40,25 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const latest = getAllPostsMeta().slice(0, 3);
   return (
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "Kollect-It",
-          url: "https://kollect-it.com",
-          logo: "https://ext.same-assets.com/kollect-it/logo.png",
-          sameAs: [
-            "https://www.instagram.com/",
-            "https://www.facebook.com/",
-            "https://www.youtube.com/",
-          ],
-        }) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Kollect-It",
+            url: "https://kollect-it.com",
+            logo: "https://ext.same-assets.com/kollect-it/logo.png",
+            sameAs: [
+              "https://www.instagram.com/",
+              "https://www.facebook.com/",
+              "https://www.youtube.com/",
+            ],
+          }),
+        }}
       />
       <Header />
       <Hero />
@@ -62,6 +67,12 @@ export default function HomePage() {
       <FeaturedCollection />
       <ShopByCategories />
       <Testimonials />
+      <section className="ki-section">
+        <div className="ki-container">
+        <h2 className="text-2xl font-semibold mb-4 ki-gold-underline">From Our Blog</h2>
+        <BlogList posts={latest} />
+        </div>
+      </section>
       <ProcessOverview />
       <FooterExtended />
     </main>

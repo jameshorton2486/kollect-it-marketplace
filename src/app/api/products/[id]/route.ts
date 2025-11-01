@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { checkAdminAuth } from '@/lib/auth-helpers';
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { checkAdminAuth } from "@/lib/auth-helpers";
 
 interface ImageInput {
   url: string;
@@ -10,7 +10,7 @@ interface ImageInput {
 // GET /api/products/[id] - Get single product
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -19,22 +19,22 @@ export async function GET(
       where: { id },
       include: {
         images: {
-          orderBy: { order: 'asc' },
+          orderBy: { order: "asc" },
         },
         category: true,
       },
     });
 
     if (!product) {
-      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
     return NextResponse.json(product);
   } catch (error) {
-    console.error('Error fetching product:', error);
+    console.error("Error fetching product:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch product' },
-      { status: 500 }
+      { error: "Failed to fetch product" },
+      { status: 500 },
     );
   }
 }
@@ -42,7 +42,7 @@ export async function GET(
 // PUT /api/products/[id] - Update product (admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const authCheck = await checkAdminAuth();
   if (!authCheck.authorized) {
@@ -106,10 +106,10 @@ export async function PUT(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.error('Error updating product:', error);
+    console.error("Error updating product:", error);
     return NextResponse.json(
-      { error: 'Failed to update product' },
-      { status: 500 }
+      { error: "Failed to update product" },
+      { status: 500 },
     );
   }
 }
@@ -117,7 +117,7 @@ export async function PUT(
 // DELETE /api/products/[id] - Delete product (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const authCheck = await checkAdminAuth();
   if (!authCheck.authorized) {
@@ -133,10 +133,10 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting product:', error);
+    console.error("Error deleting product:", error);
     return NextResponse.json(
-      { error: 'Failed to delete product' },
-      { status: 500 }
+      { error: "Failed to delete product" },
+      { status: 500 },
     );
   }
 }

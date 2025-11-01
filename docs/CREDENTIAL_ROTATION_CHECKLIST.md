@@ -9,6 +9,7 @@
 ### Priority 1: Payment Systems (Stripe)
 
 - [ ] **Check if LIVE or TEST keys are exposed**
+
   ```bash
   grep -r "sk_live_\|pk_live_" . --exclude-dir=node_modules
   ```
@@ -81,6 +82,7 @@
 ### Priority 5: Authentication (NextAuth)
 
 - [ ] **Generate New Secret:**
+
   ```bash
   openssl rand -base64 32
   ```
@@ -102,6 +104,7 @@
 ### Test All Services
 
 - [ ] **Database Connection:**
+
   ```bash
   cd kollect-it-marketplace
   bun run db:studio
@@ -109,12 +112,14 @@
   ```
 
 - [ ] **Stripe Payment:**
+
   ```bash
   # Test checkout with card: 4242 4242 4242 4242
   # Should complete successfully
   ```
 
 - [ ] **Email Sending:**
+
   ```bash
   curl http://localhost:3000/api/email/test
   # Should receive test email
@@ -138,6 +143,7 @@
   - [ ] Click "Save"
   
 - [ ] **Trigger new deployment:**
+
   ```bash
   git commit --allow-empty -m "Trigger deployment after credential rotation"
   git push origin main
@@ -299,7 +305,8 @@ After rotation, update processes:
 
 ---
 
-**Remember:** 
+**Remember:**
+
 - Rotate immediately when in doubt
 - Better safe than sorry
 - Document everything

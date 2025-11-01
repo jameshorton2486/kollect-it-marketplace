@@ -7,6 +7,7 @@ Complete guide to managing orders in the Kollect-It marketplace admin panel.
 ## 📋 Overview
 
 The order management system allows you to:
+
 - View all customer orders in one dashboard
 - Filter and search orders
 - View detailed order information
@@ -28,6 +29,7 @@ The order management system allows you to:
 ### Order Dashboard
 
 Once logged in, access orders via:
+
 - **Direct URL**: `/admin/orders`
 - **Admin Dashboard**: Click "Manage Orders" from `/admin/dashboard`
 
@@ -47,11 +49,13 @@ The dashboard displays real-time statistics:
 ### Filters & Search
 
 **Search Bar**:
+
 - Search by order number (e.g., `KI-1234567890-ABC123`)
 - Search by customer name
 - Search by customer email
 
 **Status Filter**:
+
 - All Statuses
 - Pending
 - Processing
@@ -60,6 +64,7 @@ The dashboard displays real-time statistics:
 - Cancelled
 
 **Date Filter**:
+
 - All Time
 - Today
 - Last 7 Days
@@ -74,6 +79,7 @@ The dashboard displays real-time statistics:
 Click "View Details" on any order to see:
 
 #### **Order Items**
+
 - Product name (linked to product page)
 - Unit price
 - Quantity
@@ -81,16 +87,19 @@ Click "View Details" on any order to see:
 - Order subtotal, shipping, tax, and total
 
 #### **Customer Information**
+
 - Full name
 - Email address (clickable to send email)
 - Phone number (clickable to call)
 
 #### **Shipping Address**
+
 - Street address
 - City, State, ZIP
 - Country
 
 #### **Payment Information**
+
 - Payment status (Paid/Pending/Failed)
 - Payment method (Stripe)
 - Transaction amount
@@ -134,6 +143,7 @@ Click "View Details" on any order to see:
 5. Click "Save Changes"
 
 **Customer receives email with**:
+
 - Updated status
 - Tracking number
 - Carrier name
@@ -244,18 +254,22 @@ Customer receives delivery confirmation
 ### Carriers
 
 **USPS** (United States Postal Service):
+
 - Track: https://tools.usps.com/go/TrackConfirmAction
 - Domestic and international
 
 **UPS** (United Parcel Service):
+
 - Track: https://www.ups.com/track
 - Faster shipping, signature options
 
 **FedEx**:
+
 - Track: https://www.fedex.com/fedextrack/
 - Overnight and express options
 
 **DHL**:
+
 - Track: https://www.dhl.com/en/express/tracking.html
 - International shipping
 
@@ -266,11 +280,13 @@ Customer receives delivery confirmation
 ### Search by Order Number
 
 Order numbers follow this format:
+
 ```
 KI-1234567890-ABC123
 ```
 
 You can search by:
+
 - Full order number: `KI-1234567890-ABC123`
 - Partial: `KI-1234`
 - Short code: `ABC123`
@@ -287,10 +303,12 @@ You can search by:
 Combine filters for precise results:
 
 **Example 1**: All shipped orders from last week
+
 - Status: Shipped
 - Date: Last 7 Days
 
 **Example 2**: Find specific customer's pending orders
+
 - Search: customer@example.com
 - Status: Pending
 
@@ -301,11 +319,13 @@ Combine filters for precise results:
 ### Available Metrics
 
 **Real-time Stats**:
+
 - Total orders count
 - Orders by status
 - Total revenue (paid orders only)
 
 **Per-Order Data**:
+
 - Order date and time
 - Items count
 - Order total
@@ -317,6 +337,7 @@ Combine filters for precise results:
 *Note: Export feature coming soon*
 
 To manually export order data:
+
 1. Use Prisma Studio: `bun run db:studio`
 2. Navigate to "Order" table
 3. Use database export tools
@@ -328,11 +349,13 @@ To manually export order data:
 ### Order Not Appearing
 
 **Possible causes**:
+
 1. Payment not completed (check Stripe dashboard)
 2. Database connection issue (check `/api/health`)
 3. Order creation failed (check server logs)
 
 **How to verify**:
+
 ```bash
 # Check Stripe Dashboard
 https://dashboard.stripe.com/test/payments
@@ -347,11 +370,13 @@ bun run db:studio
 ### Email Not Sending
 
 **Possible causes**:
+
 1. Resend API key missing or invalid
 2. Email FROM address not verified
 3. Resend service down
 
 **How to fix**:
+
 ```bash
 # Test email configuration
 curl http://localhost:3000/api/email/test
@@ -365,11 +390,13 @@ See [EMAIL_SETUP.md](./EMAIL_SETUP.md) for email troubleshooting.
 ### Tracking Link Not Working
 
 **Common issues**:
+
 - Tracking number has typo
 - Carrier not yet scanned package
 - Package still in transit to carrier
 
 **How to fix**:
+
 1. Edit order
 2. Correct tracking number
 3. Save changes
@@ -404,23 +431,29 @@ See [EMAIL_SETUP.md](./EMAIL_SETUP.md) for email troubleshooting.
 ## 🎯 Quick Actions Reference
 
 ### View All Orders
+
 **URL**: `/admin/orders`
 
 ### View Order Details
+
 **URL**: `/admin/orders/[order-id]`
 
 ### Update Order Status
+
 1. Click order → "Edit"
 2. Change status → "Save Changes"
 
 ### Add Tracking
+
 1. Click order → "Edit"
 2. Select carrier + enter tracking number → "Save"
 
 ### Search Order
+
 Use search bar at `/admin/orders`
 
 ### Filter by Status
+
 Use status dropdown at `/admin/orders`
 
 ---
@@ -456,18 +489,21 @@ A: Check webhook configuration. Order should be created automatically. See [STRI
 ## ✅ Order Management Checklist
 
 ### Daily Tasks
+
 - [ ] Review new orders
 - [ ] Update processing orders to shipped
 - [ ] Add tracking numbers
 - [ ] Respond to customer inquiries
 
 ### Weekly Tasks
+
 - [ ] Review pending orders
 - [ ] Check for payment issues
 - [ ] Verify all shipped orders have tracking
 - [ ] Review revenue metrics
 
 ### Monthly Tasks
+
 - [ ] Export order data for accounting
 - [ ] Review order trends
 - [ ] Optimize shipping carriers

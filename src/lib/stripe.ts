@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { loadStripe, Stripe as StripeClient } from '@stripe/stripe-js';
+import Stripe from "stripe";
+import { loadStripe, Stripe as StripeClient } from "@stripe/stripe-js";
 
 // Validate Stripe keys
 if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing STRIPE_SECRET_KEY environment variable');
+  throw new Error("Missing STRIPE_SECRET_KEY environment variable");
 }
 
 // Server-side Stripe instance
@@ -18,7 +18,9 @@ let stripePromise: Promise<StripeClient | null>;
 export const getStripe = () => {
   if (!stripePromise) {
     if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
-      throw new Error('Missing NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY environment variable');
+      throw new Error(
+        "Missing NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY environment variable",
+      );
     }
     stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
   }

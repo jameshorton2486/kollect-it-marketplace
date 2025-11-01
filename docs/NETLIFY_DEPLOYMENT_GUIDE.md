@@ -58,12 +58,14 @@ Click **"New variable"** for each of these:
 Variable: DATABASE_URL
 Value: postgresql://user:pass@host:6543/db?pgbouncer=true&connection_limit=1
 ```
+
 **Important**: Use connection pooling (port 6543 for Supabase)
 
 ```bash
 Variable: DIRECT_URL
 Value: postgresql://user:pass@host:5432/db
 ```
+
 **Important**: Direct connection (port 5432) - used for migrations only
 
 #### Authentication
@@ -72,12 +74,14 @@ Value: postgresql://user:pass@host:5432/db
 Variable: NEXTAUTH_SECRET
 Value: [Generate with: openssl rand -base64 32]
 ```
+
 Example: `wK9x5vN2mP8qR3tY6u7Z0A1b4C5d8E9f`
 
 ```bash
 Variable: NEXTAUTH_URL
 Value: https://your-site-name.netlify.app
 ```
+
 **⚠️ CRITICAL**: You won't know this until after first deploy. Use placeholder for now, **MUST UPDATE AFTER DEPLOY**.
 
 #### Stripe (Payments)
@@ -86,12 +90,14 @@ Value: https://your-site-name.netlify.app
 Variable: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 Value: pk_test_...
 ```
+
 Get from: https://dashboard.stripe.com/test/apikeys
 
 ```bash
 Variable: STRIPE_SECRET_KEY
 Value: sk_test_...
 ```
+
 **⚠️ KEEP TEST MODE** until fully tested!
 
 #### Resend (Email)
@@ -100,18 +106,21 @@ Value: sk_test_...
 Variable: RESEND_API_KEY
 Value: re_...
 ```
+
 Get from: https://resend.com/api-keys
 
 ```bash
 Variable: EMAIL_FROM
 Value: Kollect-It <noreply@resend.dev>
 ```
+
 **Note**: For testing, use `onboarding@resend.dev`. For production, verify your domain.
 
 ```bash
 Variable: ADMIN_EMAIL
 Value: your-email@example.com
 ```
+
 **Note**: Where admin notifications will be sent
 
 #### ImageKit (Image Hosting)
@@ -120,6 +129,7 @@ Value: your-email@example.com
 Variable: NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT
 Value: https://ik.imagekit.io/YOUR_ID/
 ```
+
 Get from: https://imagekit.io/dashboard
 
 ```bash
@@ -143,6 +153,7 @@ Value: production
 Variable: CI
 Value: true
 ```
+
 **Note**: Enables strict TypeScript/ESLint checking
 
 ---
@@ -175,9 +186,11 @@ Value: true
    - Find `NEXTAUTH_URL` variable
    - Click "Options" → "Edit"
    - Update to your actual Netlify URL:
+
      ```
      https://your-actual-site-name.netlify.app
      ```
+
    - Click "Save"
 
 3. **Trigger Redeploy**
@@ -239,6 +252,7 @@ curl https://your-site.netlify.app/api/health | jq
 ```
 
 **Expected Response** (healthy):
+
 ```json
 {
   "status": "healthy",
@@ -259,6 +273,7 @@ curl https://your-site.netlify.app/api/health | jq
 ```
 
 **If "status": "degraded"**:
+
 - Check which environment variables are `false`
 - Add missing variables in Netlify dashboard
 - Redeploy
@@ -301,6 +316,7 @@ Check `ADMIN_EMAIL` inbox for test email.
 #### Error: "Prisma Client not generated"
 
 **Fix**: Already in build command, but verify:
+
 ```toml
 [build]
   command = "bun install && bunx prisma generate && bun run build"
@@ -311,12 +327,14 @@ Check `ADMIN_EMAIL` inbox for test email.
 **This is normal** - static pages use fallback data during build.
 
 Check these files have database fallbacks:
+
 - `src/app/page.tsx`
 - `src/app/about/page.tsx`
 
 #### Error: "TypeScript errors"
 
 **Fix**: Run locally with CI mode:
+
 ```bash
 CI=true bun run build
 ```
@@ -330,11 +348,13 @@ Fix all TypeScript errors before pushing.
 #### "503 Service Unavailable" on /api/health
 
 **Causes**:
+
 1. Missing environment variables
 2. Database not reachable
 3. Wrong DATABASE_URL format
 
 **Fix**:
+
 ```bash
 # Check health endpoint response
 curl https://your-site.netlify.app/api/health
@@ -346,11 +366,13 @@ curl https://your-site.netlify.app/api/health
 #### "Unauthorized" on Admin Routes
 
 **Causes**:
+
 1. NEXTAUTH_SECRET not set
 2. NEXTAUTH_URL incorrect
 3. Cookies not working
 
 **Fix**:
+
 1. Verify NEXTAUTH_URL matches your Netlify URL exactly
 2. Clear browser cookies
 3. Check NEXTAUTH_SECRET is set
@@ -359,11 +381,13 @@ curl https://your-site.netlify.app/api/health
 #### "Payment Intent Failed"
 
 **Causes**:
+
 1. Using wrong Stripe keys
 2. Stripe API key invalid
 3. Cart validation failed
 
 **Fix**:
+
 1. Check Stripe Dashboard: https://dashboard.stripe.com/test/payments
 2. Verify STRIPE_SECRET_KEY starts with `sk_test_`
 3. Check browser console for errors
@@ -371,11 +395,13 @@ curl https://your-site.netlify.app/api/health
 #### "Email Not Sending"
 
 **Causes**:
+
 1. RESEND_API_KEY invalid
 2. EMAIL_FROM domain not verified (production)
 3. Resend service down
 
 **Fix**:
+
 ```bash
 # Test email endpoint
 curl https://your-site.netlify.app/api/email/test
@@ -385,6 +411,7 @@ curl https://your-site.netlify.app/api/email/test
 ```
 
 For production emails, verify domain:
+
 1. Go to https://resend.com/domains
 2. Add your domain
 3. Add DNS records
@@ -405,6 +432,7 @@ For production emails, verify domain:
 ### Build Logs
 
 Shows:
+
 - Dependency installation
 - Prisma client generation
 - Next.js build output
@@ -414,6 +442,7 @@ Shows:
 ### Function Logs
 
 Shows:
+
 - API route calls
 - Database queries
 - Email sends
@@ -428,11 +457,13 @@ Shows:
 ### Trigger Redeploy
 
 **When to redeploy**:
+
 - Environment variable changed
 - New code pushed to GitHub
 - Fix build error
 
 **How**:
+
 1. Go to "Deploys" tab
 2. Click "Trigger deploy"
 3. Select "Deploy site" or "Clear cache and deploy site"
@@ -440,10 +471,12 @@ Shows:
 ### Auto-Deployment
 
 **Netlify auto-deploys when**:
+
 - New commit pushed to `main` branch
 - Pull request merged
 
 **Disable auto-deploy**:
+
 1. Site settings → Build & deploy
 2. Build settings → Stop builds
 
@@ -463,6 +496,7 @@ Shows:
 Add these records at your domain registrar:
 
 **A Record**:
+
 ```
 Type: A
 Name: @
@@ -471,6 +505,7 @@ TTL: 3600
 ```
 
 **CNAME Record** (for www):
+
 ```
 Type: CNAME
 Name: www
@@ -481,6 +516,7 @@ TTL: 3600
 ### Update Environment Variables
 
 After domain is active:
+
 1. Update `NEXTAUTH_URL` to: `https://yourdomain.com`
 2. Redeploy site
 
@@ -569,11 +605,13 @@ Quick reference for all required environment variables:
 ### Netlify Settings
 
 **Build optimizations** (already configured):
+
 - Bun for faster installs
 - Image optimization via ImageKit CDN
 - Static page pre-rendering
 
 **Edge optimization**:
+
 1. Go to Site settings → Build & deploy
 2. Enable "Post processing"
    - Asset optimization
@@ -583,6 +621,7 @@ Quick reference for all required environment variables:
 ### Monitoring
 
 Set up monitoring:
+
 1. **Uptime**: https://uptimerobot.com
    - Monitor: `https://yoursite.netlify.app/api/health`
    - Frequency: Every 5 minutes
@@ -597,16 +636,19 @@ Set up monitoring:
 ## Support Resources
 
 ### Netlify
+
 - Docs: https://docs.netlify.com
 - Support: https://answers.netlify.com
 - Status: https://www.netlifystatus.com
 
 ### Build Issues
+
 - Check build logs in Netlify dashboard
 - Test build locally: `CI=true bun run build`
 - Check health endpoint: `/api/health`
 
 ### Runtime Issues
+
 - Check Function logs in Netlify dashboard
 - Test API endpoints with curl
 - Check browser console for errors

@@ -7,6 +7,7 @@
 ## 🎯 Overview
 
 The Kollect-It marketplace sends email notifications for:
+
 - **Order Confirmations**: Sent to customers after successful checkout
 - **Admin Alerts**: Notify admin of new orders
 - **Status Updates**: Inform customers when order status changes (shipped, delivered)
@@ -39,6 +40,7 @@ The Kollect-It marketplace sends email notifications for:
 ### 3. Add to Environment Variables
 
 **Local (.env)**:
+
 ```bash
 RESEND_API_KEY="re_abc123..."
 EMAIL_FROM="Kollect-It <onboarding@resend.dev>"
@@ -46,6 +48,7 @@ ADMIN_EMAIL="your-email@example.com"
 ```
 
 **Netlify**:
+
 1. Site settings → Environment variables
 2. Add:
    - `RESEND_API_KEY`: Your API key
@@ -58,6 +61,7 @@ ADMIN_EMAIL="your-email@example.com"
 Visit: `https://your-site.netlify.app/api/email/test`
 
 **Expected Response**:
+
 ```json
 {
   "success": true,
@@ -69,12 +73,14 @@ Visit: `https://your-site.netlify.app/api/email/test`
 ```
 
 **Check Inbox**:
+
 - Verify email received
 - Subject: "Kollect-It Email Test - Configuration Successful! ✅"
 - From: Kollect-It
 - Contains configuration details
 
 **If email not received**:
+
 1. Check spam/junk folder
 2. Verify `RESEND_API_KEY` is correct
 3. Check Resend logs: https://resend.com/emails
@@ -91,6 +97,7 @@ Visit: `https://your-site.netlify.app/api/email/test`
 **Subject**: "Order Confirmation - #{orderNumber}"
 
 **Includes**:
+
 - Order number
 - Order summary (items, quantities, prices)
 - Totals (subtotal, tax, shipping, total)
@@ -107,6 +114,7 @@ Visit: `https://your-site.netlify.app/api/email/test`
 **Subject**: "New Order - #{orderNumber}"
 
 **Includes**:
+
 - Order number and timestamp
 - Customer details (name, email, phone)
 - Order items
@@ -123,6 +131,7 @@ Visit: `https://your-site.netlify.app/api/email/test`
 **Subject**: "Order Update - #{orderNumber}"
 
 **Includes**:
+
 - Order number
 - New status (Processing, Shipped, Delivered)
 - Tracking number (if shipped)
@@ -138,6 +147,7 @@ Visit: `https://your-site.netlify.app/api/email/test`
 ### Why Verify Domain
 
 **Testing** (onboarding@resend.dev):
+
 - ✅ Works immediately
 - ✅ No setup required
 - ❌ "via resend.dev" in email
@@ -145,6 +155,7 @@ Visit: `https://your-site.netlify.app/api/email/test`
 - ❌ Limited to 100/day
 
 **Production** (your-domain.com):
+
 - ✅ Professional "From" address
 - ✅ Higher deliverability
 - ✅ No "via" message
@@ -165,18 +176,21 @@ Visit: `https://your-site.netlify.app/api/email/test`
 Resend will provide DNS records to add:
 
 **SPF Record** (Type: TXT):
+
 ```
 Name: @
 Value: v=spf1 include:_spf.resend.com ~all
 ```
 
 **DKIM Record** (Type: TXT):
+
 ```
 Name: resend._domainkey
 Value: [Long string provided by Resend]
 ```
 
 **DMARC Record** (Type: TXT):
+
 ```
 Name: _dmarc
 Value: v=DMARC1; p=none; rua=mailto:your-email@example.com
@@ -185,12 +199,14 @@ Value: v=DMARC1; p=none; rua=mailto:your-email@example.com
 #### 3. Add Records to DNS Provider
 
 **Where to add** (depends on domain registrar):
+
 - **Namecheap**: Advanced DNS → Add New Record
 - **GoDaddy**: DNS → Manage Zones → Add Record
 - **Cloudflare**: DNS → Add Record
 - **Google Domains**: DNS → Custom records
 
 **Add each record**:
+
 1. Copy **Name** from Resend
 2. Select **Type** (TXT)
 3. Copy **Value** from Resend
@@ -208,6 +224,7 @@ Value: v=DMARC1; p=none; rua=mailto:your-email@example.com
 After verification, update environment variable:
 
 **Netlify**:
+
 ```bash
 EMAIL_FROM="Kollect-It <noreply@yourdomain.com>"
 ```
@@ -221,6 +238,7 @@ EMAIL_FROM="Kollect-It <noreply@yourdomain.com>"
 ### Resend Dashboard
 
 **View Sent Emails**:
+
 1. Go to: **https://resend.com/emails**
 2. See all sent emails
 3. Click any email for details:
@@ -230,6 +248,7 @@ EMAIL_FROM="Kollect-It <noreply@yourdomain.com>"
    - Full content preview
 
 **Filter Options**:
+
 - By date range
 - By status (delivered, bounced, failed)
 - By recipient
@@ -248,16 +267,19 @@ EMAIL_FROM="Kollect-It <noreply@yourdomain.com>"
 ### Troubleshooting Bounces
 
 **Soft Bounce** (temporary):
+
 - Inbox full
 - Server temporarily unavailable
 - Email too large
 
 **Hard Bounce** (permanent):
+
 - Invalid email address
 - Domain doesn't exist
 - Recipient blocked sender
 
 **Fix**:
+
 1. Verify email address format
 2. Remove invalid addresses
 3. Check domain reputation
@@ -270,6 +292,7 @@ EMAIL_FROM="Kollect-It <noreply@yourdomain.com>"
 ### Emails Not Sending
 
 **Check**:
+
 1. `RESEND_API_KEY` is set correctly
 2. No extra spaces or quotes
 3. API key starts with `re_`
@@ -277,11 +300,13 @@ EMAIL_FROM="Kollect-It <noreply@yourdomain.com>"
 5. Check health endpoint: `/api/health`
 
 **Test**:
+
 ```bash
 curl https://your-site.netlify.app/api/email/test
 ```
 
 **Check Resend Logs**:
+
 1. Go to: https://resend.com/emails
 2. Look for failed sends
 3. Click failed email for error details
@@ -289,6 +314,7 @@ curl https://your-site.netlify.app/api/email/test
 ### Emails Going to Spam
 
 **Improve Deliverability**:
+
 1. ✅ Verify your domain (most important)
 2. ✅ Use professional "From" name
 3. ✅ Warm up new domain (start with low volume)
@@ -296,6 +322,7 @@ curl https://your-site.netlify.app/api/email/test
 5. ✅ Don't use spam trigger words
 
 **Spam Trigger Words to Avoid**:
+
 - "Free", "Win", "Prize"
 - "Act now", "Limited time"
 - Excessive exclamation marks!!!
@@ -303,12 +330,14 @@ curl https://your-site.netlify.app/api/email/test
 ### Wrong "From" Address
 
 **Check**:
+
 1. `EMAIL_FROM` format: `Name <email@domain.com>`
 2. No quotes around entire value
 3. Email domain is verified (for production)
 4. Redeploy after changing
 
 **Valid Formats**:
+
 ```bash
 # ✅ Correct
 EMAIL_FROM="Kollect-It <noreply@yourdomain.com>"
@@ -323,6 +352,7 @@ EMAIL_FROM="Kollect-It noreply@yourdomain.com"  # Missing brackets
 ### Test Email Not Received
 
 **Check**:
+
 1. Spam/junk folder
 2. Promotions tab (Gmail)
 3. `ADMIN_EMAIL` is correct
@@ -330,6 +360,7 @@ EMAIL_FROM="Kollect-It noreply@yourdomain.com"  # Missing brackets
 5. Free tier limit not exceeded (100/day)
 
 **Debug**:
+
 ```bash
 # Check response
 curl https://your-site.netlify.app/api/email/test
@@ -382,6 +413,7 @@ Email templates are React components using `@react-email/components`.
 Edit: `src/components/emails/OrderConfirmation.tsx`
 
 **Customizable**:
+
 - Logo (replace ImageKit URL)
 - Colors (update Tailwind classes)
 - Font (change font family)
@@ -389,6 +421,7 @@ Edit: `src/components/emails/OrderConfirmation.tsx`
 - Content (add/remove sections)
 
 **Preview Changes**:
+
 ```bash
 # Run email dev server
 bun run email:dev
@@ -398,6 +431,7 @@ bun run email:dev
 ```
 
 **Test After Changes**:
+
 ```bash
 # Send test email with new template
 curl https://your-site.netlify.app/api/email/test

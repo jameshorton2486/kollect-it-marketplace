@@ -1,0 +1,8 @@
+Kollect-It Design Tokens – WCAG Contrast Results (2025-10-30)
+
+PASS Primary text on white: 13.97:1
+PASS CTA text on button: 11.50:1
+PASS Link on white: 5.72:1
+PASS Accent on white: 5.03:1
+
+Checks executed via `bun run test:contrast` (scripts/check-contrast.mjs).

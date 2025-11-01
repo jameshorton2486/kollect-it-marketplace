@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from "crypto";
 
 // Lazy configuration access to avoid crashing dev/build when env is missing
 export function getImagekitConfig() {
@@ -6,7 +6,7 @@ export function getImagekitConfig() {
   const publicKey = process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY;
   const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
   if (!urlEndpoint || !publicKey || !privateKey) {
-    throw new Error('ImageKit environment variables are not fully configured');
+    throw new Error("ImageKit environment variables are not fully configured");
   }
   return { urlEndpoint, publicKey, privateKey };
 }
@@ -21,9 +21,9 @@ export async function getImageKitAuthParams() {
   const expire = Math.floor(Date.now() / 1000) + 600; // 10 minutes from now
 
   const signature = crypto
-    .createHmac('sha1', privateKey)
+    .createHmac("sha1", privateKey)
     .update(token + expire)
-    .digest('hex');
+    .digest("hex");
 
   return {
     token,
@@ -51,8 +51,8 @@ export function getImageKitUrl(path: string, transformation?: string): string {
  * Common transformation presets
  */
 export const imageTransformations = {
-  thumbnail: 'w-400,h-400,fo-auto,q-80',
-  productCard: 'w-600,h-600,fo-auto,q-85',
-  productDetail: 'w-1200,h-1200,fo-auto,q-90',
-  gallery: 'w-1600,h-1600,fo-auto,q-95',
+  thumbnail: "w-400,h-400,fo-auto,q-80",
+  productCard: "w-600,h-600,fo-auto,q-85",
+  productDetail: "w-1200,h-1200,fo-auto,q-90",
+  gallery: "w-1600,h-1600,fo-auto,q-95",
 };

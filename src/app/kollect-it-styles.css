@@ -2956,7 +2956,6 @@ input[type="search"].search-input {
 /* Print styles - maintain luxury aesthetic */
 @media print {
   .back-to-top,
-  .newsletter-modal,
   .cart-icon-wrapper {
     display: none !important;
   }

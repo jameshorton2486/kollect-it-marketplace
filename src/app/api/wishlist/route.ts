@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 // GET - Fetch user's wishlist
 export async function GET() {
@@ -9,7 +9,7 @@ export async function GET() {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const user = await prisma.user.findUnique({
@@ -18,7 +18,7 @@ export async function GET() {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const wishlistItems = await prisma.wishlistItem.findMany({
@@ -27,20 +27,23 @@ export async function GET() {
         product: {
           include: {
             images: {
-              orderBy: { order: 'asc' },
+              orderBy: { order: "asc" },
               take: 1,
             },
             category: true,
           },
         },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json(wishlistItems);
   } catch (error) {
-    console.error('Error fetching wishlist:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error("Error fetching wishlist:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
 
@@ -50,13 +53,16 @@ export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { productId } = await request.json();
 
     if (!productId) {
-      return NextResponse.json({ error: 'Product ID required' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Product ID required" },
+        { status: 400 },
+      );
     }
 
     const user = await prisma.user.findUnique({
@@ -65,7 +71,7 @@ export async function POST(request: Request) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     // Check if item already in wishlist
@@ -79,7 +85,10 @@ export async function POST(request: Request) {
     });
 
     if (existing) {
-      return NextResponse.json({ message: 'Already in wishlist' }, { status: 200 });
+      return NextResponse.json(
+        { message: "Already in wishlist" },
+        { status: 200 },
+      );
     }
 
     const wishlistItem = await prisma.wishlistItem.create({
@@ -91,8 +100,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json(wishlistItem, { status: 201 });
   } catch (error) {
-    console.error('Error adding to wishlist:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error("Error adding to wishlist:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
 
@@ -102,13 +114,16 @@ export async function DELETE(request: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { productId } = await request.json();
 
     if (!productId) {
-      return NextResponse.json({ error: 'Product ID required' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Product ID required" },
+        { status: 400 },
+      );
     }
 
     const user = await prisma.user.findUnique({
@@ -117,7 +132,7 @@ export async function DELETE(request: Request) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     await prisma.wishlistItem.delete({
@@ -129,9 +144,12 @@ export async function DELETE(request: Request) {
       },
     });
 
-    return NextResponse.json({ message: 'Removed from wishlist' });
+    return NextResponse.json({ message: "Removed from wishlist" });
   } catch (error) {
-    console.error('Error removing from wishlist:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error("Error removing from wishlist:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }

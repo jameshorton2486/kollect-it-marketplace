@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { getImageKitAuthParams } from '@/lib/imagekit';
+import { NextResponse } from "next/server";
+import { getImageKitAuthParams } from "@/lib/imagekit";
 
 /**
  * ImageKit Authentication Endpoint
@@ -12,10 +12,10 @@ export async function GET() {
     const authParams = await getImageKitAuthParams();
     return NextResponse.json(authParams);
   } catch (error) {
-    console.error('ImageKit auth error:', error);
+    console.error("ImageKit auth error:", error);
     return NextResponse.json(
-      { error: 'Failed to generate authentication parameters' },
-      { status: 500 }
+      { error: "Failed to generate authentication parameters" },
+      { status: 500 },
     );
   }
 }

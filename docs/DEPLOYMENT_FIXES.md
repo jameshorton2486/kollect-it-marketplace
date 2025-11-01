@@ -35,6 +35,7 @@ Your Netlify deployment at https://same-a42equ68lfz-latest.netlify.app/ was show
 1. **`netlify.toml`**
 
    **Before:**
+
    ```toml
    [build]
      command = "bun run build"
@@ -45,6 +46,7 @@ Your Netlify deployment at https://same-a42equ68lfz-latest.netlify.app/ was show
    ```
 
    **After:**
+
    ```toml
    [build]
      command = "npm install && npx prisma generate && npm run build"
@@ -62,7 +64,7 @@ Your Netlify deployment at https://same-a42equ68lfz-latest.netlify.app/ was show
 
 ## ⚡ Quick Action Items
 
-### CRITICAL - Do These First:
+### CRITICAL - Do These First
 
 1. **Connect GitHub Repository**
    - Log into Netlify
@@ -83,9 +85,11 @@ Your Netlify deployment at https://same-a42equ68lfz-latest.netlify.app/ was show
    - Update `DATABASE_URL` environment variable
 
 4. **Generate NEXTAUTH_SECRET**
+
    ```bash
    openssl rand -base64 32
    ```
+
    - Add this to Netlify environment variables
 
 5. **Set NEXTAUTH_URL**
@@ -171,6 +175,7 @@ Once you follow the deployment guide, your Next.js marketplace will deploy corre
 ---
 
 **Files modified in this fix:**
+
 - ✅ Created `.env.example`
 - ✅ Fixed `netlify.toml`
 - ✅ Created deployment guides

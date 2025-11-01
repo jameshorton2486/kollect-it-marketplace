@@ -10,6 +10,29 @@
 
 @layer base {
   :root {
+    /* KI Global Tokens (Same.dev refresh) */
+    /* Colors */
+    --ki-bg: #FAFAF7;
+    --ki-fg: #1E1E1E;
+    --ki-muted: #6C6C6C;
+    --ki-border: #E5E2DB;
+    --ki-gold: #C7A85E;
+    --ki-gold-ink: #B8994E;
+    --ki-cream: #F8F6F2;
+    --ki-overlay: rgba(255, 255, 255, .6);
+
+    /* Typography */
+    --ki-font-heading: "Playfair Display", ui-serif, Georgia, serif;
+    --ki-font-body: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+
+    /* Radii, rhythm, motion */
+    --ki-radius: 16px;
+    --ki-radius-lg: 20px;
+    --ki-gap: 16px;
+    --ki-section-pad: 100px;
+    --ki-card-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+    --ki-ease: cubic-bezier(.22, .61, .36, 1);
+    --ki-duration: 300ms;
     /* HSL token ramp for Tailwind semantic mapping */
     /* Ink (text) */
     --ink-900: 0 0% 17%;   /* #2C2C2C */
@@ -33,9 +56,9 @@
     --cta-600: 212 52% 21%; /* darker hover */
     --cta-400: 212 52% 35%; /* ring */
 
-    /* Link */
-    --link-600: 212 28% 49%; /* ~#5C7BA0 */
-    --link-700: 212 28% 43%; /* ~#4B688E */
+  /* Link: darken default to meet AA on white */
+  --link-600: 212 28% 43%; /* ~#4B688E */
+  --link-700: 212 28% 38%; /* darker hover ~#405A7A */
 
     /* Borders */
     --border-300: 36 9% 86%;  /* ~#E0DDD9 */
@@ -58,8 +81,8 @@
     /* Design Tokens: Interactive */
     --color-cta: #1E3A5F;           /* Deep navy CTA */
     --color-cta-hover: #254B74;     /* Hover */
-    --color-link: #5C7BA0;          /* Accessible blue-gray */
-    --color-link-hover: #4B688E;    /* Link hover */
+  --color-link: #4B688E;          /* Darker default for AA */
+  --color-link-hover: #405A7A;    /* Darker hover */
 
     /* Design Tokens: System States */
     --color-success: #2D6A4F;
@@ -164,6 +187,13 @@
     color: var(--color-text-primary);
   }
 
+  /* KI base overrides */
+  html, body {
+    background: var(--ki-bg);
+    color: var(--ki-fg);
+    font-family: var(--ki-font-body);
+  }
+
   /* Global Enhancements - Parallax, Counters, Lightbox */
   [data-parallax] {
     transform: translateY(0);
@@ -191,6 +221,9 @@
     letter-spacing: 0.01em;
     color: var(--color-text-primary);
   }
+
+  /* Prefer KI heading font for top levels */
+  h1, h2, h3 { font-family: var(--ki-font-heading); letter-spacing: .2px; }
 
   h1 {
     font-size: clamp(2.5rem, 5vw, 4rem);
@@ -254,6 +287,72 @@
     padding-top: clamp(3rem, 8vw, 6rem);
     padding-bottom: clamp(3rem, 8vw, 6rem);
   }
+
+  /* Optional hero background utility (apply in markup if desired) */
+  .with-hero-bg {
+    background-image: url('/images/hero-antique-gallery.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .with-hero-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--ki-overlay);
+    pointer-events: none;
+  }
+
+  /* KI Utilities */
+  .ki-section { padding: var(--ki-section-pad) 0; }
+  .ki-container { width: min(1200px, 92vw); margin: 0 auto; }
+
+  .ki-card {
+    background: #fff;
+    border: 1px solid var(--ki-border);
+    border-radius: var(--ki-radius);
+    box-shadow: var(--ki-card-shadow);
+    overflow: hidden;
+    transition: transform var(--ki-duration) var(--ki-ease), box-shadow var(--ki-duration) var(--ki-ease);
+  }
+  .ki-card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,.12); }
+
+  .ki-btn-primary {
+    display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+    padding: .9rem 1.3rem; border-radius: var(--ki-radius-lg);
+    background: var(--ki-gold); color: #1B1B1B; font-weight: 600; border: 1px solid transparent;
+    transition: transform var(--ki-duration) var(--ki-ease), box-shadow var(--ki-duration) var(--ki-ease), background var(--ki-duration) var(--ki-ease);
+  }
+  .ki-btn-primary:hover { background: var(--ki-gold-ink); box-shadow: 0 6px 20px rgba(199,168,94,.35); transform: translateY(-1px); }
+
+  .ki-grid { display: grid; gap: var(--ki-gap); }
+  .ki-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width:1024px) { .ki-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width:640px) { .ki-grid-3 { grid-template-columns: 1fr; } }
+
+  .ki-img-zoom img { transition: transform var(--ki-duration) var(--ki-ease); }
+  .ki-img-zoom:hover img { transform: scale(1.04); }
+
+  .ki-gold-underline { position: relative; display: inline-block; padding-bottom: .3rem; }
+  .ki-gold-underline:after {
+    content: ""; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; width: 72px; height: 3px; background: var(--ki-gold); border-radius: 2px;
+  }
+
+  .ki-parchment { background: var(--ki-cream); }
+  .ki-quote { font-style: italic; }
+  .ki-muted { color: var(--ki-muted); }
+  .ki-smallcaps { text-transform: uppercase; letter-spacing: 1.5px; }
+
+  @keyframes ki-fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .ki-reveal { opacity: 0; animation: ki-fade-up .6s var(--ki-ease) forwards; }
+  .ki-reveal.delay-1 { animation-delay: .1s; }
+  .ki-reveal.delay-2 { animation-delay: .2s; }
+  .ki-reveal.delay-3 { animation-delay: .3s; }
+
+  .ki-card-overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: .6rem .8rem; background: rgba(0,0,0,.5); color: #fff; font-weight: 600; }
+  .ki-round { border-radius: var(--ki-radius-lg); overflow: hidden; }
+  .ki-border-gold { border: 1px solid rgba(199,168,94,.45); }
+  .ki-border-gold:hover { border-color: var(--ki-gold); }
 
   /* Font family helpers matching tokenized typography */
   .font-serif { font-family: var(--font-serif); }
@@ -322,4 +421,51 @@
   .card:hover {
     @apply shadow-elevation-lg;
   }
+}
+
+/* KI global hero */
+.ki-hero {
+  position: relative;
+  min-height: 68vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+}
+.ki-hero:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, var(--ki-overlay), rgba(255,255,255,0) 60%);
+}
+.ki-hero > * { position: relative; z-index: 1; }
+
+/* Home hero background without inline style */
+.home-hero-bg { background-image: url('/images/hero-antique-gallery.jpg'); }
+
+/* 3A.2: Global Base Styles additions */
+@layer base {
+  /* Keep defaults, add strong semantics */
+  strong { @apply font-semibold text-ink; }
+}
+
+@layer components {
+  /* Buttons aligned to token system */
+  .btn-secondary {
+    @apply bg-surface-1 text-ink rounded-lg px-6 py-3 border border-border-neutral
+           hover:border-ink focus:outline-none focus:ring-2 focus:ring-cta focus:ring-offset-2
+           transition-all duration-200 font-medium;
+  }
+
+  .btn-accent {
+    @apply bg-gold text-white rounded-lg px-6 py-3 shadow-elevation-sm
+           hover:bg-gold-hover hover:shadow-elevation-md
+           focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2
+           transition-all duration-200 font-medium;
+  }
+
+  /* Section Patterns */
+  .section-alt { @apply bg-surface-1; }
+  .section-elevated { @apply bg-surface-2 rounded-lg shadow-elevation-md p-6; }
 }

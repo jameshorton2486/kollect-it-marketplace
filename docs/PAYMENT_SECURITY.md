@@ -11,12 +11,14 @@ The Kollect-It checkout system implements **server-side validation** to prevent 
 ### Why This Matters
 
 **Without server-side validation:**
+
 - Malicious users can modify JavaScript to change prices
 - $1000 product could be purchased for $1
 - Inactive products could be purchased
 - Invalid quantities could cause inventory issues
 
 **With server-side validation (our implementation):**
+
 - ✅ All prices verified against database
 - ✅ Product availability checked in real-time
 - ✅ Quantities validated before payment
@@ -65,6 +67,7 @@ sequenceDiagram
 **Purpose**: Validates cart items against database
 
 **Request:**
+
 ```json
 {
   "items": [
@@ -78,6 +81,7 @@ sequenceDiagram
 ```
 
 **Response (Success):**
+
 ```json
 {
   "valid": true,
@@ -98,6 +102,7 @@ sequenceDiagram
 ```
 
 **Response (Error):**
+
 ```json
 {
   "error": "Product is no longer available"
@@ -135,6 +140,7 @@ const paymentIntent = await stripe.paymentIntents.create({
 ```
 
 **Key Points:**
+
 - Client-provided prices are **never** used
 - Cart is validated **every time** before charging
 - Payment amount comes from database, not client
@@ -225,6 +231,7 @@ curl -X POST http://localhost:3000/api/checkout/validate-cart \
 ```
 
 **Expected Result:**
+
 ```json
 {
   "valid": true,
@@ -250,6 +257,7 @@ curl -X POST http://localhost:3000/api/checkout/validate-cart \
 ```
 
 **Expected Result:**
+
 ```json
 {
   "error": "Product not found"
@@ -271,6 +279,7 @@ curl -X POST http://localhost:3000/api/checkout/validate-cart \
 ```
 
 **Expected Result:**
+
 ```json
 {
   "error": "Invalid quantity for \"Product Name\""
@@ -286,6 +295,7 @@ curl -X POST http://localhost:3000/api/checkout/validate-cart \
 **Attack:** User modifies JavaScript to change prices in cart
 
 **Prevention:**
+
 ```typescript
 // ❌ VULNERABLE CODE (don't do this)
 const total = items.reduce((sum, item) => 
@@ -302,6 +312,7 @@ const total = validatedCart.total; // From database
 **Attack:** User saves product URL, product gets deleted, user tries to buy
 
 **Prevention:**
+
 ```typescript
 if (product.status !== 'active') {
   return error('Product no longer available');
@@ -313,6 +324,7 @@ if (product.status !== 'active') {
 **Attack:** User sets quantity to -1000 to get refund
 
 **Prevention:**
+
 ```typescript
 if (quantity < 1 || quantity > 99) {
   return error('Invalid quantity');
@@ -324,6 +336,7 @@ if (quantity < 1 || quantity > 99) {
 **Attack:** User calls create-order API directly without paying
 
 **Prevention:**
+
 ```typescript
 const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 if (paymentIntent.status !== 'succeeded') {
@@ -350,6 +363,7 @@ console.log('Cart validation:', {
 ### Monitoring for Fraud
 
 Watch for:
+
 - Multiple validation failures from same IP
 - Large price discrepancies (client vs server)
 - Attempts to purchase inactive products
@@ -365,6 +379,7 @@ Watch for:
 Current: 8% sales tax (hardcoded)
 
 To change:
+
 ```typescript
 // src/app/api/checkout/validate-cart/route.ts
 const tax = subtotal * 0.08; // Change 0.08 to your rate
@@ -375,6 +390,7 @@ const tax = subtotal * 0.08; // Change 0.08 to your rate
 Current: Free shipping
 
 To add shipping costs:
+
 ```typescript
 // Calculate shipping based on cart value or weight
 const shipping = calculateShipping(validatedCart);
@@ -385,6 +401,7 @@ const shipping = calculateShipping(validatedCart);
 Current: 1-99 items per product
 
 To change:
+
 ```typescript
 if (quantity < 1 || quantity > 99) { // Change 99 to your max
   return error('Invalid quantity');

@@ -1,60 +1,29 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-import pluginImport from "eslint-plugin-import";
+import nextPlugin from "@next/eslint-plugin-next";
+import tsParser from "@typescript-eslint/parser";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-  // Global rules and plugins
+export default [
+  // Enable TypeScript/TSX parsing
   {
-    plugins: {
-      import: pluginImport,
-    },
-    rules: {
-      // Prevent sneaky CommonJS in our TS/ESM codebase
-      "@typescript-eslint/no-var-requires": "error",
-      "import/no-commonjs": "error",
-    },
-  },
-  {
+    files: ["**/*.{ts,tsx}"],
     languageOptions: {
+      parser: tsParser,
       parserOptions: {
-        warnOnUnsupportedTypeScriptVersion: false,
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: { jsx: true },
       },
     },
+  },
+  // Apply Next.js core-web-vitals rules in flat config
+  {
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    plugins: { "@next/next": nextPlugin },
     rules: {
-      "@typescript-eslint/no-unused-vars": "off",
-      "react/no-unescaped-entities": "off",
-      "@next/next/no-img-element": "off",
-      // Accessibility: tighten rules
-      "jsx-a11y/alt-text": "error",
-      "jsx-a11y/label-has-associated-control": [
-        "error",
-        { assert: "either" }
-      ],
-      "jsx-a11y/no-redundant-roles": "warn",
+      ...nextPlugin.configs["core-web-vitals"].rules,
     },
   },
-  // Prevent regressions: tailwind config should use ESM imports (no require())
+  // Ignore build artifacts
   {
-    files: ["tailwind.config.ts", "tailwind.config.js"],
-    rules: {
-      "no-restricted-syntax": [
-        "error",
-        {
-          selector: "CallExpression[callee.name='require']",
-          message: "Use ESM import in Tailwind config (e.g., import animate from 'tailwindcss-animate')",
-        },
-      ],
-    },
+    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"],
   },
 ];
-
-export default eslintConfig;

@@ -9,10 +9,12 @@
 ### Database (Supabase PostgreSQL)
 
 #### `DATABASE_URL` (Required)
+
 **Purpose**: Pooled connection for all application queries
 **Format**: `postgresql://postgres:<PASSWORD>@aws-0-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true`
 
 **Where to get**:
+
 1. Go to https://supabase.com/dashboard
 2. Select your project
 3. Settings → Database
@@ -22,10 +24,12 @@
 **Critical**: Use port **6543** (pooled) for application queries
 
 #### `DIRECT_URL` (Required)
+
 **Purpose**: Direct connection for migrations ONLY
 **Format**: `postgresql://postgres:<PASSWORD>@aws-0-us-east-1.pooler.supabase.com:5432/postgres`
 
 **Where to get**:
+
 1. Same Supabase dashboard
 2. Connection string → **Direct Connection** (port 5432)
 3. Used ONLY for `bunx prisma migrate deploy` (local execution)
@@ -37,10 +41,12 @@
 ### Authentication (NextAuth.js)
 
 #### `NEXTAUTH_SECRET` (Required)
+
 **Purpose**: Encrypts session tokens and cookies
 **Format**: Random 32-byte base64 string
 
 **How to generate**:
+
 ```bash
 openssl rand -base64 32
 ```
@@ -50,10 +56,12 @@ openssl rand -base64 32
 **Critical**: Generate a **fresh** secret, never reuse examples
 
 #### `NEXTAUTH_URL` (Required)
+
 **Purpose**: Callback URL for authentication
 **Format**: Your site's URL
 
 **Values**:
+
 - **Local dev**: `http://localhost:3000`
 - **Netlify**: `https://your-site.netlify.app` (set AFTER first deploy)
 
@@ -64,10 +72,12 @@ openssl rand -base64 32
 ### Payments (Stripe)
 
 #### `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` (Required)
+
 **Purpose**: Client-side Stripe initialization
 **Format**: `pk_test_...` (test) or `pk_live_...` (production)
 
 **Where to get**:
+
 1. Go to https://dashboard.stripe.com/test/apikeys
 2. Copy **Publishable key**
 3. **Start with test keys** (`pk_test_...`)
@@ -75,10 +85,12 @@ openssl rand -base64 32
 **Security**: Safe to expose in client-side code (prefix `NEXT_PUBLIC_`)
 
 #### `STRIPE_SECRET_KEY` (Required)
+
 **Purpose**: Server-side payment processing
 **Format**: `sk_test_...` (test) or `sk_live_...` (production)
 
 **Where to get**:
+
 1. Same Stripe dashboard
 2. Copy **Secret key**
 3. **Start with test keys** (`sk_test_...`)
@@ -92,10 +104,12 @@ openssl rand -base64 32
 ### Email (Resend)
 
 #### `RESEND_API_KEY` (Required)
+
 **Purpose**: Send transactional emails
 **Format**: `re_...`
 
 **Where to get**:
+
 1. Go to https://resend.com/api-keys
 2. Click "Create API Key"
 3. Name: "Kollect-It Production"
@@ -104,14 +118,17 @@ openssl rand -base64 32
 **Security**: **NEVER expose** - server-side only
 
 #### `EMAIL_FROM` (Required)
+
 **Purpose**: "From" address for emails
 **Format**: `Name <email@domain.com>`
 
 **Values**:
+
 - **Testing**: `Kollect-It <onboarding@resend.dev>` (Resend sandbox)
 - **Production**: `Kollect-It <noreply@your-verified-domain.com>`
 
 **For production**:
+
 1. Go to https://resend.com/domains
 2. Add your domain
 3. Add DNS records to your domain registrar
@@ -119,6 +136,7 @@ openssl rand -base64 32
 5. Use verified domain in `EMAIL_FROM`
 
 #### `ADMIN_EMAIL` (Required)
+
 **Purpose**: Where admin order notifications are sent
 **Format**: `your-email@example.com`
 
@@ -129,10 +147,12 @@ openssl rand -base64 32
 ### Images (ImageKit CDN)
 
 #### `NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT` (Required)
+
 **Purpose**: Base URL for image uploads/delivery
 **Format**: `https://ik.imagekit.io/<YOUR_ID>/`
 
 **Where to get**:
+
 1. Go to https://imagekit.io/dashboard
 2. Copy "URL-endpoint" (top right)
 3. **Must end with `/`**
@@ -140,10 +160,12 @@ openssl rand -base64 32
 **Security**: Safe to expose (prefix `NEXT_PUBLIC_`)
 
 #### `NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY` (Required)
+
 **Purpose**: Client-side image upload authentication
 **Format**: `public_...`
 
 **Where to get**:
+
 1. ImageKit dashboard
 2. Developer options → API keys
 3. Copy "Public key"
@@ -151,10 +173,12 @@ openssl rand -base64 32
 **Security**: Safe to expose (prefix `NEXT_PUBLIC_`)
 
 #### `IMAGEKIT_PRIVATE_KEY` (Required)
+
 **Purpose**: Server-side image operations
 **Format**: `private_...`
 
 **Where to get**:
+
 1. Same ImageKit dashboard
 2. Developer options → API keys
 3. Copy "Private key"
@@ -168,15 +192,18 @@ openssl rand -base64 32
 ### Local Development
 
 #### 1. Copy Template
+
 ```bash
 cd kollect-it-marketplace
 cp .env.example .env
 ```
 
 #### 2. Fill in Values
+
 Edit `.env` and replace all placeholders with real values from service dashboards above.
 
 **Example**:
+
 ```bash
 # Before
 DATABASE_URL="postgresql://postgres:<PASSWORD>@..."
@@ -186,6 +213,7 @@ DATABASE_URL="postgresql://postgres:MyRealPassword123@aws-0-us-east-1.pooler.sup
 ```
 
 #### 3. Verify
+
 ```bash
 # Start dev server
 bun run dev
@@ -194,6 +222,7 @@ bun run dev
 ```
 
 #### 4. Never Commit
+
 ```bash
 # Verify .env is ignored
 git status
@@ -206,13 +235,16 @@ git status
 ### Netlify Deployment
 
 #### 1. Access Environment Variables
+
 1. Go to https://app.netlify.com
 2. Select your site
 3. Site settings → Environment variables
 4. Click "Add a variable"
 
 #### 2. Add Each Variable
+
 For **each** variable above:
+
 1. **Key**: Variable name (e.g., `DATABASE_URL`)
 2. **Value**: Real value from service dashboard
 3. **Scopes**: Production, Deploy previews, Branch deploys (all checked)
@@ -234,7 +266,9 @@ For **each** variable above:
 - [ ] `IMAGEKIT_PRIVATE_KEY`
 
 #### 4. Deploy
+
 After adding all variables:
+
 1. Deploys → Trigger deploy → Deploy site
 2. Wait for build to complete
 3. Verify: `https://your-site.netlify.app/api/health`
@@ -248,6 +282,7 @@ After adding all variables:
 Visit: `https://your-site.netlify.app/api/health`
 
 **Healthy response**:
+
 ```json
 {
   "status": "healthy",
@@ -269,6 +304,7 @@ Visit: `https://your-site.netlify.app/api/health`
 **All variables should show `true`**
 
 If any show `false`:
+
 1. Go back to Netlify environment variables
 2. Add the missing variable
 3. Redeploy
@@ -303,27 +339,32 @@ If any show `false`:
 If secrets are exposed:
 
 ### 1. Database
+
 1. Supabase → Settings → Database → Reset database password
 2. Update `DATABASE_URL` and `DIRECT_URL` everywhere
 
 ### 2. NEXTAUTH_SECRET
+
 1. Generate new: `openssl rand -base64 32`
 2. Update in Netlify environment variables
 3. Redeploy
 4. All users will be logged out (expected)
 
 ### 3. Stripe
+
 1. Stripe Dashboard → Developers → API keys → Roll keys
 2. Update `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` and `STRIPE_SECRET_KEY`
 3. Redeploy
 
 ### 4. Resend
+
 1. Resend Dashboard → API Keys → Revoke old key
 2. Create new API key
 3. Update `RESEND_API_KEY`
 4. Redeploy
 
 ### 5. ImageKit
+
 1. ImageKit Dashboard → Developer options → Regenerate keys
 2. Update all 3 ImageKit variables
 3. Redeploy
@@ -335,6 +376,7 @@ If secrets are exposed:
 ### Variable not working after adding
 
 **Fix**:
+
 1. Verify variable name is **exact** (case-sensitive)
 2. Verify no extra spaces in value
 3. Redeploy after changing variables
@@ -344,6 +386,7 @@ If secrets are exposed:
 ### Database connection fails
 
 **Check**:
+
 1. `DATABASE_URL` uses port **6543** (pooled)
 2. Includes `?pgbouncer=true` at end
 3. Password is correct
@@ -352,6 +395,7 @@ If secrets are exposed:
 ### Authentication fails
 
 **Check**:
+
 1. `NEXTAUTH_URL` matches site URL **exactly**
 2. No trailing slash: `https://site.netlify.app` (correct)
 3. No trailing slash: `https://site.netlify.app/` (wrong)
@@ -360,6 +404,7 @@ If secrets are exposed:
 ### Emails not sending
 
 **Check**:
+
 1. `RESEND_API_KEY` is set
 2. For testing: Use `EMAIL_FROM="Kollect-It <onboarding@resend.dev>"`
 3. For production: Verify domain in Resend dashboard

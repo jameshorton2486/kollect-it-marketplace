@@ -14,22 +14,26 @@ Complete this checklist before deploying to Netlify.
 
 Set these in Netlify dashboard before deploying:
 
-### Critical (App won't work without these):
+### Critical (App won't work without these)
+
 - [ ] `DATABASE_URL` - PostgreSQL connection string
 - [ ] `NEXTAUTH_SECRET` - Random secret (generate with: `openssl rand -base64 32`)
 - [ ] `NEXTAUTH_URL` - Your Netlify URL (e.g., `https://your-site.netlify.app`)
 - [ ] `NODE_ENV` - Set to `production`
 
-### Payment Processing:
+### Payment Processing
+
 - [ ] `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
 - [ ] `STRIPE_SECRET_KEY`
 
-### Image Hosting:
+### Image Hosting
+
 - [ ] `NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT`
 - [ ] `NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY`
 - [ ] `IMAGEKIT_PRIVATE_KEY`
 
-### Email Notifications:
+### Email Notifications
+
 - [ ] `RESEND_API_KEY`
 - [ ] `EMAIL_FROM`
 - [ ] `ADMIN_EMAIL`
@@ -111,21 +115,25 @@ Set these in Netlify dashboard before deploying:
 ## 📚 Quick Reference
 
 **Netlify CLI Deploy:**
+
 ```bash
 netlify deploy --prod
 ```
 
 **Set Environment Variables:**
+
 ```bash
 netlify env:set VARIABLE_NAME "value"
 ```
 
 **View Deployment:**
+
 ```bash
 netlify open
 ```
 
 **View Build Logs:**
+
 ```bash
 netlify deploy:list
 ```

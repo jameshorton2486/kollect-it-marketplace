@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 /**
  * Environment Variable Diagnostics
- * 
+ *
  * SECURITY: Only returns variable NAMES, never values
- * 
+ *
  * Returns:
  * - 200: All required variables present
  * - 206: Some variables missing (partial content)
@@ -14,18 +14,18 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   // Define all required environment variables
   const requiredVars = [
-    'DATABASE_URL',
-    'DIRECT_URL',
-    'NEXTAUTH_SECRET',
-    'NEXTAUTH_URL',
-    'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
-    'STRIPE_SECRET_KEY',
-    'RESEND_API_KEY',
-    'EMAIL_FROM',
-    'ADMIN_EMAIL',
-    'NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT',
-    'NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY',
-    'IMAGEKIT_PRIVATE_KEY',
+    "DATABASE_URL",
+    "DIRECT_URL",
+    "NEXTAUTH_SECRET",
+    "NEXTAUTH_URL",
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+    "STRIPE_SECRET_KEY",
+    "RESEND_API_KEY",
+    "EMAIL_FROM",
+    "ADMIN_EMAIL",
+    "NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT",
+    "NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY",
+    "IMAGEKIT_PRIVATE_KEY",
   ];
 
   // Check which variables are missing
@@ -34,7 +34,7 @@ export async function GET() {
 
   for (const varName of requiredVars) {
     const value = process.env[varName];
-    if (!value || value.trim() === '') {
+    if (!value || value.trim() === "") {
       missing.push(varName);
     } else {
       present.push(varName);
@@ -47,8 +47,8 @@ export async function GET() {
 
   // Build response
   const response = {
-    status: allPresent ? 'complete' : 'incomplete',
-    environment: process.env.NODE_ENV || 'unknown',
+    status: allPresent ? "complete" : "incomplete",
+    environment: process.env.NODE_ENV || "unknown",
     required: requiredVars.length,
     present: present.length,
     missing: missing.length,

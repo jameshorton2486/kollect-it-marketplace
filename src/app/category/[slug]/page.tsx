@@ -1,19 +1,19 @@
-import { Metadata } from 'next';
-import type { Prisma } from '@prisma/client';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { prisma } from '@/lib/prisma';
-import ProductGrid from '@/components/ProductGrid';
-import CategoryHero from '@/components/CategoryHero';
-import SortingBar from '@/components/SortingBar';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import CategoryFilters from '@/components/CategoryFilters';
+import { Metadata } from "next";
+import type { Prisma } from "@prisma/client";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
+import ProductGrid from "@/components/ProductGrid";
+import CategoryHero from "@/components/CategoryHero";
+import SortingBar from "@/components/SortingBar";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import CategoryFilters from "@/components/CategoryFilters";
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{
     sort?: string;
-    view?: 'grid' | 'list';
+    view?: "grid" | "list";
     priceMin?: string;
     priceMax?: string;
     cond?: string | string[];
@@ -25,11 +25,15 @@ interface CategoryPageProps {
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
-async function getCategoryWithProducts(slug: string, sortBy?: string, filters?: {
-  priceMin?: number;
-  priceMax?: number;
-  cond?: string[];
-}) {
+async function getCategoryWithProducts(
+  slug: string,
+  sortBy?: string,
+  filters?: {
+    priceMin?: number;
+    priceMax?: number;
+    cond?: string[];
+  },
+) {
   const category = await prisma.category.findUnique({
     where: { slug },
   });
@@ -38,34 +42,36 @@ async function getCategoryWithProducts(slug: string, sortBy?: string, filters?: 
 
   // Build orderBy based on sort parameter
   let orderBy:
-    | { price: 'asc' | 'desc' }
-    | { createdAt: 'asc' | 'desc' }
-    | { title: 'asc' }
-    | Array<{ featured: 'desc' } | { createdAt: 'desc' }> = { createdAt: 'desc' }; // default
+    | { price: "asc" | "desc" }
+    | { createdAt: "asc" | "desc" }
+    | { title: "asc" }
+    | Array<{ featured: "desc" } | { createdAt: "desc" }> = {
+    createdAt: "desc",
+  }; // default
 
   switch (sortBy) {
-    case 'price-asc':
-      orderBy = { price: 'asc' };
+    case "price-asc":
+      orderBy = { price: "asc" };
       break;
-    case 'price-desc':
-      orderBy = { price: 'desc' };
+    case "price-desc":
+      orderBy = { price: "desc" };
       break;
-    case 'newest':
-      orderBy = { createdAt: 'desc' };
+    case "newest":
+      orderBy = { createdAt: "desc" };
       break;
-    case 'oldest':
-      orderBy = { createdAt: 'asc' };
+    case "oldest":
+      orderBy = { createdAt: "asc" };
       break;
-    case 'title':
-      orderBy = { title: 'asc' };
+    case "title":
+      orderBy = { title: "asc" };
       break;
     default:
-      orderBy = [{ featured: 'desc' }, { createdAt: 'desc' }];
+      orderBy = [{ featured: "desc" }, { createdAt: "desc" }];
   }
 
   const where: Prisma.ProductWhereInput = {
     categoryId: category.id,
-    status: 'active',
+    status: "active",
   };
   if (filters?.priceMin != null || filters?.priceMax != null) {
     const priceFilter: Prisma.FloatFilter = {};
@@ -73,13 +79,14 @@ async function getCategoryWithProducts(slug: string, sortBy?: string, filters?: 
     if (filters?.priceMax != null) priceFilter.lte = filters.priceMax;
     where.price = priceFilter;
   }
-  if (filters?.cond && filters.cond.length > 0) where.condition = { in: filters.cond };
+  if (filters?.cond && filters.cond.length > 0)
+    where.condition = { in: filters.cond };
 
   const products = await prisma.product.findMany({
     where,
     include: {
       images: {
-        orderBy: { order: 'asc' },
+        orderBy: { order: "asc" },
         take: 1,
       },
       category: true,
@@ -90,13 +97,15 @@ async function getCategoryWithProducts(slug: string, sortBy?: string, filters?: 
   return { category, products };
 }
 
-export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
   const data = await getCategoryWithProducts(slug);
 
   if (!data) {
     return {
-      title: 'Category Not Found',
+      title: "Category Not Found",
     };
   }
 
@@ -111,7 +120,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       images: [category.image],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: `${category.name} - Kollect-It`,
       description: category.description || undefined,
       images: [category.image],
@@ -119,9 +128,13 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   };
 }
 
-export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: CategoryPageProps) {
   const { slug } = await params;
-  const { sort, view, priceMin, priceMax, cond, yearMin, yearMax, page } = await searchParams;
+  const { sort, view, priceMin, priceMax, cond, yearMin, yearMax, page } =
+    await searchParams;
 
   // Parse filters
   const priceMinNum = priceMin ? Number(priceMin) : undefined;
@@ -162,54 +175,54 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   // Compute min/max price for filters (across category active products)
   const priceAgg = await prisma.product.aggregate({
-    where: { categoryId: category.id, status: 'active' },
+    where: { categoryId: category.id, status: "active" },
     _min: { price: true },
     _max: { price: true },
   });
   const minPriceVal = priceAgg._min.price ?? 0;
   const maxPriceVal = priceAgg._max.price ?? 10000;
-  const currView: 'grid' | 'list' = view === 'list' ? 'list' : 'grid';
+  const currView: "grid" | "list" = view === "list" ? "list" : "grid";
 
   // JSON-LD Schema for SEO
   const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    'itemListElement': [
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
       {
-        '@type': 'ListItem',
-        'position': 1,
-        'name': 'Home',
-        'item': 'https://kollect-it.com'
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://kollect-it.com",
       },
       {
-        '@type': 'ListItem',
-        'position': 2,
-        'name': category.name,
-        'item': `https://kollect-it.com/category/${category.slug}`
-      }
-    ]
+        "@type": "ListItem",
+        position: 2,
+        name: category.name,
+        item: `https://kollect-it.com/category/${category.slug}`,
+      },
+    ],
   };
 
   const schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
     name: category.name,
     description: category.description,
     url: `https://kollect-it.com/category/${category.slug}`,
     mainEntity: {
-      '@type': 'ItemList',
+      "@type": "ItemList",
       numberOfItems: products.length,
       itemListElement: products.map((product, index) => ({
-        '@type': 'Product',
+        "@type": "Product",
         position: index + 1,
         name: product.title,
         description: product.description,
         image: product.images[0]?.url,
         offers: {
-          '@type': 'Offer',
+          "@type": "Offer",
           price: product.price,
-          priceCurrency: 'USD',
-          availability: 'https://schema.org/InStock',
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
         },
       })),
     },
@@ -227,11 +240,11 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
 
-  <div className="category-page">
+      <div className="category-page">
         {/* Breadcrumbs */}
         <Breadcrumbs
           items={[
-            { label: 'Home', href: '/' },
+            { label: "Home", href: "/" },
             { label: category.name, href: `/category/${category.slug}` },
           ]}
         />
@@ -253,16 +266,27 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
               <div className="flex-1">
                 {/* Sorting Bar */}
-                <SortingBar showing={pagedProducts.length} total={totalFiltered} currentSort={sort} currentView={currView} />
+                <SortingBar
+                  showing={pagedProducts.length}
+                  total={totalFiltered}
+                  currentSort={sort}
+                  currentView={currView}
+                />
 
                 {/* Product Grid */}
                 {pagedProducts.length > 0 ? (
                   <ProductGrid products={pagedProducts} view={currView} />
                 ) : (
                   <div className="no-products text-center py-16">
-                    <h3 className="font-serif text-brand-navy text-2xl">Nothing found here</h3>
-                    <p className="mt-2 text-[var(--color-charcoal)]">Try adjusting filters or browse all products.</p>
-                    <Link href="/" className="btn-cta mt-4 inline-block">Browse All Products</Link>
+                    <h3 className="font-serif text-brand-navy text-2xl">
+                      Nothing found here
+                    </h3>
+                    <p className="mt-2 text-ink-secondary">
+                      Try adjusting filters or browse all products.
+                    </p>
+                    <Link href="/" className="btn-primary mt-4 inline-block">
+                      Browse All Products
+                    </Link>
                   </div>
                 )}
 
@@ -271,18 +295,26 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                   <div className="mt-6 flex items-center justify-center gap-2">
                     {Array.from({ length: totalPages }).map((_, i) => {
                       const params = new URLSearchParams();
-                      if (sort) params.set('sort', sort);
-                      if (currView) params.set('view', currView);
-                      if (priceMinNum != null) params.set('priceMin', String(priceMinNum));
-                      if (priceMaxNum != null) params.set('priceMax', String(priceMaxNum));
-                      if (yearMinNum != null) params.set('yearMin', String(yearMinNum));
-                      if (yearMaxNum != null) params.set('yearMax', String(yearMaxNum));
-                      condArr.forEach((c) => params.append('cond', c));
-                      params.set('page', String(i + 1));
+                      if (sort) params.set("sort", sort);
+                      if (currView) params.set("view", currView);
+                      if (priceMinNum != null)
+                        params.set("priceMin", String(priceMinNum));
+                      if (priceMaxNum != null)
+                        params.set("priceMax", String(priceMaxNum));
+                      if (yearMinNum != null)
+                        params.set("yearMin", String(yearMinNum));
+                      if (yearMaxNum != null)
+                        params.set("yearMax", String(yearMaxNum));
+                      condArr.forEach((c) => params.append("cond", c));
+                      params.set("page", String(i + 1));
                       const href = `?${params.toString()}`;
                       const isActive = i + 1 === currentPage;
                       return (
-                        <Link key={i} href={href} className={`rounded border px-3 py-2 text-sm ${isActive ? 'border-brand-gold text-brand-navy' : 'border-[var(--color-border)]'}`}>
+                        <Link
+                          key={i}
+                          href={href}
+                          className={`rounded border px-3 py-2 text-sm ${isActive ? "border-brand-gold text-brand-navy" : "border-border-neutral"}`}
+                        >
                           {i + 1}
                         </Link>
                       );

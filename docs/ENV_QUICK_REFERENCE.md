@@ -52,6 +52,7 @@ bun run dev
 ## Setting Variables on Netlify
 
 ### Option 1: Netlify Dashboard
+
 1. Go to **Site settings** → **Environment variables**
 2. Click **Add a variable** for each
 3. Paste key and value

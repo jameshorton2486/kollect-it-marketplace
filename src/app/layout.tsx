@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Lato, Cormorant_Garamond, Archivo_Black } from "next/font/google";
+import "../../styles/tokens.css";
 import "./globals.css";
 import "./kollect-it-styles.css";
 import ClientBody from "./ClientBody";
@@ -9,25 +10,25 @@ import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 
 const lato = Lato({
-  weight: ['300', '400', '700'],
+  weight: ["300", "400", "700"],
   subsets: ["latin"],
   variable: "--font-sans",
-  display: 'swap',
+  display: "swap",
 });
 
 const cormorant = Cormorant_Garamond({
-  weight: ['400', '500', '600', '700'],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-serif",
-  display: 'swap',
-  style: ['normal', 'italic'],
+  display: "swap",
+  style: ["normal", "italic"],
 });
 
 const archivoBlack = Archivo_Black({
-  weight: '400',
+  weight: "400",
   subsets: ["latin"],
   variable: "--font-logo",
-  display: 'swap',
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -37,34 +38,34 @@ export const metadata: Metadata = {
   },
   description:
     "Authenticated art, antique books, collectibles, and militaria—curated with provenance for discerning collectors.",
-  metadataBase: new URL('https://kollect-it.com'),
+  metadataBase: new URL("https://kollect-it.com"),
   openGraph: {
-    type: 'website',
-    siteName: 'Kollect-It',
-    title: 'Kollect-It – Curated Antiques & Collectibles',
+    type: "website",
+    siteName: "Kollect-It",
+    title: "Kollect-It – Curated Antiques & Collectibles",
     description:
-      'Explore authenticated fine art, rare books, collectibles, and militaria with trusted provenance.',
-    url: 'https://kollect-it.com',
+      "Explore authenticated fine art, rare books, collectibles, and militaria with trusted provenance.",
+    url: "https://kollect-it.com",
     images: [
       {
-        url: '/og-default.jpg',
+        url: "/og-default.jpg",
         width: 1200,
         height: 630,
-        alt: 'Kollect-It marketplace',
+        alt: "Kollect-It marketplace",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    site: '@kollect_it',
-    creator: '@kollect_it',
-    title: 'Kollect-It – Curated Antiques & Collectibles',
+    card: "summary_large_image",
+    site: "@kollect_it",
+    creator: "@kollect_it",
+    title: "Kollect-It – Curated Antiques & Collectibles",
     description:
-      'Explore authenticated fine art, rare books, collectibles, and militaria with trusted provenance.',
-    images: ['/og-default.jpg'],
+      "Explore authenticated fine art, rare books, collectibles, and militaria with trusted provenance.",
+    images: ["/og-default.jpg"],
   },
   icons: {
-    icon: '/favicon.svg',
+    icon: "/favicon.svg",
   },
 };
 
@@ -74,10 +75,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-  <html lang="en" className={`${lato.variable} ${cormorant.variable} ${archivoBlack.variable}`}>
+    <html
+      lang="en"
+      className={`${lato.variable} ${cormorant.variable} ${archivoBlack.variable}`}
+    >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <Script
           crossOrigin="anonymous"
           src="//unpkg.com/same-runtime/dist/index.global.js"
@@ -85,7 +93,10 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning className="antialiased">
         {/* Skip link for keyboard users */}
-        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:bg-white focus:text-brand-navy focus:px-4 focus:py-2 focus:rounded">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:bg-white focus:text-brand-navy focus:px-4 focus:py-2 focus:rounded"
+        >
           Skip to main content
         </a>
         <SessionProvider>

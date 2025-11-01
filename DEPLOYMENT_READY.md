@@ -54,11 +54,13 @@ git push origin main
 ```
 
 **When prompted for credentials:**
+
 - **Username**: `jameshorton2486`
 - **Password**: Enter your GitHub password **manually at the prompt**
   ⚠️ **NEVER paste passwords into files or scripts**
 
 **Alternative: SSH Setup** (if preferred)
+
 ```bash
 # Generate SSH key
 ssh-keygen -t ed25519 -C "your-email@example.com"
@@ -85,6 +87,7 @@ git push origin main
 #### 2.2 Configure Build (Auto-detected)
 
 Netlify will auto-detect from `netlify.toml`:
+
 - **Build command**: `bun install && bunx prisma generate && bun run build`
 - **Publish directory**: `.next`
 - **Framework**: Next.js
@@ -111,6 +114,7 @@ Click **"New variable"** for each and paste values from your service dashboards:
 | `IMAGEKIT_PRIVATE_KEY` | ImageKit Dashboard → Developer options | `private_...` |
 
 **Critical Notes:**
+
 - Use **pooled** connection for `DATABASE_URL` (port 6543, `?pgbouncer=true`)
 - Use **direct** connection for `DIRECT_URL` (port 5432) - migrations only
 - Keep Stripe in **TEST mode** until fully verified
@@ -129,6 +133,7 @@ Click **"New variable"** for each and paste values from your service dashboards:
 Visit: `https://YOUR-SITE.netlify.app/api/health`
 
 **Expected Response (Healthy):**
+
 ```json
 {
   "status": "healthy",
@@ -151,6 +156,7 @@ Visit: `https://YOUR-SITE.netlify.app/api/health`
 **If Status is "degraded" (503):**
 
 ✅ **Checklist to Fix:**
+
 - [ ] Which environment variables show `false`? → Add them in Netlify
 - [ ] Is Supabase project paused? → Resume it in Supabase dashboard
 - [ ] Is `DATABASE_URL` using pooled connection (port 6543)? → Verify format
@@ -175,6 +181,7 @@ bunx prisma migrate deploy
 ```
 
 **Expected Output:**
+
 ```
 Environment variables loaded from .env
 Prisma schema loaded from prisma/schema.prisma
@@ -188,6 +195,7 @@ All migrations have been successfully applied.
 ```
 
 **Verify:**
+
 ```bash
 curl https://YOUR-SITE.netlify.app/api/health
 # Should show "database": "connected"
@@ -269,14 +277,17 @@ curl https://YOUR-SITE.netlify.app/api/health
 #### 6.5 Verify Emails
 
 Check your `ADMIN_EMAIL` inbox for:
+
 - ✅ Order confirmation (customer copy)
 - ✅ New order notification (admin alert)
 - ✅ Order status update (when changed to "Shipped")
 
 **Test Email Endpoint:**
+
 ```bash
 curl https://YOUR-SITE.netlify.app/api/email/test
 ```
+
 Check inbox for test email.
 
 #### 6.6 Final Health Check
@@ -286,6 +297,7 @@ curl https://YOUR-SITE.netlify.app/api/health
 ```
 
 **Expected:**
+
 - `"status": "healthy"`
 - `"database": "connected"`
 - All environment variables: `true`
@@ -308,6 +320,7 @@ curl https://YOUR-SITE.netlify.app/api/health
 ### Configuration Files Verified
 
 #### `netlify.toml`
+
 ```toml
 [build]
   command = "bun install && bunx prisma generate && bun run build"
@@ -321,6 +334,7 @@ curl https://YOUR-SITE.netlify.app/api/health
 ```
 
 #### `next.config.js`
+
 ```javascript
 const isCI = process.env.CI === 'true';
 
@@ -337,6 +351,7 @@ const nextConfig = {
 ```
 
 #### `prisma/schema.prisma`
+
 ```prisma
 datasource db {
   provider  = "postgresql"
@@ -357,6 +372,7 @@ $ CI=true bun run build
 ```
 
 **Metrics:**
+
 - **Routes Generated**: 29
 - **TypeScript Errors**: 0
 - **Build Errors**: 0
@@ -385,6 +401,7 @@ Before going live:
 ### Health Endpoint Returns 503 "degraded"
 
 **Symptoms:**
+
 ```json
 {
   "status": "degraded",
@@ -423,6 +440,7 @@ Before going live:
 ### Admin Login Fails "Unauthorized"
 
 **Fixes:**
+
 1. Verify `NEXTAUTH_URL` matches Netlify URL **exactly**
 2. Check `NEXTAUTH_SECRET` is set
 3. Clear browser cookies
@@ -432,6 +450,7 @@ Before going live:
 ### Payments Don't Process
 
 **Fixes:**
+
 1. Verify using TEST card: `4242 4242 4242 4242`
 2. Check Stripe keys are test mode (`pk_test_`, `sk_test_`)
 3. Check Stripe Dashboard: https://dashboard.stripe.com/test/payments
@@ -441,6 +460,7 @@ Before going live:
 ### Emails Don't Send
 
 **Fixes:**
+
 1. Test endpoint: `https://YOUR-SITE.netlify.app/api/email/test`
 2. Check Resend logs: https://resend.com/emails
 3. Verify `RESEND_API_KEY` is set
@@ -450,6 +470,7 @@ Before going live:
 ### Build Fails on Netlify
 
 **Fixes:**
+
 1. Check build logs for specific error
 2. Verify all environment variables are set
 3. Confirm `DATABASE_URL` not required at build time (static fallback works)
@@ -502,7 +523,7 @@ Deployment is successful when:
 
 ---
 
-## 🎉 You're Ready to Deploy!
+## 🎉 You're Ready to Deploy
 
 **Next Action**: Follow the **Action Sequence** above starting with Step 1 (Push to GitHub).
 

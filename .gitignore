@@ -11,6 +11,8 @@ coverage
 out/
 build
 dist
+.turbo
+.cache
 
 # Production
 .vercel
@@ -63,3 +65,10 @@ logs
 *.log
 /tmp
 test-results/
+
+# Lockfiles (ensure only one is tracked)
+# We track bun.lockb (binary); ignore bun.lock (text) and other lockfiles.
+bun.lock
+yarn.lock
+pnpm-lock.yaml
+package-lock.json

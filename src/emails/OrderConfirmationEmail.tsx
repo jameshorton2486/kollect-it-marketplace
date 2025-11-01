@@ -9,8 +9,8 @@ import {
   Section,
   Text,
   Hr,
-} from '@react-email/components';
-import * as React from 'react';
+} from "@react-email/components";
+import * as React from "react";
 
 interface OrderConfirmationEmailProps {
   orderNumber: string;
@@ -35,24 +35,24 @@ interface OrderConfirmationEmailProps {
 }
 
 export const OrderConfirmationEmail = ({
-  orderNumber = 'KI-1234567890-ABC123',
-  customerName = 'John Doe',
+  orderNumber = "KI-1234567890-ABC123",
+  customerName = "John Doe",
   total = 1250.0,
   subtotal = 1150.0,
   tax = 92.0,
   shipping = 0,
   items = [
-    { title: 'Classical Landscape Oil Painting', price: 850.0, quantity: 1 },
-    { title: 'Antique Pocket Watch', price: 300.0, quantity: 1 },
+    { title: "Classical Landscape Oil Painting", price: 850.0, quantity: 1 },
+    { title: "Antique Pocket Watch", price: 300.0, quantity: 1 },
   ],
   shippingAddress = {
-    address: '123 Main St',
-    city: 'New York',
-    state: 'NY',
-    zipCode: '10001',
-    country: 'United States',
+    address: "123 Main St",
+    city: "New York",
+    state: "NY",
+    zipCode: "10001",
+    country: "United States",
   },
-  siteUrl = 'http://localhost:3000',
+  siteUrl = "http://localhost:3000",
 }: OrderConfirmationEmailProps) => {
   return (
     <Html>
@@ -69,12 +69,12 @@ export const OrderConfirmationEmail = ({
           <Section style={content}>
             <Heading style={h1}>Order Confirmed!</Heading>
 
-            <Text style={text}>
-              Hi {customerName},
-            </Text>
+            <Text style={text}>Hi {customerName},</Text>
 
             <Text style={text}>
-              Thank you for your purchase! We're excited to get your items to you. Your order has been received and is being prepared for shipment.
+              Thank you for your purchase! We're excited to get your items to
+              you. Your order has been received and is being prepared for
+              shipment.
             </Text>
 
             {/* Order Details Box */}
@@ -94,7 +94,11 @@ export const OrderConfirmationEmail = ({
                     ${item.price.toLocaleString()} × {item.quantity}
                   </Text>
                   <Text style={itemTotal}>
-                    ${(item.price * item.quantity).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    $
+                    {(item.price * item.quantity).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </Text>
                 </Section>
               ))}
@@ -107,26 +111,40 @@ export const OrderConfirmationEmail = ({
               <Section style={totalRow}>
                 <Text style={totalLabel}>Subtotal:</Text>
                 <Text style={totalValue}>
-                  ${subtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  $
+                  {subtotal.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </Text>
               </Section>
               <Section style={totalRow}>
                 <Text style={totalLabel}>Shipping:</Text>
                 <Text style={totalValue}>
-                  {shipping === 0 ? 'Free' : `$${shipping.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                  {shipping === 0
+                    ? "Free"
+                    : `$${shipping.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                 </Text>
               </Section>
               <Section style={totalRow}>
                 <Text style={totalLabel}>Tax:</Text>
                 <Text style={totalValue}>
-                  ${tax.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  $
+                  {tax.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </Text>
               </Section>
               <Hr style={divider} />
               <Section style={totalRow}>
                 <Text style={totalLabelFinal}>Total:</Text>
                 <Text style={totalValueFinal}>
-                  ${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  $
+                  {total.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </Text>
               </Section>
             </Section>
@@ -139,8 +157,11 @@ export const OrderConfirmationEmail = ({
                 Shipping Address
               </Heading>
               <Text style={address}>
-                {shippingAddress.address}<br />
-                {shippingAddress.city}, {shippingAddress.state} {shippingAddress.zipCode}<br />
+                {shippingAddress.address}
+                <br />
+                {shippingAddress.city}, {shippingAddress.state}{" "}
+                {shippingAddress.zipCode}
+                <br />
                 {shippingAddress.country}
               </Text>
             </Section>
@@ -153,25 +174,21 @@ export const OrderConfirmationEmail = ({
                 What's Next?
               </Heading>
               <Text style={text}>
-                • You'll receive a shipping confirmation email with tracking information once your order ships<br />
-                • Estimated delivery: 5-7 business days<br />
-                • Questions? Reply to this email anytime
+                • You'll receive a shipping confirmation email with tracking
+                information once your order ships
+                <br />• Estimated delivery: 5-7 business days
+                <br />• Questions? Reply to this email anytime
               </Text>
             </Section>
 
             {/* CTA Button */}
             <Section style={buttonContainer}>
-              <Link
-                href={`${siteUrl}/account?tab=orders`}
-                style={button}
-              >
+              <Link href={`${siteUrl}/account?tab=orders`} style={button}>
                 View Order Status
               </Link>
             </Section>
 
-            <Text style={text}>
-              Thank you for shopping with Kollect-It!
-            </Text>
+            <Text style={text}>Thank you for shopping with Kollect-It!</Text>
           </Section>
 
           {/* Footer */}
@@ -183,7 +200,7 @@ export const OrderConfirmationEmail = ({
               <Link href={`${siteUrl}/contact`} style={footerLink}>
                 Contact Us
               </Link>
-              {' • '}
+              {" • "}
               <Link href={`${siteUrl}/account`} style={footerLink}>
                 My Account
               </Link>
@@ -199,190 +216,191 @@ export default OrderConfirmationEmail;
 
 // Styles
 const main = {
-  backgroundColor: '#f6f0ee',
-  fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
+  backgroundColor: "#f6f0ee",
+  fontFamily:
+    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
 };
 
 const container = {
-  backgroundColor: '#ffffff',
-  margin: '0 auto',
-  padding: '0',
-  marginTop: '40px',
-  marginBottom: '40px',
-  maxWidth: '600px',
-  borderRadius: '8px',
-  overflow: 'hidden',
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+  backgroundColor: "#ffffff",
+  margin: "0 auto",
+  padding: "0",
+  marginTop: "40px",
+  marginBottom: "40px",
+  maxWidth: "600px",
+  borderRadius: "8px",
+  overflow: "hidden",
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
 };
 
 const header = {
-  backgroundColor: '#2C2C2C',
-  padding: '30px 40px',
-  textAlign: 'center' as const,
+  backgroundColor: "#2C2C2C",
+  padding: "30px 40px",
+  textAlign: "center" as const,
 };
 
 const logo = {
-  color: '#ffffff',
-  fontSize: '28px',
-  fontWeight: '600',
-  letterSpacing: '3px',
-  margin: '0',
+  color: "#ffffff",
+  fontSize: "28px",
+  fontWeight: "600",
+  letterSpacing: "3px",
+  margin: "0",
   fontFamily: "'Playfair Display', serif",
 };
 
 const content = {
-  padding: '40px',
+  padding: "40px",
 };
 
 const h1 = {
-  color: '#2C2C2C',
-  fontSize: '32px',
-  fontWeight: '400',
-  margin: '0 0 20px 0',
+  color: "#2C2C2C",
+  fontSize: "32px",
+  fontWeight: "400",
+  margin: "0 0 20px 0",
   fontFamily: "'Cormorant Garamond', serif",
 };
 
 const h2 = {
-  color: '#2C2C2C',
-  fontSize: '22px',
-  fontWeight: '500',
-  margin: '20px 0 15px 0',
+  color: "#2C2C2C",
+  fontSize: "22px",
+  fontWeight: "500",
+  margin: "20px 0 15px 0",
   fontFamily: "'Cormorant Garamond', serif",
 };
 
 const text = {
-  color: '#6b6b6b',
-  fontSize: '16px',
-  lineHeight: '26px',
-  margin: '0 0 15px 0',
+  color: "#6b6b6b",
+  fontSize: "16px",
+  lineHeight: "26px",
+  margin: "0 0 15px 0",
 };
 
 const orderBox = {
-  backgroundColor: '#f6f0ee',
-  padding: '20px',
-  borderRadius: '6px',
-  textAlign: 'center' as const,
-  margin: '30px 0',
+  backgroundColor: "#f6f0ee",
+  padding: "20px",
+  borderRadius: "6px",
+  textAlign: "center" as const,
+  margin: "30px 0",
 };
 
 const orderNumberStyle = {
-  fontSize: '20px',
-  fontWeight: '600',
-  color: '#2C2C2C',
-  margin: '0',
+  fontSize: "20px",
+  fontWeight: "600",
+  color: "#2C2C2C",
+  margin: "0",
   fontFamily: "'Courier New', monospace",
 };
 
 const itemsSection = {
-  margin: '30px 0',
+  margin: "30px 0",
 };
 
 const itemRow = {
-  marginBottom: '15px',
-  paddingBottom: '15px',
-  borderBottom: '1px solid #e5e5e5',
+  marginBottom: "15px",
+  paddingBottom: "15px",
+  borderBottom: "1px solid #e5e5e5",
 };
 
 const itemTitle = {
-  fontSize: '16px',
-  fontWeight: '500',
-  color: '#2C2C2C',
-  margin: '0 0 5px 0',
+  fontSize: "16px",
+  fontWeight: "500",
+  color: "#2C2C2C",
+  margin: "0 0 5px 0",
 };
 
 const itemDetails = {
-  fontSize: '14px',
-  color: '#6b6b6b',
-  margin: '0',
+  fontSize: "14px",
+  color: "#6b6b6b",
+  margin: "0",
 };
 
 const itemTotal = {
-  fontSize: '16px',
-  fontWeight: '600',
-  color: '#2C2C2C',
-  margin: '5px 0 0 0',
-  textAlign: 'right' as const,
+  fontSize: "16px",
+  fontWeight: "600",
+  color: "#2C2C2C",
+  margin: "5px 0 0 0",
+  textAlign: "right" as const,
 };
 
 const divider = {
-  borderColor: '#d0bca4',
-  margin: '20px 0',
+  borderColor: "#d0bca4",
+  margin: "20px 0",
 };
 
 const totalsSection = {
-  margin: '20px 0',
+  margin: "20px 0",
 };
 
 const totalRow = {
-  display: 'flex' as const,
-  justifyContent: 'space-between' as const,
-  marginBottom: '10px',
+  display: "flex" as const,
+  justifyContent: "space-between" as const,
+  marginBottom: "10px",
 };
 
 const totalLabel = {
-  fontSize: '15px',
-  color: '#6b6b6b',
-  margin: '0',
+  fontSize: "15px",
+  color: "#6b6b6b",
+  margin: "0",
 };
 
 const totalValue = {
-  fontSize: '15px',
-  color: '#2C2C2C',
-  margin: '0',
+  fontSize: "15px",
+  color: "#2C2C2C",
+  margin: "0",
 };
 
 const totalLabelFinal = {
-  fontSize: '18px',
-  fontWeight: '600',
-  color: '#2C2C2C',
-  margin: '0',
+  fontSize: "18px",
+  fontWeight: "600",
+  color: "#2C2C2C",
+  margin: "0",
 };
 
 const totalValueFinal = {
-  fontSize: '18px',
-  fontWeight: '600',
-  color: '#2C2C2C',
-  margin: '0',
+  fontSize: "18px",
+  fontWeight: "600",
+  color: "#2C2C2C",
+  margin: "0",
 };
 
 const address = {
-  fontSize: '15px',
-  lineHeight: '24px',
-  color: '#6b6b6b',
-  margin: '0',
+  fontSize: "15px",
+  lineHeight: "24px",
+  color: "#6b6b6b",
+  margin: "0",
 };
 
 const buttonContainer = {
-  textAlign: 'center' as const,
-  margin: '30px 0',
+  textAlign: "center" as const,
+  margin: "30px 0",
 };
 
 const button = {
-  backgroundColor: '#B1874C',
-  borderRadius: '4px',
-  color: '#ffffff',
-  fontSize: '16px',
-  fontWeight: '600',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
-  display: 'inline-block',
-  padding: '14px 40px',
+  backgroundColor: "#B1874C",
+  borderRadius: "4px",
+  color: "#ffffff",
+  fontSize: "16px",
+  fontWeight: "600",
+  textDecoration: "none",
+  textAlign: "center" as const,
+  display: "inline-block",
+  padding: "14px 40px",
 };
 
 const footer = {
-  backgroundColor: '#f6f0ee',
-  padding: '30px 40px',
-  textAlign: 'center' as const,
+  backgroundColor: "#f6f0ee",
+  padding: "30px 40px",
+  textAlign: "center" as const,
 };
 
 const footerText = {
-  color: '#6b6b6b',
-  fontSize: '13px',
-  lineHeight: '20px',
-  margin: '5px 0',
+  color: "#6b6b6b",
+  fontSize: "13px",
+  lineHeight: "20px",
+  margin: "5px 0",
 };
 
 const footerLink = {
-  color: '#B1874C',
-  textDecoration: 'underline',
+  color: "#B1874C",
+  textDecoration: "underline",
 };

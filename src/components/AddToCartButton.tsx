@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { useCart } from '@/contexts/CartContext';
-import { useState } from 'react';
+import { useCart } from "@/contexts/CartContext";
+import { useState } from "react";
+import { Button } from "./ui/Button";
 
 interface AddToCartButtonProps {
   product: {
@@ -12,12 +13,17 @@ interface AddToCartButtonProps {
     image: string;
     categoryName: string;
   };
-  variant?: 'primary' | 'secondary' | 'card';
+  variant?: "primary" | "secondary" | "card";
   className?: string;
   quantity?: number; // Optional quantity to add (defaults to 1)
 }
 
-export default function AddToCartButton({ product, variant = 'primary', className = '', quantity = 1 }: AddToCartButtonProps) {
+export default function AddToCartButton({
+  product,
+  variant = "primary",
+  className = "",
+  quantity = 1,
+}: AddToCartButtonProps) {
   const { addItem, items, updateQuantity } = useCart();
   const [added, setAdded] = useState(false);
 
@@ -25,7 +31,8 @@ export default function AddToCartButton({ product, variant = 'primary', classNam
     e.preventDefault(); // Prevent navigation if button is inside a link
     e.stopPropagation(); // Stop event bubbling
 
-    const qty = Number.isFinite(quantity) && quantity > 0 ? Math.floor(quantity) : 1;
+    const qty =
+      Number.isFinite(quantity) && quantity > 0 ? Math.floor(quantity) : 1;
 
     const existing = items.find((i) => i.id === product.id);
     if (existing) {
@@ -52,23 +59,37 @@ export default function AddToCartButton({ product, variant = 'primary', classNam
     setTimeout(() => setAdded(false), 2000);
   };
 
-  if (variant === 'card') {
+  if (variant === "card") {
     return (
       <button
         onClick={handleAddToCart}
-        className={`product-card-cart-btn ${added ? 'added' : ''} ${className}`}
+        className={`product-card-cart-btn ${added ? "added" : ""} ${className}`}
         aria-label="Add to cart"
       >
         {added ? (
           <>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <polyline points="20 6 9 17 4 12" />
             </svg>
             Added!
           </>
         ) : (
           <>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <circle cx="9" cy="21" r="1" />
               <circle cx="20" cy="21" r="1" />
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
@@ -80,22 +101,37 @@ export default function AddToCartButton({ product, variant = 'primary', classNam
     );
   }
 
-  if (variant === 'secondary') {
+  if (variant === "secondary") {
     return (
-      <button
+      <Button
+        variant="secondary"
         onClick={handleAddToCart}
-        className={`btn-secondary ${added ? 'added' : ''} ${className}`}
+        className={`${added ? "added" : ""} ${className}`}
       >
         {added ? (
           <>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <polyline points="20 6 9 17 4 12" />
             </svg>
             Added to Cart!
           </>
         ) : (
           <>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <circle cx="9" cy="21" r="1" />
               <circle cx="20" cy="21" r="1" />
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
@@ -103,25 +139,41 @@ export default function AddToCartButton({ product, variant = 'primary', classNam
             Add to Cart
           </>
         )}
-      </button>
+      </Button>
     );
   }
 
+  // default 'primary'
   return (
-    <button
+    <Button
+      variant="primary"
       onClick={handleAddToCart}
-      className={`btn-add-to-cart ${added ? 'added' : ''} ${className}`}
+      className={`${added ? "added" : ""} ${className}`}
     >
       {added ? (
         <>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <polyline points="20 6 9 17 4 12" />
           </svg>
           Added to Cart!
         </>
       ) : (
         <>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <circle cx="9" cy="21" r="1" />
             <circle cx="20" cy="21" r="1" />
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
@@ -129,6 +181,6 @@ export default function AddToCartButton({ product, variant = 'primary', classNam
           Add to Cart
         </>
       )}
-    </button>
+    </Button>
   );
 }
